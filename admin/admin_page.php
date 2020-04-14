@@ -26,7 +26,7 @@
                     <td>
                         <input name="auto_embed" type="checkbox" id="auto-embed" value="true"
                                <?php echo (!$options || $options['auto_embed'] == 'true') ? 'checked' : '' ?>>
-                        <p class="description" id="cpe-id-desktop">Tick this if you want auto embed. You can manually add shortcode to your content by using this shortcode "[dmRelatedPlayer]"</p>
+                        <p class="description" id="cpe-id-desktop">Tick this if you want auto embed. If you want to set manually, add shortcode to your content by using this shortcode "[dmRelatedPlayer]"</p>
                     </td>
                 </tr>
 

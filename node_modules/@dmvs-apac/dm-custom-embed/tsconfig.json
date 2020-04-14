@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "*",
+                "src/*"
+            ]
+        },
+        "module": "esnext",
+        "target": "es5",
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "sourceMap": true,
+        "typeRoots": [
+            "./node_modules/"
+        ],
+        "types": [
+            "node"
+        ],
+        "moduleResolution": "node",
+        "noImplicitReturns": true,
+        "noImplicitThis": true
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
