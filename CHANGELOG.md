@@ -1,5 +1,10 @@
 # Changelog
 
+###[1.0.0-4] (2021-03-10)
+
+**Implemented enhancements:**
+- Test the update process
+
 ###[1.0.0-3] (2021-03-10)
 
 **Implemented enhancements:**
