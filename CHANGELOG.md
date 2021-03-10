@@ -1,3 +1,15 @@
+# Changelog
+
+### [1.0.0-2] (2021-03-10)
+
+**Implemented enhancements:**
+- Remove update checker directory from repo
+
+### [1.0.0-1] (2021-03-10)
+
+**Implemented enhancements:**
+- Update checker
+
 ### [1.0.0] (2020-04-09)
 
 **Implemented enhancements:**
