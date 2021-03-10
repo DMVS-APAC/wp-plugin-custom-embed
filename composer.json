@@ -1,0 +1,14 @@
+{
+    "name": "dmvs-apac/wp-dm-custom-embed",
+    "type": "project",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Yudhi Satrio",
+            "email": "y.satrio@dailymotion.com"
+        }
+    ],
+    "require": {
+        "yahnis-elsts/plugin-update-checker": "^4.10"
+    }
+}
