@@ -1,7 +1,7 @@
 <div class="wrap">
 
     <h1 class="wp-heading-inline">
-        <?php echo __('Dailymotion Contextual Embed'); ?>
+        <?php echo __('Dailymotion Custom Embed'); ?>
     </h1>
 
     <form action="<?php echo get_admin_url() . 'admin.php?page=dm-ce-admin&action=save_data'; ?>" method="post">
