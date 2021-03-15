@@ -1,6 +1,19 @@
 {
     "packages": [
         {
+            "name": "dailymotion/dailymotion-sdk-php",
+            "version": "1.6.7",
+            "version_normalized": "1.6.7.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:dailymotion/dailymotion-sdk-php.git",
+                "reference": "master"
+            },
+            "type": "library",
+            "installation-source": "source",
+            "install-path": "../dailymotion/dailymotion-sdk-php"
+        },
+        {
             "name": "yahnis-elsts/plugin-update-checker",
             "version": "v4.10",
             "version_normalized": "4.10.0.0",

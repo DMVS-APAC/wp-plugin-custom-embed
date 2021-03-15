@@ -23,6 +23,9 @@ define( 'DM__FILE__', __FILE__ );
 define( 'DM__PLUGIN_BASE', plugin_basename( DM__FILE__ ) );
 define( 'DM__PATH', plugin_dir_path( DM__FILE__ ) );
 
+/**
+ * Plugin update checker to let user know if there is a new update available
+ */
 $my_update_checker = Puc_v4_Factory::buildUpdateChecker(
     'https://github.com/DMVS-APAC/wp-plugin-custom-embed/',
     DM__FILE__,

@@ -4,8 +4,18 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00a26a8638e820433672ecfaaadecf72",
+    "content-hash": "1931f6bdbf518ef901aef0e4ead4cb76",
     "packages": [
+        {
+            "name": "dailymotion/dailymotion-sdk-php",
+            "version": "1.6.7",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:dailymotion/dailymotion-sdk-php.git",
+                "reference": "master"
+            },
+            "type": "library"
+        },
         {
             "name": "yahnis-elsts/plugin-update-checker",
             "version": "v4.10",

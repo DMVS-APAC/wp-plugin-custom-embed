@@ -1,5 +1,6 @@
 {
     "name": "dmvs-apac/wp-dm-custom-embed",
+    "description": "",
     "type": "project",
     "license": "GPLv2",
     "authors": [
@@ -8,7 +9,22 @@
             "email": "y.satrio@dailymotion.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "dailymotion/dailymotion-sdk-php",
+                "version": "1.6.7",
+                "source": {
+                    "type" : "git",
+                    "url" : "git@github.com:dailymotion/dailymotion-sdk-php.git",
+                    "reference" : "master"
+                }
+            }
+        }
+    ],
     "require": {
-        "yahnis-elsts/plugin-update-checker": "^4.10"
+        "yahnis-elsts/plugin-update-checker": "^4.10",
+        "dailymotion/dailymotion-sdk-php": "*"
     }
 }

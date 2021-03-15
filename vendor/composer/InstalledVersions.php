@@ -29,19 +29,28 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '9865d207cf35e24b0ff60f414f695fc6d81d2377',
-    'name' => 'dmvs-apac/wp-wp-dm-custom-embed',
+    'reference' => '8085e397f223594dffcb75187de6a25080dd9142',
+    'name' => 'dmvs-apac/wp-dm-custom-embed',
   ),
   'versions' => 
   array (
-    'dmvs-apac/wp-wp-dm-custom-embed' =>
+    'dailymotion/dailymotion-sdk-php' => 
+    array (
+      'pretty_version' => '1.6.7',
+      'version' => '1.6.7.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'master',
+    ),
+    'dmvs-apac/wp-dm-custom-embed' => 
     array (
       'pretty_version' => 'dev-main',
       'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => '9865d207cf35e24b0ff60f414f695fc6d81d2377',
+      'reference' => '8085e397f223594dffcb75187de6a25080dd9142',
     ),
     'yahnis-elsts/plugin-update-checker' => 
     array (
