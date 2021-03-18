@@ -6,6 +6,7 @@ class DM_Admin {
 
     public function __construct() {
         add_action('admin_menu', array($this, 'register_menu'));
+        add_action('enqueue_block_editor_assets', [$this, 'myprefix_enqueue_assets']);
     }
 
     public function register_menu() {
@@ -16,6 +17,15 @@ class DM_Admin {
             'dm-ce-admin',
             array($this, 'load_admin_page'),
             'dashicons-admin-settings'
+        );
+    }
+
+    public function myprefix_enqueue_assets() {
+        wp_enqueue_script(
+            'myprefix-gutenberg-sidebar',
+//            plugins_url( 'src/index.js', __FILE__ ),
+            DM__PATH . 'src/index.js',
+            array( 'wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data' )
         );
     }
 
@@ -39,12 +49,15 @@ class DM_Admin {
 
             $dm_ce_data = [];
 
+            // Mandatory options
             if (!empty($params['channel_name']) && $params['channel_name'] !== null)
                 $dm_ce_data += ['owners' => $params['channel_name']];
 
             if (!empty($params['sort_by']) && $params['sort_by'] !== null)
                 $dm_ce_data += ['sort_by' => $params['sort_by']];
 
+
+            // Content options
             if (!empty($params['category']) && $params['category'] !== null)
                 $dm_ce_data += ['category' => $params['category']];
 
@@ -75,6 +88,8 @@ class DM_Admin {
             if (!empty($params['video_id']) && $params['video_id'] !== null)
                 $dm_ce_data += ['video_id' => $params['video_id']];
 
+
+            // Player options
             if (!empty($params['hide_controls']) && $params['hide_controls'] !== null)
                 $dm_ce_data += ['hide_controls' => $params['hide_controls']];
 
@@ -105,7 +120,6 @@ class DM_Admin {
             if (!empty($params['deactivate_pip']) && $params['deactivate_pip'] !== null)
                 $dm_ce_data += ['deactivate_pip' => $params['deactivate_pip']];
 
-//            print_r($dm_ce_data);
 
             // Save the option to database
             update_option('dm_ce_options_' . $tab, $dm_ce_data);

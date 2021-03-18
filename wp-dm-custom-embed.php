@@ -33,5 +33,6 @@ $my_update_checker = Puc_v4_Factory::buildUpdateChecker(
 );
 
 require DM__PATH . 'admin/admin.php';
+//require DM__PATH . 'metabox/metabox.php';
 require DM__PATH . 'public/load-script.php';
 
