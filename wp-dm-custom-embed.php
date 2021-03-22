@@ -5,11 +5,11 @@
  * Description: Auto embed video from Dailymotion
  * Author: DMVS APAC Team
  * Author URI: https://github.com/DMVS-APAC
- * Version: 1.0.0-7
+ * Version: 1.0.0-8
  * Plugin URI: https://github.com/DMVS-APAC/wp-plugin-custom-embed
  * Download
  *
- * @version 1.0.0-7
+ * @version 1.0.0-8
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require 'vendor/autoload.php';
 
-define( 'DM_CE__VERSION', '1.0.0-7');
+define( 'DM_CE__VERSION', '1.0.0-8');
 define( 'DM__FILE__', __FILE__ );
 define( 'DM__PLUGIN_BASE', plugin_basename( DM__FILE__ ) );
 define( 'DM__PATH', plugin_dir_path( DM__FILE__ ) );
