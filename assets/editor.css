@@ -1,0 +1,6 @@
+/**
+ * Editor CSS
+ */
+.components-button.is-pressed .path {
+    fill: #fff;
+}

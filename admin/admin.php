@@ -6,7 +6,6 @@ class DM_Admin {
 
     public function __construct() {
         add_action('admin_menu', array($this, 'register_menu'));
-        add_action('enqueue_block_editor_assets', [$this, 'myprefix_enqueue_assets']);
     }
 
     public function register_menu() {
@@ -17,15 +16,6 @@ class DM_Admin {
             'dm-ce-admin',
             array($this, 'load_admin_page'),
             'dashicons-admin-settings'
-        );
-    }
-
-    public function myprefix_enqueue_assets() {
-        wp_enqueue_script(
-            'myprefix-gutenberg-sidebar',
-//            plugins_url( 'src/index.js', __FILE__ ),
-            DM__PATH . 'src/index.js',
-            array( 'wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data' )
         );
     }
 
