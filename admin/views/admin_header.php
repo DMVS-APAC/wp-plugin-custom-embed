@@ -2,7 +2,7 @@
 /**
  * Header admin dashboard
  *
- * Please refer `$action` to admin.php on `load_admin_page` function
+ * Please refer `$action` to admin.php on `load_admin_page()` function
  */
 ?>
     <h1 class="wp-heading-inline">

@@ -4,3 +4,24 @@
 .components-button.is-pressed .path {
     fill: #fff;
 }
+
+.dm__video-list .dm__video-results {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.video__item button {
+    background: none;
+    border: 0;
+    padding: 0 5px;
+    text-align: left;
+    max-width: 100%;
+}
+
+.video__title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    display: block;
+}

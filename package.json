@@ -33,11 +33,15 @@
   },
   "homepage": "https://github.com/DMVS-APAC/wp-plugin-custom-embed#readme",
   "devDependencies": {
+    "@wordpress/api-fetch": "^3.22.0",
     "@wordpress/components": "^13.0.0",
+    "@wordpress/data": "^4.27.0",
     "@wordpress/edit-post": "^3.27.0",
     "@wordpress/i18n": "^3.19.0",
     "@wordpress/icons": "^2.10.0",
     "@wordpress/plugins": "^2.25.0",
-    "@wordpress/scripts": "^14.0.0"
+    "@wordpress/scripts": "^14.0.0",
+    "node-fetch": "^2.6.1",
+    "react": "^16.14.0"
   }
 }

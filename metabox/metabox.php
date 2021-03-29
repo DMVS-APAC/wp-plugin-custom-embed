@@ -7,29 +7,44 @@ class DM_Metabox {
     public function __construct() {
 //        add_action( 'add_meta_boxes', array($this, 'wporg_add_custom_box') );
         add_action('enqueue_block_editor_assets', [$this, 'dm_wp_ce_enqueue_assets']);
+
+
+        add_action('init', [$this, 'myprefix_register_meta']);
     }
 
     public function dm_wp_ce_enqueue_assets() {
         wp_enqueue_script(
             'dm-wp-ce-sidebar',
             plugin_dir_url( DM__FILE__ ) . 'build/index.js',
-            [],
+            ['wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data'],
             '1.0.0',
             true
         );
 
-        wp_enqueue_script(
-                'dm-sdk',
-            "https://api.dmcdn.net/all.js",
-            [],
-            '',
-            true
-        );
+//        wp_enqueue_script(
+//                'dm-sdk',
+//            "https://api.dmcdn.net/all.js",
+//            [],
+//            '',
+//            true
+//        );
 
         wp_enqueue_style(
             'dm-editor-stylesheet',
             plugin_dir_url(DM__FILE__) . 'assets/editor.css'
         );
+    }
+
+    public function myprefix_register_meta() {
+        register_meta('post', '_dm_manual_embed', array(
+            'show_in_rest' => true,
+            'type' => 'string',
+            'single' => true,
+            'sanitize_callback' => 'sanitize_text_field',
+            'auth_callback' => function() {
+                return current_user_can('edit_posts');
+            }
+        ));
     }
 
     public function wporg_add_custom_box() {
