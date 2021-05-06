@@ -7,7 +7,7 @@
     array (
     ),
     'reference' => '8085e397f223594dffcb75187de6a25080dd9142',
-    'name' => 'dmvs-apac/wp-dm-custom-embed',
+    'name' => 'dmvs-apac/dm-embed-settings',
   ),
   'versions' => 
   array (
@@ -20,7 +20,7 @@
       ),
       'reference' => 'master',
     ),
-    'dmvs-apac/wp-dm-custom-embed' => 
+    'dmvs-apac/dm-embed-settings' =>
     array (
       'pretty_version' => 'dev-main',
       'version' => 'dev-main',

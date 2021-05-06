@@ -10,36 +10,62 @@ class DM_Admin {
 
     public function register_menu() {
         add_menu_page(
-            'Dailymotion CE',
-            'Dailymotion CE',
+            'Dailymotion Embed Settings',
+            'Dailymotion HQ',
             'manage_options',
             'dm-ce-admin',
             array($this, 'load_admin_page'),
-            'dashicons-admin-settings'
+            plugins_url('dm-embed-settings/assets/dailymotion-icon.svg')
+        );
+
+        add_submenu_page(
+            'dm-ce-admin',
+            'Credentials',
+            '<span aria-label="Dailymotion credentials">Credentials</span>',
+            'manage_options',
+            'dm-ce-credentials',
+            array($this, 'load_credential_page')
         );
     }
 
     public function load_admin_page() {
-        $action = isset($_GET['action']) ? $_GET['action'] : '';
-        $tab = isset($_GET['tab']) ? $_GET['tab'] : 'mandatory';
+        $action = $_GET['action'] ?? '';
+        $tab = $_GET['tab'] ?? 'mandatory';
 
         switch($action):
             case "save_data":
-                self::save_data($_POST, $tab);
+                self::store_general_settings($_POST, $tab);
                 break;
         endswitch;
 
         $options = get_option('dm_ce_options_' . $tab);
 
-        require DM__PATH . 'admin/views/admin_page.php';
+        require DM__PATH . 'dashboard/views/general-settings/admin_page.php';
     }
 
-    private function save_data($params, $tab) {
+    public function load_credential_page() {
+        $action = $_GET['action'] ?? '';
+
+        switch($action):
+            case "save_data":
+                self::store_credentials($_POST);
+                break;
+        endswitch;
+
+        $options = get_option('dm_ce_credentials');
+
+        require DM__PATH . 'dashboard/views/credentials/credential_page.php';
+    }
+
+    private function store_general_settings($params, $tab) {
         if (!empty($params) && wp_verify_nonce($params['dm_save_data'], 'dm_save_data') ) {
 
             $dm_ce_data = [];
 
             // Mandatory options
+            if (!empty($params['player_id']) && $params['player_id'] !== null)
+                $dm_ce_data += ['player_id' =>  $params['player_id']];
+
             if (!empty($params['channel_name']) && $params['channel_name'] !== null)
                 $dm_ce_data += ['owners' => $params['channel_name']];
 
@@ -75,8 +101,9 @@ class DM_Admin {
             if (!empty($params['range_day']) && $params['range_day'] !== null)
                 $dm_ce_data += ['range_day' => $params['range_day']];
 
-            if (!empty($params['video_id']) && $params['video_id'] !== null)
-                $dm_ce_data += ['video_id' => $params['video_id']];
+            // Because of
+//            if (!empty($params['video_id']) && $params['video_id'] !== null)
+//                $dm_ce_data += ['video_id' => $params['video_id']];
 
 
             // Player options
@@ -115,7 +142,26 @@ class DM_Admin {
             update_option('dm_ce_options_' . $tab, $dm_ce_data);
 
             echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
-                    <p><strong>Settings saved.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
+                    <p><strong>' . __('Settings saved') . '</strong></p>
+                    </div>';
+        }
+    }
+
+    private function store_credentials($params) {
+        if (!empty($params) && wp_verify_nonce($params['dm_save_data'], 'dm_save_data') ) {
+
+            $dm_ce_data = [];
+
+            if (!empty($params['api_key']) && $params['api_key'] !== null)
+                $dm_ce_data += ['api_key' => $params['api_key']];
+
+            if (!empty($params['api_secret']) && $params['api_secret'] !== null)
+                $dm_ce_data += ['api_secret' => $params['api_secret']];
+
+            update_option('dm_ce_credentials', $dm_ce_data);
+
+            echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
+                    <p><strong>' . __('Settings saved') . '</strong></p>
                     </div>';
         }
     }

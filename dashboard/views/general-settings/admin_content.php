@@ -10,7 +10,7 @@
 
         <tbody>
         <tr>
-            <th scope="row"><label for="category"><?php echo __('Category'); ?></label></th>
+            <th scope="row"><label for="category"><?php echo __('Category'); ?> <span class="detail-info">?<span class="tooltip"><a href="https://www.dailymotion.com/dmrss#MRSSImporterSpecifications-DailymotionCategories">https://www.dailymotion.com/dmrss#MRSSImporterSpecifications-DailymotionCategories</a></span></span></label></th>
             <td>
                 <select name="category" type="text" id="category" class="regular-text">
                     <option value="" <?php echo (empty($options['category'])) ? 'selected' : ''; ?>>--</option>
@@ -59,7 +59,7 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="exclude-ids"><?php echo __('Exclude Ids'); ?></label></th>
+            <th scope="row"><label for="exclude-ids"><?php echo __('Exclude Ids'); ?> <span class="detail-info">?<span class="tooltip">use this field if you need to exclude one or several specific video xid from recommendations. Separate several values by a ","</span></span></label></th>
             <td>
                 <input name="exclude_ids" type="text" id="exclude-ids" class="regular-text"
                        value="<?php echo ($options['exclude_ids']) ? $options['exclude_ids'] : '' ?>">
@@ -67,7 +67,7 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="playlist"><?php echo __('Playlist'); ?></label></th>
+            <th scope="row"><label for="playlist"><?php echo __('Playlist'); ?> <span class="detail-info">?<span class="tooltip">the script will only look for content within the specified playlist xid</span></span></label></th>
             <td>
                 <input name="playlist" type="text" id="playlist" class="regular-text"
                        value="<?php echo ($options['playlist']) ? $options['playlist'] : '' ?>">
@@ -75,7 +75,8 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="syndication"><?php echo __('Syndication ID'); ?></label></th>
+            <th scope="row"><label for="syndication"><?php echo __('Syndication ID'); ?> <span class="detail-info">?<span
+                                class="tooltip">Six digits syndication key</span></span></label></th>
             <td>
                 <input name="syndication" type="text" id="syndication" class="regular-text"
                        value="<?php echo (!empty($options['syndication'])) ? $options['syndication'] : ''; ?>">
@@ -83,34 +84,34 @@
             </td>
         </tr>
 
-        <tr>
-            <th scope="row"><?php echo __('Disable Queue'); ?></th>
-            <td>
-                <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Disable Queue'); ?></span></legend>
-                    <label for="disable-queue">
-                        <input name="disable_queue" type="checkbox" id="disable-queue"
-                               value="1" <?php echo ($options['disable_queue'] ==    1) ? 'checked' : '' ?>>
-                    </label>
-                </fieldset>
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <th scope="row">--><?php //echo __('Disable Queue'); ?><!-- <span class="detail-info">?<span class="tooltip">toggle this to hide the playlist on the right side of the player upon mouse-over</span></span></th>-->
+<!--            <td>-->
+<!--                <fieldset>-->
+<!--                    <legend class="screen-reader-text"><span>--><?php //echo __('Disable Queue'); ?><!--</span></legend>-->
+<!--                    <label for="disable-queue">-->
+<!--                        <input name="disable_queue" type="checkbox" id="disable-queue"-->
+<!--                               value="1" --><?php //echo ($options['disable_queue'] ==    1) ? 'checked' : '' ?><!--
+<!--                    </label>-->
+<!--                </fieldset>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!---->
+<!--        <tr>-->
+<!--            <th scope="row">--><?php //echo __('Disable Auto Next'); ?><!-- <span class="detail-info">?<span class="tooltip">toggle this to automatically sta playback of the next video in the queue</span></span></th>-->
+<!--            <td>-->
+<!--                <fieldset>-->
+<!--                    <legend class="screen-reader-text"><span>--><?php //echo __('Disable Auto Next'); ?><!--</span></legend>-->
+<!--                    <label for="disable-auto-next">-->
+<!--                        <input name="disable_auto_next" type="checkbox" id="disable-auto-next"-->
+<!--                               value="1" --><?php //echo ($options['disable_auto_next'] == 1) ? 'checked' : '' ?><!--
+<!--                    </label>-->
+<!--                </fieldset>-->
+<!--            </td>-->
+<!--        </tr>-->
 
         <tr>
-            <th scope="row"><?php echo __('Disable Auto Next'); ?></th>
-            <td>
-                <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Disable Auto Next'); ?></span></legend>
-                    <label for="disable-auto-next">
-                        <input name="disable_auto_next" type="checkbox" id="disable-auto-next"
-                               value="1" <?php echo ($options['disable_auto_next'] == 1) ? 'checked' : '' ?>>
-                    </label>
-                </fieldset>
-            </td>
-        </tr>
-
-        <tr>
-            <th scope="row"><label for="language"><?php echo __('Language'); ?></label></th>
+            <th scope="row"><label for="language"><?php echo __('Language'); ?> <span class="detail-info">?<span class="tooltip">Specify if you want the content ecommendaiton to pick a video in the set language. This is based on ISO-3166 alpha-2 codes <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2</a></span></span></label></th>
             <td>
                 <input name="language" type="text" id="language" class="regular-text"
                        value="<?php echo (!empty($options['language'])) ? $options['language'] : ''; ?>">
@@ -138,20 +139,20 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="range-day"><?php echo __('Range Day'); ?></label></th>
+            <th scope="row"><label for="range-day"><?php echo __('Range Day'); ?> <span class="detail-info">?<span class="tooltip">This lets you pick the number of days, from today's date, till which the script will look and fetch recommended videos. Example: putting 6 would mean the script will fetch the most relevant/popular/recent video from past 6 days</span></span></label></th>
             <td>
                 <input name="range_day" type="number" id="range-day" class="regular-text"
                        value="<?php echo ($options['range_day']) ? $options['range_day'] : ''; ?>">
             </td>
         </tr>
 
-        <tr>
-            <th scope="row"><label for="video-id"><?php echo __('Video Id'); ?></label></th>
-            <td>
-                <input name="video_id" type="text" id="video-id" class="regular-text"
-                       value="<?php echo ($options['video_id']) ? $options['video_id'] : '' ?>">
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <th scope="row"><label for="video-id">--><?php //echo __('Video Id'); ?><!-- <span class="detail-info">?<span class="tooltip">Input any video xid to recommend a video in particular.</span></span></label></th>-->
+<!--            <td>-->
+<!--                <input name="video_id" type="text" id="video-id" class="regular-text"-->
+<!--                       value="--><?php //echo ($options['video_id']) ? $options['video_id'] : '' ?><!--">-->
+<!--            </td>-->
+<!--        </tr>-->
 
         </tbody>
 

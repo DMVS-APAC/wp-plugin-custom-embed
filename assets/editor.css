@@ -1,5 +1,5 @@
 /**
- * Editor CSS
+ * CSS Dashboard
  */
 .components-button.is-pressed .path {
     fill: #fff;
@@ -10,7 +10,13 @@
     grid-template-columns: 50% 50%;
 }
 
+.dm__keywords-input {
+    width: 196px;
+}
+
+
 .video__item button {
+    cursor: pointer;
     background: none;
     border: 0;
     padding: 0 5px;
@@ -18,10 +24,84 @@
     max-width: 100%;
 }
 
-.video__title {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 100%;
-    display: block;
+    .video__title {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 100%;
+        display: block;
+    }
+
+    .video__image-wrapper {
+        position: relative;
+        margin:  0;
+        height: 0;
+        width: 100%;
+        padding-bottom: 56.25%;
+        background-color: #000;
+    }
+        .video__image-wrapper img {
+            height: 100%;
+            width: auto;
+            position: absolute;
+        }
+
+
+
+.dm__prev-button {
+    float: left;
 }
+.dm__next-button {
+    float: right;
+}
+
+.dm-player__holder {
+    margin-top: var(--global--spacing-vertical);
+    margin-bottom: var(--global--spacing-vertical);
+}
+    .editor-styles-wrapper .dm-player__holder p {
+        margin-top: 0;
+        margin-bottom: 6px;
+        font-size: .8em;
+        line-height: 1.2em;
+    }
+
+.dm-player__editor {
+    margin-top: var(--global--spacing-vertical);
+    margin-bottom: var(--global--spacing-vertical);
+    border: 1px solid #999999;
+    background-color: #f5f5f5;
+    padding: 1em;
+    font-size: .8em;
+}
+    .editor-styles-wrapper .dm-player__editor p {
+        margin-top: 0;
+        margin-bottom: 13px;
+    }
+
+.detail-info {
+    font-weight: 700;
+    display: inline-block;
+    background: #ddd;
+    padding: 0 5px;
+    line-height: normal;
+    color: tomato;
+    position: relative;
+}
+
+.tooltip {
+    position: absolute;
+    background: #ddd;
+    width: 376px;
+    top: 100%;
+    left: 0;
+    padding: .5em;
+    font-weight: 400;
+    display: none;
+    color: #666;
+    z-index: 1;
+}
+
+.detail-info:hover .tooltip {
+     display: block;
+ }

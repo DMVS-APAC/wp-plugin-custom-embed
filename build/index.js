@@ -86,10 +86,10 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
-  \**********************************************************************/
+/***/ "../node_modules/@babel/runtime/helpers/assertThisInitialized.js":
+/*!***********************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -106,10 +106,10 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
-  \*****************************************************************/
+/***/ "../node_modules/@babel/runtime/helpers/asyncToGenerator.js":
+/*!******************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -154,10 +154,54 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/classCallCheck.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/classCallCheck.js ***!
-  \***************************************************************/
+/***/ "../node_modules/@babel/runtime/helpers/classApplyDescriptorGet.js":
+/*!*************************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/classApplyDescriptorGet.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _classApplyDescriptorGet(receiver, descriptor) {
+  if (descriptor.get) {
+    return descriptor.get.call(receiver);
+  }
+
+  return descriptor.value;
+}
+
+module.exports = _classApplyDescriptorGet;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/classApplyDescriptorSet.js":
+/*!*************************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/classApplyDescriptorSet.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+  if (descriptor.set) {
+    descriptor.set.call(receiver, value);
+  } else {
+    if (!descriptor.writable) {
+      throw new TypeError("attempted to set read only private field");
+    }
+
+    descriptor.value = value;
+  }
+}
+
+module.exports = _classApplyDescriptorSet;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/classCallCheck.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/classCallCheck.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -172,10 +216,73 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/createClass.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/createClass.js ***!
-  \************************************************************/
+/***/ "../node_modules/@babel/runtime/helpers/classExtractFieldDescriptor.js":
+/*!*****************************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/classExtractFieldDescriptor.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+  if (!privateMap.has(receiver)) {
+    throw new TypeError("attempted to " + action + " private field on non-instance");
+  }
+
+  return privateMap.get(receiver);
+}
+
+module.exports = _classExtractFieldDescriptor;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/classPrivateFieldGet.js":
+/*!**********************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/classPrivateFieldGet.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var classApplyDescriptorGet = __webpack_require__(/*! ./classApplyDescriptorGet.js */ "../node_modules/@babel/runtime/helpers/classApplyDescriptorGet.js");
+
+var classExtractFieldDescriptor = __webpack_require__(/*! ./classExtractFieldDescriptor.js */ "../node_modules/@babel/runtime/helpers/classExtractFieldDescriptor.js");
+
+function _classPrivateFieldGet(receiver, privateMap) {
+  var descriptor = classExtractFieldDescriptor(receiver, privateMap, "get");
+  return classApplyDescriptorGet(receiver, descriptor);
+}
+
+module.exports = _classPrivateFieldGet;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/classPrivateFieldSet.js":
+/*!**********************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/classPrivateFieldSet.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var classApplyDescriptorSet = __webpack_require__(/*! ./classApplyDescriptorSet.js */ "../node_modules/@babel/runtime/helpers/classApplyDescriptorSet.js");
+
+var classExtractFieldDescriptor = __webpack_require__(/*! ./classExtractFieldDescriptor.js */ "../node_modules/@babel/runtime/helpers/classExtractFieldDescriptor.js");
+
+function _classPrivateFieldSet(receiver, privateMap, value) {
+  var descriptor = classExtractFieldDescriptor(receiver, privateMap, "set");
+  classApplyDescriptorSet(receiver, descriptor, value);
+  return value;
+}
+
+module.exports = _classPrivateFieldSet;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/createClass.js":
+/*!*************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/createClass.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -200,10 +307,37 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
-  \***************************************************************/
+/***/ "../node_modules/@babel/runtime/helpers/defineProperty.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/defineProperty.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+/***/ }),
+
+/***/ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -220,14 +354,14 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/inherits.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
-  \*********************************************************/
+/***/ "../node_modules/@babel/runtime/helpers/inherits.js":
+/*!**********************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/inherits.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ "./node_modules/@babel/runtime/helpers/setPrototypeOf.js");
+var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ "../node_modules/@babel/runtime/helpers/setPrototypeOf.js");
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
@@ -249,16 +383,16 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
-  \**************************************************************************/
+/***/ "../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js":
+/*!***************************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "./node_modules/@babel/runtime/helpers/typeof.js")["default"];
+var _typeof = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "../node_modules/@babel/runtime/helpers/typeof.js")["default"];
 
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ "../node_modules/@babel/runtime/helpers/assertThisInitialized.js");
 
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
@@ -273,10 +407,10 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/setPrototypeOf.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/setPrototypeOf.js ***!
-  \***************************************************************/
+/***/ "../node_modules/@babel/runtime/helpers/setPrototypeOf.js":
+/*!****************************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/setPrototypeOf.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -295,10 +429,10 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/typeof.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
-  \*******************************************************/
+/***/ "../node_modules/@babel/runtime/helpers/typeof.js":
+/*!********************************************************!*\
+  !*** ../node_modules/@babel/runtime/helpers/typeof.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -327,10 +461,10 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 
 /***/ }),
 
-/***/ "./node_modules/node-fetch/browser.js":
-/*!********************************************!*\
-  !*** ./node_modules/node-fetch/browser.js ***!
-  \********************************************/
+/***/ "../node_modules/node-fetch/browser.js":
+/*!*********************************************!*\
+  !*** ../node_modules/node-fetch/browser.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -393,38 +527,36 @@ function dailymotionIcon() {
 
 /***/ }),
 
-/***/ "./src/components/VideosComponent.js":
-/*!*******************************************!*\
-  !*** ./src/components/VideosComponent.js ***!
-  \*******************************************/
+/***/ "./src/components/SelectedVideoComponent.js":
+/*!**************************************************!*\
+  !*** ./src/components/SelectedVideoComponent.js ***!
+  \**************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SelectedVideoComponent; });
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js");
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js");
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "../node_modules/@babel/runtime/helpers/assertThisInitialized.js");
 /* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "../node_modules/@babel/runtime/helpers/inherits.js");
 /* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js");
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldGet */ "../node_modules/@babel/runtime/helpers/classPrivateFieldGet.js");
+/* harmony import */ var _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _libs_apiCall__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../libs/apiCall */ "./src/libs/apiCall.js");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_9__);
 
 
 
@@ -441,130 +573,484 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 
 
+/**
+ * SelectedVideoComponent
+ *
+ * Only show the result of video selected by user
+ */
 
+var _videoDefault = new WeakMap();
 
-var videoList = /*#__PURE__*/function () {
-  var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_6___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee2() {
-    var page,
-        keywords,
-        options,
-        params,
-        _args2 = arguments;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            page = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : 1;
-            keywords = _args2.length > 1 ? _args2[1] : undefined;
-            _context2.next = 4;
-            return Object(_libs_apiCall__WEBPACK_IMPORTED_MODULE_10__["fetchApi"])('/dm/v1/get-custom-options/mandatory');
+var SelectedVideoComponent = /*#__PURE__*/function (_Component) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default()(SelectedVideoComponent, _Component);
 
-          case 4:
-            options = _context2.sent;
-            params = {
-              fields: 'id,title,thumbnail_240_url',
-              limit: 10,
-              private: 0,
-              flags: 'no_live,exportable,verified',
-              longer_than: 0.35,
-              sort: options.sort_by !== null ? options.sort_by : 'recent',
-              owners: options.owners !== null ? options.owners : ''
-            };
+  var _super = _createSuper(SelectedVideoComponent);
 
-            if (keywords) {
-              params.sort = 'relevance';
-            }
+  /**
+   * Default valur for video data
+   *
+   * @type {{thumbnail_240_url: string, id: string, title: string}}
+   */
+  function SelectedVideoComponent(props) {
+    var _this;
 
-            return _context2.abrupt("return", new Promise( /*#__PURE__*/function () {
-              var _ref2 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_6___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee(resolve) {
-                var videos;
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.wrap(function _callee$(_context) {
-                  while (1) {
-                    switch (_context.prev = _context.next) {
-                      case 0:
-                        _context.next = 2;
-                        return Object(_libs_apiCall__WEBPACK_IMPORTED_MODULE_10__["fetchData"])('videos/?fields=' + params.fields + '&limit=10' + '&private=0' + '&flags=' + params.flags + '&longer_than=0.35' + '&sort=' + params.sort + '&owners=' + options.owners + (typeof keywords !== 'undefined' ? '&search=' + keywords : '') + '&page=' + page);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, SelectedVideoComponent);
 
-                      case 2:
-                        videos = _context.sent;
-                        resolve(videos);
+    _this = _super.call(this, props);
 
-                      case 4:
-                      case "end":
-                        return _context.stop();
-                    }
-                  }
-                }, _callee);
-              }));
-
-              return function (_x) {
-                return _ref2.apply(this, arguments);
-              };
-            }()).catch(function (error) {
-              console.log(error);
-            }));
-
-          case 8:
-          case "end":
-            return _context2.stop();
-        }
+    _videoDefault.set(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), {
+      writable: true,
+      value: {
+        title: '',
+        thumbnail_240_url: '',
+        id: ''
       }
-    }, _callee2);
-  }));
+    });
 
-  return function videoList() {
-    return _ref.apply(this, arguments);
-  };
+    _this.state = {
+      videoData: _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), _videoDefault)
+    }; // Bind `this` to the method
+
+    _this.getVideo = _this.getVideo.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
+    _this.showImage = _this.showImage.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
+
+    _this.subscribes();
+
+    return _this;
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(SelectedVideoComponent, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setVideo();
+    }
+    /**
+     * Get video data from state management
+     *
+     * @returns {{thumbnail_240_url: string, id: string, title: string}}
+     */
+
+  }, {
+    key: "getVideo",
+    value: function getVideo() {
+      return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_9__["select"])('core/editor').getEditedPostAttribute('meta')['_dm_video_data'];
+    }
+    /**
+     * Set video data to the local state
+     */
+
+  }, {
+    key: "setVideo",
+    value: function setVideo() {
+      var video = this.getVideo();
+      this.setState({
+        videoData: video === "" ? _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_6___default()(this, _videoDefault) : JSON.parse(video)
+      });
+    }
+    /**
+     * Subscribe to all methods available to update the state globally
+     */
+
+  }, {
+    key: "subscribes",
+    value: function subscribes() {
+      var _this2 = this;
+
+      Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_9__["subscribe"])(function (e) {
+        _this2.setVideo();
+      });
+    }
+  }, {
+    key: "showImage",
+    value: function showImage() {
+      if (this.state.videoData.title !== '') {
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("img", {
+          src: this.state.videoData.thumbnail_240_url,
+          alt: this.state.videoData.title,
+          className: "video__thumbnail"
+        });
+      }
+
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("p", null, "No video selected.");
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["PanelBody"], null, this.showImage);
+    }
+  }]);
+
+  return SelectedVideoComponent;
+}(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["Component"]);
+
+
+
+/***/ }),
+
+/***/ "./src/components/SidebarComponent.js":
+/*!********************************************!*\
+  !*** ./src/components/SidebarComponent.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SidebarComponent; });
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_plugins__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/plugins */ "@wordpress/plugins");
+/* harmony import */ var _wordpress_plugins__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_plugins__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_edit_post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/edit-post */ "@wordpress/edit-post");
+/* harmony import */ var _wordpress_edit_post__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_edit_post__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _assets_dailymotionIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../assets/dailymotionIcon */ "./src/assets/dailymotionIcon.js");
+/* harmony import */ var _VideosComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./VideosComponent */ "./src/components/VideosComponent.js");
+/* harmony import */ var _SelectedVideoComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SelectedVideoComponent */ "./src/components/SelectedVideoComponent.js");
+
+
+
+// Wordpress packages
+
+
+ // Libs
+
+ // Components
+
+
+
+
+var SidebarComponent = /*#__PURE__*/function () {
+  function SidebarComponent() {
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, SidebarComponent);
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(SidebarComponent, null, [{
+    key: "registerSidebar",
+    value: function registerSidebar() {
+      Object(_wordpress_plugins__WEBPACK_IMPORTED_MODULE_3__["registerPlugin"])('dm-sidebar-settings', {
+        icon: _assets_dailymotionIcon__WEBPACK_IMPORTED_MODULE_6__["dailymotionIcon"],
+        render: function render() {
+          return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_wordpress_edit_post__WEBPACK_IMPORTED_MODULE_4__["PluginSidebar"], {
+            name: "dm-sidebar-settings",
+            title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Dailymotion Sidebar Settings', 'textdomain')
+          }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_SelectedVideoComponent__WEBPACK_IMPORTED_MODULE_8__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_VideosComponent__WEBPACK_IMPORTED_MODULE_7__["default"], null)));
+        }
+      });
+    }
+  }]);
+
+  return SidebarComponent;
 }();
 
-var VideosComponent = /*#__PURE__*/function (_React$Component) {
-  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default()(VideosComponent, _React$Component);
+
+
+/***/ }),
+
+/***/ "./src/components/VideoBlockComponent.js":
+/*!***********************************************!*\
+  !*** ./src/components/VideoBlockComponent.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoBlockComponent; });
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "../node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldSet */ "../node_modules/@babel/runtime/helpers/classPrivateFieldSet.js");
+/* harmony import */ var _babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldGet */ "../node_modules/@babel/runtime/helpers/classPrivateFieldGet.js");
+/* harmony import */ var _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__);
+
+
+
+
+
+
+
+
+
+
+var _prevPos = new WeakMap();
+
+var VideoBlockComponent = /*#__PURE__*/function () {
+  /**
+   * Store previous player position
+   */
+
+  /**
+   * Video
+   */
+  function VideoBlockComponent() {
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, VideoBlockComponent);
+
+    _prevPos.set(this, {
+      writable: true,
+      value: void 0
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2___default()(this, "video", void 0);
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(VideoBlockComponent, [{
+    key: "subscribes",
+    value: function subscribes() {
+      Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["subscribe"])(function () {});
+    }
+    /**
+     *
+     * @return number
+     */
+
+  }, {
+    key: "countBlocks",
+    value: function countBlocks() {
+      var counter;
+      var blocks = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["select"])('core/editor').getBlocks();
+
+      if (blocks.length !== 0) {
+        for (var i = 0; i < blocks.length; i++) {
+          if (blocks[i].name === 'dm-settings/click-embed') {
+            counter = i;
+          }
+        }
+      }
+
+      return counter;
+    }
+    /**
+     * Render video when the player updated
+     */
+
+  }, {
+    key: "renderVideo",
+    value: function renderVideo() {
+      var counter = this.countBlocks();
+
+      if (_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_4___default()(this, _prevPos) !== counter) {
+        _babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_3___default()(this, _prevPos, counter);
+
+        Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["dispatch"])('core/editor').editPost({
+          meta: {
+            _dm_player_position: counter
+          }
+        });
+        window.dmce.rebuild();
+      }
+    }
+    /**
+     *
+     * @returns {null|any}
+     */
+
+  }, {
+    key: "getVideo",
+    value: function getVideo() {
+      var videoData = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["select"])('core/editor').getEditedPostAttribute('meta')['_dm_video_data'];
+      console.log(videoData);
+
+      if (videoData !== '') {
+        return JSON.parse(videoData);
+      }
+
+      return null;
+    }
+  }], [{
+    key: "registerBlock",
+    value: function registerBlock() {
+      var videoBlock = new VideoBlockComponent();
+      Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_6__["registerBlockType"])('dm-settings/click-embed', {
+        title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__["__"])('Dailymotion Embed'),
+        icon: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("svg", {
+          width: "16",
+          height: "10",
+          viewBox: "0 0 16 10",
+          fill: "none",
+          xmlns: "http://www.w3.org/2000/svg"
+        }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("path", {
+          d: "M7.65916 7.27658C6.6612 7.27658 5.94664 6.58953 5.94664 5.68561C5.94664 4.81786 6.6612 4.08263 7.58524 4.08263C8.49696 4.08263 9.1992 4.78166 9.1992 5.70972C9.1992 6.60166 8.49696 7.27658 7.65916 7.27658V7.27658ZM11 0L9.18684 0.391304V3.13043C8.74332 2.57599 8.06572 2.39529 7.26488 2.39529C6.42711 2.39529 5.67556 2.69657 5.05956 3.28714C4.36963 3.93797 4 4.76965 4 5.6977C4 6.71013 4.39425 7.57788 5.1581 8.24079C5.73716 8.74698 6.42711 9 7.22792 9C8.01644 9 8.60784 8.79511 9.18684 8.24079V9H11C11 6.01204 11 2.98796 11 0Z",
+          fill: "#000"
+        }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("path", {
+          d: "M0.902344 5.79883L3.04199 6.66357V7.3335L0.246094 6.03809V5.53906L3.04199 4.24707V4.91699L0.902344 5.79883Z",
+          fill: "#000"
+        }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("path", {
+          d: "M14.7173 5.77832L12.458 4.89307V4.24365L15.377 5.53564V6.03467L12.458 7.33008V6.67383L14.7173 5.77832Z",
+          fill: "#000"
+        })),
+        category: 'embed',
+        keywords: [Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__["__"])('Dailymotion'), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__["__"])('Embed')],
+        edit: function edit(_ref) {
+          var setAttributes = _ref.setAttributes,
+              attributes = _ref.attributes;
+          videoBlock.renderVideo();
+          console.log('editing');
+          videoBlock.video = videoBlock.getVideo();
+
+          var openSidebar = function openSidebar() {
+            var dmButton = document.querySelector('button[aria-label="Dailymotion Sidebar Settings"]');
+            dmButton.click();
+          };
+
+          if (videoBlock.video === null) {
+            return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
+              className: "dm-player__editor"
+            }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("p", null, "No video selected, please select by click button below"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("button", {
+              onClick: openSidebar
+            }, "Find a video"));
+          } // `playerId` is using only for preview, it's Yudhi's `playerId`
+
+
+          return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
+            className: "dm-player__holder"
+          }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("span", {
+            className: "dashicons dashicons-edit-large"
+          }), " Dailymotion Player"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
+            className: "dm-player",
+            videoId: videoBlock.video.id,
+            playerId: "x1ozy"
+          }));
+        },
+        // No information saved to the block
+        // Data is saved to post meta via the hook
+        save: function save(props) {
+          videoBlock.renderVideo();
+          return null;
+        }
+      });
+    }
+  }]);
+
+  return VideoBlockComponent;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/components/VideosComponent.js":
+/*!*******************************************!*\
+  !*** ./src/components/VideosComponent.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideosComponent; });
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "../node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "../node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "../node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "../node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "../node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "../node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "../node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _libs_apiCall__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../libs/apiCall */ "./src/libs/apiCall.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_12__);
+
+
+
+
+
+
+
+
+
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5___default()(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+
+
+
+
+
+
+var VideosComponent = /*#__PURE__*/function (_Component) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(VideosComponent, _Component);
 
   var _super = _createSuper(VideosComponent);
 
   function VideosComponent(props) {
     var _this;
 
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, VideosComponent);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, VideosComponent);
 
     _this = _super.call(this, props);
     _this.state = {
       videos: {},
       keywords: "",
-      currentPage: 1
+      currentPage: 1,
+      globalVideo: false
     }; // This binding is necessary to make `this` work in the callback
 
-    _this.addToPost = _this.addToPost.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
-    _this.findVideo = _this.findVideo.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
-    _this.updateKeywords = _this.updateKeywords.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
-    _this.loadPage = _this.loadPage.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
+    _this.addToPost = _this.addToPost.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_3___default()(_this));
+    _this.findVideo = _this.findVideo.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_3___default()(_this));
+    _this.setKeywords = _this.setKeywords.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_3___default()(_this));
+    _this.loadPage = _this.loadPage.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_3___default()(_this));
+    _this.setGlobalVideo = _this.setGlobalVideo.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_3___default()(_this));
     return _this;
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(VideosComponent, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(VideosComponent, [{
     key: "componentDidMount",
     value: function () {
-      var _componentDidMount = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_6___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee3() {
+      var _componentDidMount = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee() {
         var videos;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                _context3.next = 2;
-                return videoList();
+                _context.next = 2;
+                return this.videoList();
 
               case 2:
-                videos = _context3.sent;
+                videos = _context.sent;
                 this.setState({
                   videos: videos
                 });
 
               case 4:
               case "end":
-                return _context3.stop();
+                return _context.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee, this);
       }));
 
       function componentDidMount() {
@@ -574,14 +1060,98 @@ var VideosComponent = /*#__PURE__*/function (_React$Component) {
       return componentDidMount;
     }()
   }, {
+    key: "videoList",
+    value: function () {
+      var _videoList = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee3() {
+        var _this2 = this;
+
+        var page,
+            keywords,
+            options,
+            params,
+            _args3 = arguments;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                page = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : 1;
+                keywords = _args3.length > 1 ? _args3[1] : undefined;
+                _context3.next = 4;
+                return Object(_libs_apiCall__WEBPACK_IMPORTED_MODULE_9__["fetchApi"])('/dm/v1/get-custom-options/mandatory');
+
+              case 4:
+                options = _context3.sent;
+                params = {
+                  fields: 'id,title,thumbnail_240_url',
+                  limit: 10,
+                  private: 0,
+                  flags: 'no_live,exportable,verified',
+                  longer_than: 0.35,
+                  sort: options.sort_by !== null ? options.sort_by : 'recent'
+                };
+
+                if (params.sort === 'relevance' && !keywords) {
+                  keywords = '';
+                }
+
+                return _context3.abrupt("return", new Promise( /*#__PURE__*/function () {
+                  var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee2(resolve) {
+                    var videos;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.wrap(function _callee2$(_context2) {
+                      while (1) {
+                        switch (_context2.prev = _context2.next) {
+                          case 0:
+                            _context2.next = 2;
+                            return Object(_libs_apiCall__WEBPACK_IMPORTED_MODULE_9__["fetchData"])('videos/?fields=' + params.fields + '&limit=10' + '&private=0' + '&flags=' + params.flags + '&longer_than=0.35' + '&sort=' + params.sort + (typeof options.owners !== 'undefined' && options.owners !== null && _this2.state.globalVideo !== true ? '&owners=' + options.owners : '') + (typeof keywords !== 'undefined' ? '&search=' + keywords : '') + '&page=' + page);
+
+                          case 2:
+                            videos = _context2.sent;
+                            resolve(videos);
+
+                          case 4:
+                          case "end":
+                            return _context2.stop();
+                        }
+                      }
+                    }, _callee2);
+                  }));
+
+                  return function (_x) {
+                    return _ref.apply(this, arguments);
+                  };
+                }()).catch(function (error) {
+                  console.log(error);
+                }));
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      function videoList() {
+        return _videoList.apply(this, arguments);
+      }
+
+      return videoList;
+    }()
+  }, {
     key: "addToPost",
     value: function addToPost(video) {
-      console.log(video);
+      Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_12__["dispatch"])('core/editor').editPost({
+        meta: {
+          _dm_video_data: JSON.stringify(video)
+        }
+      }); // select('dm-settings/click-embed').edit( () => {
+      //     console.log('haha')
+      // })
     }
   }, {
     key: "findVideo",
     value: function () {
-      var _findVideo = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_6___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee4(e) {
+      var _findVideo = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee4(e) {
         var videos;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.wrap(function _callee4$(_context4) {
           while (1) {
@@ -589,7 +1159,7 @@ var VideosComponent = /*#__PURE__*/function (_React$Component) {
               case 0:
                 e.preventDefault();
                 _context4.next = 3;
-                return videoList(1, this.state.keywords);
+                return this.videoList(1, this.state.keywords);
 
               case 3:
                 videos = _context4.sent;
@@ -614,54 +1184,69 @@ var VideosComponent = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderVideoList",
     value: function renderVideoList() {
-      var _this2 = this;
+      var _this3 = this;
 
       var videos = [];
-      var list = this.state.videos.list;
 
-      if (list) {
-        var _loop = function _loop(i) {
-          videos.push(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("li", {
-            key: list[i],
-            className: "video__item"
-          }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("button", {
-            onClick: function onClick() {
-              return _this2.addToPost(list[i]);
-            }
-          }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("img", {
-            src: list[i].thumbnail_240_url,
-            alt: list[i].title,
-            className: "video__thumbnail"
-          }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("span", {
-            className: "video__title"
-          }, list[i].title))));
-        };
+      if (this.state.videos !== undefined && Object.entries(this.state.videos).length > 0) {
+        (function () {
+          var list = _this3.state.videos.list;
 
-        for (var i = 0; i < list.length; i++) {
-          _loop(i);
-        }
+          var _loop = function _loop(i) {
+            videos.push(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("li", {
+              key: list[i],
+              className: "video__item"
+            }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("button", {
+              onClick: function onClick() {
+                return _this3.addToPost(list[i]);
+              }
+            }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("figure", {
+              className: "video__image-wrapper"
+            }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("img", {
+              src: list[i].thumbnail_240_url,
+              alt: list[i].title,
+              className: "video__thumbnail"
+            })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("span", {
+              className: "video__title"
+            }, list[i].title))));
+          };
+
+          for (var i = 0; i < list.length; i++) {
+            _loop(i);
+          }
+        })();
+      } else {
+        videos.push(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("li", null, "No video found\u2026"));
       }
 
       return videos;
     }
   }, {
-    key: "updateKeywords",
-    value: function updateKeywords(e) {
+    key: "setKeywords",
+    value: function setKeywords(e) {
       this.setState({
         keywords: e.target.value
       });
     }
   }, {
+    key: "setGlobalVideo",
+    value: function setGlobalVideo(e) {
+      this.setState({
+        globalVideo: e.target.checked === true
+      });
+      console.log(this.state);
+    }
+  }, {
     key: "loadPage",
     value: function () {
-      var _loadPage = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_6___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee5(page) {
+      var _loadPage = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.mark(function _callee5(page) {
         var videos;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_8___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.next = 2;
-                return videoList(page);
+                return this.videoList(page);
 
               case 2:
                 videos = _context5.sent;
@@ -687,44 +1272,53 @@ var VideosComponent = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
-      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("div", {
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_11__["PanelBody"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("div", {
         className: "dm__video-list"
       }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("form", {
         onSubmit: this.findVideo
       }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("label", {
         htmlFor: "keywords"
-      }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["__"])("Find a video", "textdomain")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("input", {
+      }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])("Find a video", "textdomain")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("input", {
         id: "keywords",
-        onChange: this.updateKeywords,
+        onChange: this.setKeywords,
         type: "text",
-        name: "keywords"
+        name: "keywords",
+        className: "dm__keywords-input"
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("button", {
         type: "submit",
         className: "action button"
-      }, "Find")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("ul", {
+      }, "Find")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("label", {
+        htmlFor: "global-video"
+      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("input", {
+        type: "checkbox",
+        id: "global-video",
+        onChange: this.setGlobalVideo,
+        name: "globalVideo",
+        value: "1"
+      }), " Find global video"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("ul", {
         className: "dm__video-results"
       }, this.renderVideoList()), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("button", {
         type: "button",
-        className: "components-button",
+        className: "components-button button action dm__prev-button",
         onClick: function onClick() {
-          return _this3.loadPage(_this3.state.currentPage - 1);
+          return _this4.loadPage(_this4.state.currentPage - 1);
         }
       }, "Previous"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])("button", {
         type: "button",
-        className: "components-button",
+        className: "components-button button action dm__next-button",
         onClick: function onClick() {
-          return _this3.loadPage(_this3.state.currentPage + 1);
+          return _this4.loadPage(_this4.state.currentPage + 1);
         }
-      }, "Next"));
+      }, "Next")));
     }
   }]);
 
   return VideosComponent;
-}(react__WEBPACK_IMPORTED_MODULE_9___default.a.Component);
+}(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (VideosComponent);
+
 
 /***/ }),
 
@@ -737,73 +1331,14 @@ var VideosComponent = /*#__PURE__*/function (_React$Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_plugins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/plugins */ "@wordpress/plugins");
-/* harmony import */ var _wordpress_plugins__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_plugins__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_edit_post__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/edit-post */ "@wordpress/edit-post");
-/* harmony import */ var _wordpress_edit_post__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_edit_post__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _assets_dailymotionIcon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./assets/dailymotionIcon */ "./src/assets/dailymotionIcon.js");
-/* harmony import */ var _components_VideosComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/VideosComponent */ "./src/components/VideosComponent.js");
+/* harmony import */ var _components_VideoBlockComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/VideoBlockComponent */ "./src/components/VideoBlockComponent.js");
+/* harmony import */ var _components_SidebarComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/SidebarComponent */ "./src/components/SidebarComponent.js");
+// Video block
 
-// Wordpress packages
+_components_VideoBlockComponent__WEBPACK_IMPORTED_MODULE_0__["default"].registerBlock(); // Sidebar
 
 
-
- // import { withSelect, withDispatch } from "@wordpress/data"
-// Libs
-
- // Components
-
- // let PluginMetaFields = (props) => {
-//     // console.log(props)
-//     return (
-//         <>
-//             <PanelBody
-//                 title={__('Meta Fields Panel', 'textdomain')}
-//                 initialOpen={true}
-//                 >
-//                 <TextControl
-//                     value={props.text_metafield}
-//                     label={__('Text Meta', 'textddomain')}
-//                     onChange={(value) => props.onMetaFieldChange(value)}
-//                     />
-//             </PanelBody>
-//         </>
-//     )
-// }
-//
-// PluginMetaFields = withSelect(
-//     (select) => {
-//         return {
-//             text_metafield: select('core/editor').getEditedPostAttribute('meta')['_myprefix_text_metafield']
-//         }
-//     }
-// )(PluginMetaFields)
-//
-// PluginMetaFields = withDispatch(
-//     (dispatch) => {
-//         return {
-//             onMetaFieldChange: (value) => {
-//                 dispatch('core/editor').editPost({meta: {_myprefix_text_metafield: value}})
-//             }
-//         }
-//     }
-// )(PluginMetaFields)
-
-Object(_wordpress_plugins__WEBPACK_IMPORTED_MODULE_1__["registerPlugin"])('wp-dm-ce-sidebar', {
-  icon: _assets_dailymotionIcon__WEBPACK_IMPORTED_MODULE_5__["dailymotionIcon"],
-  render: function render() {
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_edit_post__WEBPACK_IMPORTED_MODULE_2__["PluginSidebar"], {
-      name: "wp-dm-ce-sidebar",
-      title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Dailymotion Custom Embed', 'textdomain')
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__["PanelBody"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_VideosComponent__WEBPACK_IMPORTED_MODULE_6__["default"], null))));
-  }
-});
+_components_SidebarComponent__WEBPACK_IMPORTED_MODULE_1__["default"].registerSidebar();
 
 /***/ }),
 
@@ -818,7 +1353,7 @@ Object(_wordpress_plugins__WEBPACK_IMPORTED_MODULE_1__["registerPlugin"])('wp-dm
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchData", function() { return fetchData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchApi", function() { return fetchApi; });
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "../node_modules/@babel/runtime/helpers/asyncToGenerator.js");
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "@babel/runtime/regenerator");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
@@ -828,7 +1363,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // Support server-side fetch for tests.
 
-var fetch = typeof window === 'undefined' ? __webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/browser.js") : window.fetch;
+var fetch = typeof window === 'undefined' ? __webpack_require__(/*! node-fetch */ "../node_modules/node-fetch/browser.js") : window.fetch;
 /**
  *
  * @param {string} urlParams
@@ -916,6 +1451,17 @@ function fetchApi(url) {
 
 /***/ }),
 
+/***/ "@wordpress/blocks":
+/*!********************************!*\
+  !*** external ["wp","blocks"] ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["blocks"]; }());
+
+/***/ }),
+
 /***/ "@wordpress/components":
 /*!************************************!*\
   !*** external ["wp","components"] ***!
@@ -924,6 +1470,17 @@ function fetchApi(url) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["components"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["data"]; }());
 
 /***/ }),
 
@@ -968,17 +1525,6 @@ function fetchApi(url) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["plugins"]; }());
-
-/***/ }),
-
-/***/ "react":
-/*!************************!*\
-  !*** external "React" ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["React"]; }());
 
 /***/ })
 

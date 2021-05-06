@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Mandatory settings tab page
+ *
+ */
 ?>
 
 <form action="<?php echo get_admin_url() . 'admin.php?page=dm-ce-admin&action=save_data'; ?>" method="post">
@@ -11,7 +14,15 @@
         <tbody>
 
         <tr>
-            <th scope="row"><label for="channel-name"><?php echo __('Channel Name'); ?></label></th>
+            <th scope="row"><label for="player-id"><?php echo __('Player ID'); ?></label></th>
+            <td>
+                <input name="player_id" type="text" id="player-id" class="regular-text"
+                       value="<?php echo (!empty($options)) ? $options['player_id'] : '' ?>">
+            </td>
+        </tr>
+
+        <tr>
+            <th scope="row"><label for="channel-name"><?php echo __('Channel Name'); ?> <span class="detail-info">?<span class="tooltip">One or several owner usernames as defined on the official dailymotion chhannel URL slug (anything after www.dailymotion.com/xyz). This is case sensitive so pay attention to caps and special characters. If you pick several values, separate them with a ","</span></span></label></th>
             <td>
                 <input name="channel_name" type="text" id="channel-name" class="regular-text"
                        value="<?php echo (!empty($options)) ? $options['owners'] : '' ?>">
@@ -21,7 +32,7 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="sort-by"><?php echo __('Sort by'); ?></label></th>
+            <th scope="row"><label for="sort-by"><?php echo __('Sort by'); ?> <span class="detail-info">?<span class="tooltip">This will rank the results from the script by the preferred sorting method. Pick relevance for contextual embed for instance</span></span></label></th>
             <td>
                 <select name="sort_by" type="text" id="sort-by" class="regular-text" required>
                     <option value="least-visited" <?php echo ($options['sort_by'] == 'least-visited') ? 'selected' : ''; ?>><?php echo __('Least Visited'); ?></option>

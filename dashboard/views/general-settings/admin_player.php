@@ -53,7 +53,7 @@
         </tr>
 
         <tr>
-            <th scope="row"><?php echo __('Show Info Card'); ?></th>
+            <th scope="row"><?php echo __('Show Info Card'); ?> <span class="detail-info">?<span class="tooltip">this will show the title, description snippet and brand logo of the video below it</span></span></th>
             <td>
                 <fieldset>
                     <legend class="screen-reader-text"><span><?php echo __('Show video infocard'); ?></span></legend>
@@ -66,7 +66,7 @@
         </tr>
 
         <tr>
-            <th scope="row"><?php echo __('Show Carousel Playlist'); ?></th>
+            <th scope="row"><?php echo __('Show Carousel Playlist'); ?> <span class="detail-info">?<span class="tooltip">this feature will deactivate the queue in the right part opf the player and instead display a widget at the bottom of the player with video recommendations outside the main frame</span></span></th>
             <td>
                 <fieldset>
                     <legend class="screen-reader-text"><span><?php echo __('Show carousel playlist'); ?></span></legend>
@@ -91,31 +91,31 @@
             </td>
         </tr>
 
-        <tr>
-            <th scope="row"><?php echo __('Show PiP at Start'); ?></th>
-            <td>
-                <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Show PiP at start'); ?></span></legend>
-                    <label for="pip-at-start">
-                        <input name="pip_at_start" type="checkbox" id="pip-at-start"
-                               value="1" <?php echo ($options['pip_at_start'] == 1) ? 'checked' : '' ?>>
-                    </label>
-                </fieldset>
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <th scope="row">--><?php //echo __('Show PiP at Start'); ?><!--</th>-->
+<!--            <td>-->
+<!--                <fieldset>-->
+<!--                    <legend class="screen-reader-text"><span>--><?php //echo __('Show PiP at start'); ?><!--</span></legend>-->
+<!--                    <label for="pip-at-start">-->
+<!--                        <input name="pip_at_start" type="checkbox" id="pip-at-start"-->
+<!--                               value="1" --><?php //echo ($options['pip_at_start'] == 1) ? 'checked' : '' ?>
+<!--                    </label>-->
+<!--                </fieldset>-->
+<!--            </td>-->
+<!--        </tr>-->
 
-        <tr>
-            <th scope="row"><?php echo __('Click to Play'); ?></th>
-            <td>
-                <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Click to play'); ?></span></legend>
-                    <label for="click-to-play">
-                        <input name="click_to_play" type="checkbox" id="click-to-play"
-                               value="1" <?php echo ($options['click_to_play'] == 1) ? 'checked' : '' ?>>
-                    </label>
-                </fieldset>
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <th scope="row">--><?php //echo __('Click to Play'); ?><!--</th>-->
+<!--            <td>-->
+<!--                <fieldset>-->
+<!--                    <legend class="screen-reader-text"><span>--><?php //echo __('Click to play'); ?><!--</span></legend>-->
+<!--                    <label for="click-to-play">-->
+<!--                        <input name="click_to_play" type="checkbox" id="click-to-play"-->
+<!--                               value="1" --><?php //echo ($options['click_to_play'] == 1) ? 'checked' : '' ?>
+<!--                    </label>-->
+<!--                </fieldset>-->
+<!--            </td>-->
+<!--        </tr>-->
 
         <tr>
             <th scope="row"><?php echo __('Deactivate PiP'); ?></th>
