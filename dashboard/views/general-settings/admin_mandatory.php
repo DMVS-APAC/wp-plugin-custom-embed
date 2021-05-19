@@ -14,7 +14,7 @@
         <tbody>
 
         <tr>
-            <th scope="row"><label for="player-id"><?php echo __('Player ID'); ?></label></th>
+            <th scope="row"><label for="player-id"><?php echo __('Player ID'); ?> <span class="detail-info">?<span class="tooltip">You can get PLAYER ID from <a href="https://www.dailymotion.com/partner/x1wzpns/embed/players" target="_blank">Dailymotion partner HQ</a> in the player tab, inside the embed menu.</span></span></label></th>
             <td>
                 <input name="player_id" type="text" id="player-id" class="regular-text"
                        value="<?php echo (!empty($options)) ? $options['player_id'] : '' ?>">

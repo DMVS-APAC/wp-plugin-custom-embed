@@ -119,7 +119,7 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="keywords-selector"><?php echo __('Keywords Selector'); ?></label></th>
+            <th scope="row"><label for="keywords-selector"><?php echo __('Keywords Selector'); ?>  <span class="detail-info">?<span class="tooltip">Define which meta tag you will use for the contextual embed. If you leave it blank it will get the <code>h1</code> the words in the meta tag will be chunked, sanitized, and matched against your own video catalog or the video catalog of the 3rd parties you include in your script.</span></span></label></th>
             <td>
                 <select name="keywords_selector" type="text" id="keywords-selector" class="regular-text">
                     <option value="" <?php echo (empty($options['keywords_selector'])) ? 'selected' : ''; ?>>--</option>
