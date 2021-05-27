@@ -1,23 +1,41 @@
-import { registerBlockType, getBlockContent } from '@wordpress/blocks'
-import { dispatch, select, subscribe } from "@wordpress/data"
-import { __ } from "@wordpress/i18n"
+// import { registerBlockType, getBlockContent } from '@wordpress/blocks'
+import {dispatch, select} from "@wordpress/data"
+import {Component} from "@wordpress/element"
 
-export default class VideoBlockComponent {
+export default class VideoBlockComponent extends Component {
     /**
      * Store previous player position
      */
     #prevPos
 
     /**
+     * Store previous video id
+     */
+    prevVideoId
+
+    /**
      * Video
      */
     video
 
-    constructor() {}
+    /**
+     * Initial fetch data
+     * @type {boolean}
+     */
+    init = false
+
+    constructor(props) {
+        super(props)
+
+        this.subscribes()
+
+        this.state = props.attributes
+    }
 
     subscribes() {
-
-        subscribe( () => {})
+        document.addEventListener('dm-video-updated', e => {
+            this.setAttr()
+        })
     }
 
     /**
@@ -29,7 +47,7 @@ export default class VideoBlockComponent {
 
         const blocks = select('core/editor').getBlocks()
 
-        if ( blocks.length !== 0 ) {
+        if (blocks.length !== 0) {
             for (let i = 0; i < blocks.length; i++) {
                 if (blocks[i].name === 'dm-settings/click-embed') {
                     counter = i
@@ -43,11 +61,11 @@ export default class VideoBlockComponent {
     /**
      * Render video when the player updated
      */
-    renderVideo() {
+    updatePosition() {
 
         const counter = this.countBlocks()
 
-        if ( this.#prevPos !== counter ) {
+        if (this.#prevPos !== counter) {
             this.#prevPos = counter
 
             dispatch('core/editor').editPost({
@@ -55,8 +73,6 @@ export default class VideoBlockComponent {
                     _dm_player_position: counter
                 }
             })
-
-            window.dmce.rebuild()
         }
 
     }
@@ -67,7 +83,6 @@ export default class VideoBlockComponent {
      */
     getVideo() {
         const videoData = select('core/editor').getEditedPostAttribute('meta')['_dm_video_data']
-        console.log(videoData)
 
         if (videoData !== '') {
             return JSON.parse(videoData)
@@ -76,57 +91,57 @@ export default class VideoBlockComponent {
         return null
     }
 
+    openSidebar() {
+        const dmButton = document.querySelector('button[aria-label="Dailymotion Sidebar Settings"]')
+        dmButton.click()
+    }
 
-    static registerBlock() {
-        const videoBlock = new VideoBlockComponent()
+    setAttr() {
+        const video = this.getVideo()
 
-        registerBlockType( 'dm-settings/click-embed', {
-            title: __('Dailymotion Embed'),
-            icon: <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.65916 7.27658C6.6612 7.27658 5.94664 6.58953 5.94664 5.68561C5.94664 4.81786 6.6612 4.08263 7.58524 4.08263C8.49696 4.08263 9.1992 4.78166 9.1992 5.70972C9.1992 6.60166 8.49696 7.27658 7.65916 7.27658V7.27658ZM11 0L9.18684 0.391304V3.13043C8.74332 2.57599 8.06572 2.39529 7.26488 2.39529C6.42711 2.39529 5.67556 2.69657 5.05956 3.28714C4.36963 3.93797 4 4.76965 4 5.6977C4 6.71013 4.39425 7.57788 5.1581 8.24079C5.73716 8.74698 6.42711 9 7.22792 9C8.01644 9 8.60784 8.79511 9.18684 8.24079V9H11C11 6.01204 11 2.98796 11 0Z" fill="#000"/><path d="M0.902344 5.79883L3.04199 6.66357V7.3335L0.246094 6.03809V5.53906L3.04199 4.24707V4.91699L0.902344 5.79883Z" fill="#000"/><path d="M14.7173 5.77832L12.458 4.89307V4.24365L15.377 5.53564V6.03467L12.458 7.33008V6.67383L14.7173 5.77832Z" fill="#000"/></svg>,
-            category: 'embed',
-            keywords: [
-                __('Dailymotion'),
-                __('Embed')
-            ],
+        if (video !== null) {
+            this.setState({videoId: video.id})
 
-            edit( { setAttributes, attributes } ) {
-                videoBlock.renderVideo()
-                console.log('editing')
+            // this.prevVideoId = video.id
 
-                videoBlock.video = videoBlock.getVideo()
+            // Rerender the video player placeholder
+            window.dmce.rebuild()
+        }
+    }
 
-                const openSidebar = () => {
-                    const dmButton = document.querySelector('button[aria-label="Dailymotion Sidebar Settings"]')
-                    dmButton.click()
-                }
+    componentDidMount() {
+        this.setAttr()
+    }
 
-                if (videoBlock.video === null ) {
-                    return (
-                        <div className="dm-player__editor">
-                            <p>No video selected, please select by click button below</p>
-                            <button onClick={ openSidebar }>Find a video</button>
-                        </div>
-                    )
-                }
+    componentWillUnmount() {
+        dispatch('core/editor').editPost({
+            meta: {
+                _dm_player_position: -1
+            }
+        })
+    }
 
-                // `playerId` is using only for preview, it's Yudhi's `playerId`
-                return (
-                    <div className="dm-player__holder">
-                        <p>
-                            <span className="dashicons dashicons-edit-large"></span> Dailymotion Player
-                        </p>
-                        <div className="dm-player" videoId={ videoBlock.video.id } playerId="x1ozy"  />
-                    </div>
-                )
-            },
+    render() {
+        this.updatePosition()
+        console.log('editing', this.state.videoId)
 
-            // No information saved to the block
-            // Data is saved to post meta via the hook
-            save( props ) {
-                videoBlock.renderVideo()
-                return null
-            },
-        } )
+        if (this.state.videoId === '' || this.state.videoId === undefined) {
+            return (
+                <div className="dm-player__editor">
+                    <p>No video selected, please select by click button below</p>
+                    <button onClick={this.openSidebar}>Find a video</button>
+                </div>
+            )
+        }
 
+        // `playerId` is using only for preview, it's Yudhi's `playerId`
+        return (
+            <div className="dm-player__holder">
+                <p>
+                    <span className="dashicons dashicons-edit-large"/> Dailymotion Player
+                </p>
+                <div className="dm-player" videoId={this.state.videoId} playerId="x1ozy"/>
+            </div>
+        )
     }
 }

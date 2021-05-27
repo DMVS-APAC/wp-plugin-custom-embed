@@ -6,6 +6,8 @@ import {Component} from "@wordpress/element"
 
 export default class VideosComponent extends Component {
 
+    emitter
+
     constructor(props) {
         super(props)
         this.state = {
@@ -74,10 +76,9 @@ export default class VideosComponent extends Component {
             }
         })
 
-        // select('dm-settings/click-embed').edit( () => {
-        //     console.log('haha')
-        // })
-
+        // Send custom event to catch on VideoBlockComponent to render a new video
+        const videoUpdated = new CustomEvent("dm-video-updated")
+        document.dispatchEvent(videoUpdated)
     }
 
     async findVideo(e) {
@@ -128,7 +129,6 @@ export default class VideosComponent extends Component {
         this.setState({
             globalVideo: (e.target.checked === true)
         })
-        console.log(this.state)
     }
 
     async loadPage(page) {

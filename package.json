@@ -45,6 +45,7 @@
     "@wordpress/icons": "^2.10.0",
     "@wordpress/plugins": "^2.25.0",
     "@wordpress/scripts": "^14.0.0",
+    "mitt": "^2.1.0",
     "node-fetch": "^2.6.1",
     "react": "^16.14.0"
   }
