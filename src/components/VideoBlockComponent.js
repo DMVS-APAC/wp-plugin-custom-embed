@@ -1,6 +1,6 @@
 // import { registerBlockType, getBlockContent } from '@wordpress/blocks'
-import {dispatch, select} from "@wordpress/data"
-import {Component} from "@wordpress/element"
+import { dispatch, select } from "@wordpress/data"
+import { Component } from "@wordpress/element"
 
 export default class VideoBlockComponent extends Component {
     /**
@@ -9,29 +9,29 @@ export default class VideoBlockComponent extends Component {
     #prevPos
 
     /**
-     * Store previous video id
+     * An url origin
      */
-    prevVideoId
+    origin
 
     /**
-     * Video
+     * Dailymotion options
      */
-    video
-
-    /**
-     * Initial fetch data
-     * @type {boolean}
-     */
-    init = false
+    dmOptions
 
     constructor(props) {
         super(props)
+
+        this.origin = window.origin
+        this.dmOptions = this.getDmOptions()
 
         this.subscribes()
 
         this.state = props.attributes
     }
 
+    /**
+     * List of event listener to update the data
+     */
     subscribes() {
         document.addEventListener('dm-video-updated', e => {
             this.setAttr()
@@ -39,6 +39,20 @@ export default class VideoBlockComponent extends Component {
     }
 
     /**
+     *
+     */
+    getDmOptions() {
+
+        fetch(this.origin + '/wp-json/dm/v1/get-custom-options/player')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                return ''
+            })
+    }
+
+    /**
+     * Get a position of the block
      *
      * @return number
      */
@@ -59,7 +73,7 @@ export default class VideoBlockComponent extends Component {
     }
 
     /**
-     * Render video when the player updated
+     * Update the position of the player
      */
     updatePosition() {
 
@@ -78,6 +92,7 @@ export default class VideoBlockComponent extends Component {
     }
 
     /**
+     * Get video data from updated post attributes
      *
      * @returns {null|any}
      */
@@ -91,18 +106,22 @@ export default class VideoBlockComponent extends Component {
         return null
     }
 
+    /**
+     * Programmatic click Dailymotion button to open sidebar
+     */
     openSidebar() {
         const dmButton = document.querySelector('button[aria-label="Dailymotion Sidebar Settings"]')
         dmButton.click()
     }
 
+    /**
+     * Set state video data and rerender the video
+     */
     setAttr() {
         const video = this.getVideo()
 
         if (video !== null) {
             this.setState({videoId: video.id})
-
-            // this.prevVideoId = video.id
 
             // Rerender the video player placeholder
             window.dmce.rebuild()
@@ -113,6 +132,9 @@ export default class VideoBlockComponent extends Component {
         this.setAttr()
     }
 
+    /**
+     * If block destroyed, it will update the position
+     */
     componentWillUnmount() {
         dispatch('core/editor').editPost({
             meta: {
@@ -123,7 +145,6 @@ export default class VideoBlockComponent extends Component {
 
     render() {
         this.updatePosition()
-        console.log('editing', this.state.videoId)
 
         if (this.state.videoId === '' || this.state.videoId === undefined) {
             return (
@@ -140,7 +161,7 @@ export default class VideoBlockComponent extends Component {
                 <p>
                     <span className="dashicons dashicons-edit-large"/> Dailymotion Player
                 </p>
-                <div className="dm-player" videoId={this.state.videoId} playerId="x1ozy"/>
+                <div className="dm-player" videoId={ this.state.videoId } playerId="x1ozy"/>
             </div>
         )
     }

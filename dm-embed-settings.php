@@ -32,18 +32,19 @@ $my_update_checker = Puc_v4_Factory::buildUpdateChecker(
     'dm-embed-settings'
 );
 
-//$my_update_checker->getVcsApi()->enable
-
-
 require DM__PATH . 'dashboard/admin.php';
 require DM__PATH . 'api/Custom_Get_Options.php';
 require DM__PATH . 'custom-block/dm-block.php';
 require DM__PATH . 'front-end/load-script.php';
 
-wp_enqueue_style(
-    'dm-editor-stylesheet',
-    plugin_dir_url(DM__FILE__) . 'assets/editor.css'
-);
+
+add_action('admin_enqueue_scripts', 'admin_styles');
+function admin_styles() {
+    wp_enqueue_style(
+        'dm-editor-stylesheet',
+        plugin_dir_url(DM__FILE__) . 'assets/editor.css'
+    );
+}
 
 
 register_activation_hook(__FILE__, 'my_plugin_activation');

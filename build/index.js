@@ -815,16 +815,11 @@ var VideoBlockComponent = /*#__PURE__*/function (_Component) {
    */
 
   /**
-   * Store previous video id
+   * An url origin
    */
 
   /**
-   * Video
-   */
-
-  /**
-   * Initial fetch data
-   * @type {boolean}
+   * Dailymotion options
    */
   function VideoBlockComponent(props) {
     var _this;
@@ -838,17 +833,22 @@ var VideoBlockComponent = /*#__PURE__*/function (_Component) {
       value: void 0
     });
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "prevVideoId", void 0);
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "origin", void 0);
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "video", void 0);
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "dmOptions", void 0);
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "init", false);
+    _this.origin = window.origin;
+    _this.dmOptions = _this.getDmOptions();
 
     _this.subscribes();
 
     _this.state = props.attributes;
     return _this;
   }
+  /**
+   * List of event listener to update the data
+   */
+
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(VideoBlockComponent, [{
     key: "subscribes",
@@ -860,6 +860,21 @@ var VideoBlockComponent = /*#__PURE__*/function (_Component) {
       });
     }
     /**
+     *
+     */
+
+  }, {
+    key: "getDmOptions",
+    value: function getDmOptions() {
+      fetch(this.origin + '/wp-json/dm/v1/get-custom-options/player').then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log(data);
+        return '';
+      });
+    }
+    /**
+     * Get a position of the block
      *
      * @return number
      */
@@ -881,7 +896,7 @@ var VideoBlockComponent = /*#__PURE__*/function (_Component) {
       return counter;
     }
     /**
-     * Render video when the player updated
+     * Update the position of the player
      */
 
   }, {
@@ -900,6 +915,7 @@ var VideoBlockComponent = /*#__PURE__*/function (_Component) {
       }
     }
     /**
+     * Get video data from updated post attributes
      *
      * @returns {null|any}
      */
@@ -915,12 +931,20 @@ var VideoBlockComponent = /*#__PURE__*/function (_Component) {
 
       return null;
     }
+    /**
+     * Programmatic click Dailymotion button to open sidebar
+     */
+
   }, {
     key: "openSidebar",
     value: function openSidebar() {
       var dmButton = document.querySelector('button[aria-label="Dailymotion Sidebar Settings"]');
       dmButton.click();
     }
+    /**
+     * Set state video data and rerender the video
+     */
+
   }, {
     key: "setAttr",
     value: function setAttr() {
@@ -929,8 +953,7 @@ var VideoBlockComponent = /*#__PURE__*/function (_Component) {
       if (video !== null) {
         this.setState({
           videoId: video.id
-        }); // this.prevVideoId = video.id
-        // Rerender the video player placeholder
+        }); // Rerender the video player placeholder
 
         window.dmce.rebuild();
       }
@@ -940,6 +963,10 @@ var VideoBlockComponent = /*#__PURE__*/function (_Component) {
     value: function componentDidMount() {
       this.setAttr();
     }
+    /**
+     * If block destroyed, it will update the position
+     */
+
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
@@ -953,7 +980,6 @@ var VideoBlockComponent = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       this.updatePosition();
-      console.log('editing', this.state.videoId);
 
       if (this.state.videoId === '' || this.state.videoId === undefined) {
         return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["createElement"])("div", {
