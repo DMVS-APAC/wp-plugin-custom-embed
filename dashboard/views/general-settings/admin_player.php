@@ -10,7 +10,7 @@
 
         <tbody>
 
-        <tr>
+        <!-- <tr>
             <th scope="row"><?php echo __('Hide Controls'); ?></th>
             <td>
                 <fieldset>
@@ -21,10 +21,10 @@
                     </label>
                 </fieldset>
             </td>
-        </tr>
+        </tr> -->
 
         <tr>
-            <th scope="row"><label for="ads-params"><?php echo __('Ads Params'); ?></label></th>
+            <th scope="row"><label for="ads-params"><?php echo __('Ads Params'); ?> <span class="detail-info">?<span class="tooltip">To add custom ad prameters</span></span></label></th>
             <td>
                 <input name="ads_params" type="text" id="ads-params" class="regular-text"
                        value="<?php echo ($options['ads_params']) ? $options['ads_params'] : '' ?>">
@@ -32,15 +32,16 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="pre-video-title"><?php echo __('Pre video title'); ?></label></th>
+            <th scope="row"><label for="pre-video-title"><?php echo __('Pre video title'); ?><span class="detail-info">?<span class="tooltip">A custom section title above the video player embed.</span></span></label></th>
             <td>
                 <input name="pre_video_title" type="text" id="pre-video-title" class="regular-text"
                        value="<?php echo ($options['pre_video_title']) ? $options['pre_video_title'] : '' ?>">
+                <p class="description" id="syndication">E.g., "See also: Recommended videos"</p>
             </td>
         </tr>
 
         <tr>
-            <th scope="row"><?php echo __('Show Video Title'); ?></th>
+            <th scope="row"><?php echo __('Show Video Title'); ?><span class="detail-info">?<span class="tooltip">Decide if you want to show video title or not, select if you need to show video title.</span></span></th>
             <td>
                 <fieldset>
                     <legend class="screen-reader-text"><span><?php echo __('Show video title'); ?></span></legend>
@@ -78,7 +79,7 @@
             </td>
         </tr>
 
-        <tr>
+        <!-- <tr>
             <th scope="row"><?php echo __('Hide Controls on Ad Playing'); ?></th>
             <td>
                 <fieldset>
@@ -89,7 +90,7 @@
                     </label>
                 </fieldset>
             </td>
-        </tr>
+        </tr> -->
 
 <!--        <tr>-->
 <!--            <th scope="row">--><?php //echo __('Show PiP at Start'); ?><!--</th>-->
@@ -117,7 +118,7 @@
 <!--            </td>-->
 <!--        </tr>-->
 
-        <tr>
+        <!-- <tr>
             <th scope="row"><?php echo __('Deactivate PiP'); ?></th>
             <td>
                 <fieldset>
@@ -127,9 +128,9 @@
                                value="1" <?php echo ($options['deactivate_pip'] == 1) ? 'checked' : '' ?>>
                     </label>
                 </fieldset>
-                <!-- in NPE if this deactivated then the scroll to pause automatically true -->
+                in NPE if this deactivated then the scroll to pause automatically true
             </td>
-        </tr>
+        </tr> -->
 
         </tbody>
 
