@@ -1,6 +1,7 @@
 // import { registerBlockType, getBlockContent } from '@wordpress/blocks'
 import { dispatch, select } from "@wordpress/data"
 import { Component } from "@wordpress/element"
+import {fetchApi} from "../libs/apiCall";
 
 export default class VideoBlockComponent extends Component {
     /**
@@ -9,20 +10,12 @@ export default class VideoBlockComponent extends Component {
     #prevPos
 
     /**
-     * An url origin
-     */
-    origin
-
-    /**
      * Dailymotion options
      */
     dmOptions
 
     constructor(props) {
         super(props)
-
-        this.origin = window.origin
-        this.dmOptions = this.getDmOptions()
 
         this.subscribes()
 
@@ -41,14 +34,8 @@ export default class VideoBlockComponent extends Component {
     /**
      *
      */
-    getDmOptions() {
-
-        fetch(this.origin + '/wp-json/dm/v1/get-custom-options/player')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                return ''
-            })
+    async getDmOptions() {
+        return await fetchApi('/dm/v1/get-custom-options/player')
     }
 
     /**
@@ -121,14 +108,19 @@ export default class VideoBlockComponent extends Component {
         const video = this.getVideo()
 
         if (video !== null) {
-            this.setState({videoId: video.id})
+            this.setState({
+                videoId: (video.private !== true) ? video.id : null,
+                privateVideoId: (video.private === true) ? video.private_id : null
+            })
 
             // Rerender the video player placeholder
             window.dmce.rebuild()
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        this.dmOptions = await this.getDmOptions()
+
         this.setAttr()
     }
 
@@ -143,6 +135,15 @@ export default class VideoBlockComponent extends Component {
         })
     }
 
+    generateVideoContainer(attrs) {
+
+        if (this.state.privateVideoId !== null) {
+            return <div className="dm-player" privateVideoId={ this.state.privateVideoId } playerId="x1ozy" {...attrs} />
+        }
+
+        return <div className="dm-player" videoId={ this.state.videoId } playerId="x1ozy" {...attrs} />
+    }
+
     render() {
         this.updatePosition()
 
@@ -155,13 +156,27 @@ export default class VideoBlockComponent extends Component {
             )
         }
 
+        let attrs = {}
+        if ( this.dmOptions ) {
+            if (this.dmOptions.pre_video_title !== undefined && this.dmOptions.pre_video_title !== '')
+                attrs.preVideoTitle = this.dmOptions.pre_video_title
+
+            if (this.dmOptions.show_info_card === '1')
+                attrs.showInfocard = 'true'
+
+            if (this.dmOptions.show_video_title === '1')
+                attrs.showVideoTitle = 'true'
+
+        }
+
         // `playerId` is using only for preview, it's Yudhi's `playerId`
         return (
             <div className="dm-player__holder">
-                <p>
+                <p className="dm-player__holder--title">
                     <span className="dashicons dashicons-edit-large"/> Dailymotion Player
                 </p>
-                <div className="dm-player" videoId={ this.state.videoId } playerId="x1ozy"/>
+
+                {this.generateVideoContainer(attrs)}
             </div>
         )
     }

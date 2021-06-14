@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name: Dailymotion Embed Settings
+ * Plugin Name: Dailymotion Video Player Plugin
  * Slug: dm-embed-settings
  * Description: Embed video from Dailymotion
  * Author: DMVS APAC Team
  * Author URI: https://github.com/DMVS-APAC
- * Version: 1.0.0-9
+ * Version: 1.0.0-10
  * Plugin URI: https://github.com/DMVS-APAC/wp-plugin-custom-embed
  * Download
  *
- * @version 1.0.0-9
+ * @version 1.0.0-10
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -45,6 +45,14 @@ function admin_styles() {
         plugin_dir_url(DM__FILE__) . 'assets/editor.css'
     );
 }
+
+wp_enqueue_script(
+    'dm-sdk',
+    'https://api.dmcdn.net/all.js',
+    [],
+    '',
+    true
+);
 
 
 register_activation_hook(__FILE__, 'my_plugin_activation');

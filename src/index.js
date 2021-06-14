@@ -1,4 +1,5 @@
 import { registerBlockType } from '@wordpress/blocks'
+import {select} from "@wordpress/data";
 import { __ } from "@wordpress/i18n"
 
 // Video block
@@ -16,7 +17,22 @@ registerBlockType( 'dm-settings/click-embed', {
     // No information saved to the block
     // Data is saved to post meta via the hook
     save( props ) {
-        // videoBlock.updatePosition()
+        const blocks = select('core/editor').getBlocks()
+
+        if (blocks.length !== 0) {
+            for (let i = 0; i < blocks.length; i++) {
+                if (blocks[i].name === 'dm-settings/click-embed') {
+
+                    dispatch('core/editor').editPost({
+                        meta: {
+                            _dm_player_position: i
+                        }
+                    })
+
+                }
+            }
+        }
+
         return null
     },
 } )

@@ -69,7 +69,15 @@ export default class SelectedVideoComponent extends Component {
     showImage() {
         if (this.state.videoData.title !== '') {
            return (
-               <img src={this.state.videoData.thumbnail_240_url} alt={this.state.videoData.title} className="video__thumbnail" />
+               <>
+                   <h3>Selected video</h3>
+                   <figure className="video__image-wrapper">
+                       <div className="video__placement">
+                           <img src={this.state.videoData.thumbnail_240_url} alt={this.state.videoData.title} className="video__thumbnail" />
+                       </div>
+                   </figure>
+                   <span class="video__title">{this.state.videoData.title}</span>
+               </>
            )
         }
 

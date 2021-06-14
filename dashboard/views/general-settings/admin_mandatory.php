@@ -5,7 +5,7 @@
  */
 ?>
 
-<form action="<?php echo get_admin_url() . 'admin.php?page=dm-ce-admin&action=save_data'; ?>" method="post">
+<form action="<?php echo get_admin_url() . 'admin.php?page=dm-general-settings&action=save_data'; ?>" method="post">
 
     <?php wp_nonce_field("dm_save_data", "dm_save_data", true); ?>
 

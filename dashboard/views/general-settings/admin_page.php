@@ -21,6 +21,25 @@
 
     ?>
 
+    <script>
+        window.addEventListener('load', (e) => {
+            DM.init({
+                apiKey: '1f231cd70200e621bcfd',
+                status: true, // check login status
+                cookie: true // enable cookies to allow the s
+            })
 
+            DM.getLoginStatus(function (response) {
+                if (response.session) {
+                    DM.api('/me', {
+                        fields: ['id', 'screenname', 'username']
+                    }, res => {
+                       console.log(res)
+                    })
+                } else {
+                }
+            })
+        })
+    </script>
 
 </div>
