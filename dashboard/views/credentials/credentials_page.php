@@ -30,14 +30,6 @@ If you do not have access to the API key creation page, ask the owner of your or
                 </td>
             </tr>
 
-<!--            <tr>-->
-<!--                <th scope="row"><label for="api-secret">--><?php //echo __('API Secret'); ?><!--</label></th>-->
-<!--                <td>-->
-<!--                    <input name="api_secret" type="text" id="api-secret" class="regular-text"-->
-<!--                           value="--><?php //echo (!empty($options)) ? $options['api_secret'] : '' ?><!--">-->
-<!--                </td>-->
-<!--            </tr>-->
-
             </tbody>
 
         </table>
