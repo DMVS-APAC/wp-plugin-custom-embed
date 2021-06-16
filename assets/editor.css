@@ -22,6 +22,7 @@
     padding: 0 5px;
     text-align: left;
     max-width: 100%;
+    width: 100%;
 }
 
     .video__title {
@@ -40,10 +41,18 @@
         padding-bottom: 56.25%;
         background-color: #000;
     }
-        .video__image-wrapper img {
-            height: 100%;
-            width: auto;
+        .video__placement {
             position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+        .video__image-wrapper img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: cover;
         }
 
 
@@ -59,7 +68,7 @@
     margin-top: var(--global--spacing-vertical);
     margin-bottom: var(--global--spacing-vertical);
 }
-    .editor-styles-wrapper .dm-player__holder p {
+    .editor-styles-wrapper .dm-player__holder .dm-player__holder--title {
         margin-top: 0;
         margin-bottom: 6px;
         font-size: .8em;
@@ -105,3 +114,64 @@
 .detail-info:hover .tooltip {
      display: block;
  }
+
+
+//extend player style
+/*.editor-styles-wrapper p.dm__video-title {*/
+/*  --dm-title-size: .8em;*/
+/*    color: magenta;*/
+/*}*/
+
+.dm__wrapper-status > p:last-child{
+    margin-bottom: 1px;
+}
+.dm--connected {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background-color: limegreen;
+    border-radius: 50%;
+}
+.dm--disconnected {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background-color: orangered;
+    border-radius: 50%;
+}
+
+
+#main-content {
+    width: 95%;
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+#main-content p {
+    font-size: 1.1em;
+}
+
+#main-content p:first-child {
+    font-weight: 700;
+}
+
+.dm__primary-button {
+    background-color: #000;
+    color: #fff;
+    border: 0;
+    border-radius: 3px;
+    padding: 6px 10px;
+    text-transform: uppercase;
+    font-size: .9em;
+}
+.dm__primary-button:hover {
+    cursor: pointer;
+}
+
+.dm__avatar {
+    width: 60px;
+    margin-bottom: 14px;
+}

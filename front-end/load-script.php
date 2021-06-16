@@ -23,9 +23,8 @@ class Load_Scripts {
      */
     public function load_script() {
         if ( is_single() ) {
-//            wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), '2.0.0-alpha', 'true');
-            wp_enqueue_script('dm-ce', 'https://dm-ce-2.test/dm-ce.js', array(), '2.0.0-alpha2', true);
-//            wp_enqueue_script('dm-ce', 'https://staging.dmvs-apac.com/custom-embed-v2/dm-ce.min.js', array(), '2.0.0-alpha2', 'true');
+            wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), '2.0.0-14', 'true');
+//            wp_enqueue_script('dm-ce', 'https://dm-ce-2.test/dm-ce.js', array(), '2.0.0-beta-14', true);
         }
     }
 
@@ -74,25 +73,36 @@ class Load_Scripts {
 
 
             $post_id = get_the_ID();
-            $video_data = get_post_meta($post_id, '_dm_video_data') ;
+            $video_data = get_post_meta($post_id, '_dm_video_data');
             $player_pos = get_post_meta($post_id, '_dm_player_position');
 
+            // If video data is not empty, it will load video from database
             if (sizeof($video_data) !== 0) {
                 $video = json_decode($video_data[0]);
-                $player_holder .= ' videoId="' . $video->id . '"';
+
+                if ($video->private_id) {
+                    $player_holder .= ' privateVideoId="' . $video->private_id . '"';
+                } else {
+                    $player_holder .= ' videoId="' . $video->id . '"';
+                }
             } else if ($options_content['video_id']) {
                 $player_holder .= ' videoId="' . $options_content['video_id'] . '"';
             }
 
             $player_holder .= '></div></div>';
 
-            if (sizeof($player_pos) !== 0 ) {
+            if (sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' ) {
                 $content = explode("</p>", $content);
 
                 $new_content = '';
 
+                if ($player_pos[0] == 0) {
+                    $new_content .= $player_holder;
+                }
+
                 for ($i = 0; $i < count($content); $i++) {
                     $new_content .= $content[$i] . "</p>";
+
                     if ($i === $player_pos[0] - 1) {
                         $new_content .= $player_holder;
                     }

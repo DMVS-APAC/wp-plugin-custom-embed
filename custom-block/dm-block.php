@@ -28,13 +28,13 @@ class DM_Block {
 
         wp_enqueue_script(
             'dm-ce',
-//            'https://staging.dmvs-apac.com/custom-embed-v2/dm-ce.min.js',
-            'https://dm-ce-2.test/dm-ce.js',
-//            'https://staging.dmvs-apac.com/custom-embed-v2/dm-ce.min.js',
+            'https://srvr.dmvs-apac.com/v2/dm-ce.min.js',
             [],
-            '2.0.0-alpha',
+            '2.0.0-15',
             true
         );
+
+
 
     }
 

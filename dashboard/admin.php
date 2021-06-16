@@ -6,26 +6,64 @@ class DM_Admin {
 
     public function __construct() {
         add_action('admin_menu', array($this, 'register_menu'));
+        add_action('wp_dashboard_setup', array($this, 'register_widget'));
     }
 
     public function register_menu() {
+
+        // For root menu
         add_menu_page(
-            'Dailymotion Embed Settings',
+            'Dailymotion HQ',
             'Dailymotion HQ',
             'manage_options',
-            'dm-ce-admin',
-            array($this, 'load_admin_page'),
+            'dm-general-settings',
+            '',
             plugins_url('dm-embed-settings/assets/dailymotion-icon.svg')
         );
 
+        // For submenu
         add_submenu_page(
-            'dm-ce-admin',
-            'Credentials',
-            '<span aria-label="Dailymotion credentials">Credentials</span>',
+            'dm-general-settings',
+            'General Settings',
+            'General Settings',
             'manage_options',
-            'dm-ce-credentials',
-            array($this, 'load_credential_page')
+            'dm-general-settings',
+            array($this, 'load_admin_page')
         );
+
+        add_submenu_page(
+            'dm-general-settings',
+            'Connect to Dailymotion',
+            '<span aria-label="Connect to Dailymotion">Connect</span>',
+            'manage_options',
+            'dm-connect',
+            array($this, 'load_connect_page')
+        );
+
+        add_submenu_page(
+            'dm-general-settings',
+            'Credentials',
+            '<span aria-label="Dailymotion Credentials">Credentials</span>',
+            'manage_options',
+            'dm-credentials',
+            array($this, 'load_credentials_page')
+        );
+    }
+
+    public function register_widget() {
+        wp_add_dashboard_widget(
+            'dm-login-status',
+            'Dailymotion connection status',
+            array($this, 'load_dashboard_widget'),
+            null,
+            null,
+            'side',
+            'high'
+        );
+    }
+
+    public function load_dashboard_widget() {
+        require DM__PATH . 'dashboard/views/dashboard-widget/dashboard-widget-box.php';
     }
 
     public function load_admin_page() {
@@ -43,7 +81,15 @@ class DM_Admin {
         require DM__PATH . 'dashboard/views/general-settings/admin_page.php';
     }
 
-    public function load_credential_page() {
+    public function load_connect_page() {
+        $action = $_GET['action'] ?? '';
+
+        $options = get_option('dm_ce_credentials');
+
+        require DM__PATH . 'dashboard/views/connect/connect_page.php';
+    }
+
+    public function load_credentials_page() {
         $action = $_GET['action'] ?? '';
 
         switch($action):
@@ -54,7 +100,7 @@ class DM_Admin {
 
         $options = get_option('dm_ce_credentials');
 
-        require DM__PATH . 'dashboard/views/credentials/credential_page.php';
+        require DM__PATH . 'dashboard/views/credentials/credentials_page.php';
     }
 
     private function store_general_settings($params, $tab) {
