@@ -16,7 +16,7 @@
     <hr class="wp-header-end">
 
     <!-- the container -->
-    <section id="main-content"></section>
+    <div id="main-content"></div>
 
     <template id="login">
         <p><?php echo __('Sign in with your Dailymotion account'); ?></p>
@@ -31,7 +31,7 @@
     </template>
 
     <script type="text/javascript">
-        let apiKey = '1f231cd70200e621bcfd';
+        let apiKey = "<?php echo $options['api_key'] ?>";
         let apiSecret = '';
         let redirectUri = "<?php echo get_dashboard_url(); ?>/admin.php?page=dm-connect";
 
@@ -140,7 +140,6 @@
             let code = GetURLParameter("code");
             let state = GetURLParameter("state") ?? 'dmauth_' + DM.guid();
 
-            console.log(state)
             if (typeof code === "undefined") {
                 showLogin()
             } else {

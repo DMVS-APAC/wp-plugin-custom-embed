@@ -10,10 +10,13 @@
 <div class="dm__wrapper-status"></div>
 
 <script type="text/javascript">
+    <?php
+        $options = get_option('dm_ce_credentials');
+    ?>
 
     window.addEventListener('load', (e) => {
         DM.init({
-            apiKey: '1f231cd70200e621bcfd',
+            apiKey: "<?php echo $options['api_key'] ?>",
             status: true, // check login status
             cookie: true // enable cookies to allow the s
         })

@@ -39,6 +39,15 @@ class DM_Admin {
             'dm-connect',
             array($this, 'load_connect_page')
         );
+
+        add_submenu_page(
+            'dm-general-settings',
+            'Credentials',
+            '<span aria-label="Dailymotion Credentials">Credentials</span>',
+            'manage_options',
+            'dm-credentials',
+            array($this, 'load_credentials_page')
+        );
     }
 
     public function register_widget() {
@@ -48,7 +57,7 @@ class DM_Admin {
             array($this, 'load_dashboard_widget'),
             null,
             null,
-            'normal',
+            'side',
             'high'
         );
     }
@@ -75,7 +84,23 @@ class DM_Admin {
     public function load_connect_page() {
         $action = $_GET['action'] ?? '';
 
+        $options = get_option('dm_ce_credentials');
+
         require DM__PATH . 'dashboard/views/connect/connect_page.php';
+    }
+
+    public function load_credentials_page() {
+        $action = $_GET['action'] ?? '';
+
+        switch($action):
+            case "save_data":
+                self::store_credentials($_POST);
+                break;
+        endswitch;
+
+        $options = get_option('dm_ce_credentials');
+
+        require DM__PATH . 'dashboard/views/credentials/credentials_page.php';
     }
 
     private function store_general_settings($params, $tab) {

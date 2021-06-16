@@ -29,8 +29,12 @@ export default class VideosComponent extends Component {
 
     async initDm() {
         await waitFor(() => DM !== undefined, 100, 10000, "Timeout waiting for DM loaded, please refresh and make sure your internet is active")
+
+        // Get api-key
+        const options = await fetchApi('/dm/v1/get-api-key')
+
         DM.init({
-            apiKey: '1f231cd70200e621bcfd',
+            apiKey: options.api_key,
             status: true, // check login status
             cookie: true // enable cookies to allow the s
         })

@@ -17,15 +17,34 @@ class Custom_Get_Options extends WP_REST_Controller {
     public function register_routes() {
         $version = '1';
         $namespace = 'dm/v' . $version;
-//        $base = 'route';
+
+        // get custom options
         register_rest_route( $namespace, '/get-custom-options/(?P<tab>[a-zA-Z0-9-]+)', [
             [
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => [ $this, 'get_custom_option' ],
-//                'permission_callback' => [ $this, 'get_items_permissions_check' ],
             ]
         ]);
+
+        register_rest_route($namespace, '/get-api-key/',
+        [
+            'methods'               => WP_REST_Server::READABLE,
+            'callback'              => [ $this, 'get_api_key' ],
+            'permission_callback'   => [ $this, 'get_permissions_check']
+        ]);
     }
+
+    /**
+     * Get API Key
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function get_api_key() {
+        $options = get_option('dm_ce_credentials');
+
+        return new WP_REST_Response($options, 200);
+    }
+
 
     /**
      * Get options
@@ -49,7 +68,7 @@ class Custom_Get_Options extends WP_REST_Controller {
      */
     public function get_permissions_check( $request ) {
         //return true; <--use to make readable by all
-        return current_user_can( 'edit_something' );
+        return current_user_can( 'publish_posts' );
     }
 }
 
