@@ -5,11 +5,11 @@
  * Description: Embed video from Dailymotion
  * Author: DMVS APAC Team
  * Author URI: https://github.com/DMVS-APAC
- * Version: 1.0.0-11
+ * Version: 1.0.0-12
  * Plugin URI: https://github.com/DMVS-APAC/wp-plugin-custom-embed
  * Download
  *
- * @version 1.0.0-10
+ * @version 1.0.0-12
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require 'vendor/autoload.php';
 
-define( 'DM_CE__VERSION', '1.0.0-11');
+define( 'DM_CE__VERSION', '1.0.0-12');
 define( 'DM__FILE__', __FILE__ );
 define( 'DM__PLUGIN_BASE', plugin_basename( DM__FILE__ ) );
 define( 'DM__PATH', plugin_dir_path( DM__FILE__ ) );
@@ -36,8 +36,12 @@ require DM__PATH . 'dashboard/admin.php';
 require DM__PATH . 'api/Custom_Get_Options.php';
 require DM__PATH . 'custom-block/dm-block.php';
 require DM__PATH . 'front-end/load-script.php';
+require DM__PATH . 'onboarding/activation.php';
 
 
+/**
+ * Load global library needed by the plugin
+ */
 add_action('admin_enqueue_scripts', 'admin_styles');
 function admin_styles() {
     wp_enqueue_style(
@@ -54,40 +58,3 @@ wp_enqueue_script(
     true
 );
 
-
-register_activation_hook(__FILE__, 'my_plugin_activation');
-function my_plugin_activation() {
-    $notices = get_option('my_plugin_deferred_admin_notices', array());
-    $notices[]= "My Plugin: Custom Activation Message";
-    update_option('my_plugin_deferred_admin_notices', $notices);
-}
-
-add_action('admin_init', 'my_plugin_admin_init');
-function my_plugin_admin_init() {
-    $current_version = 1;
-    $version= get_option('my_plugin_version');
-    if ($version != $current_version) {
-        // Do whatever upgrades needed here.
-        update_option('my_plugin_version', $current_version);
-        $notices= get_option('my_plugin_deferred_admin_notices', array());
-        $notices[]= "My Plugin: Upgraded version $version to $current_version.";
-        update_option('my_plugin_deferred_admin_notices', $notices);
-    }
-}
-
-add_action('admin_notices', 'my_plugin_admin_notices');
-function my_plugin_admin_notices() {
-    $notices = get_option('my_plugin_deferred_admin_notices');
-    if ($notices) {
-        foreach ($notices as $notice) {
-            echo "<div class='updated'><p>$notice</p></div>";
-        }
-        delete_option('my_plugin_deferred_admin_notices');
-    }
-}
-
-register_deactivation_hook(__FILE__, 'my_plugin_deactivation');
-function my_plugin_deactivation() {
-    delete_option('my_plugin_version');
-    delete_option('my_plugin_deferred_admin_notices');
-}

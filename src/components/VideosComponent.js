@@ -3,7 +3,7 @@ import {__} from "@wordpress/i18n"
 import {PanelBody} from "@wordpress/components"
 import {dispatch, select} from "@wordpress/data"
 import {Component} from "@wordpress/element"
-import {waitFor} from "../libs/waitFor";
+import {waitFor, sleep} from "../libs/waitFor";
 
 export default class VideosComponent extends Component {
 
@@ -43,7 +43,7 @@ export default class VideosComponent extends Component {
     getDMLoginStatus() {
         let self = this
         return new Promise( (resolve, reject) => {
-            DM.getLoginStatus(function (response) {
+            DM.getLoginStatus( response => {
                 if (response.session) {
                     resolve(true)
                 } else {
@@ -99,6 +99,8 @@ export default class VideosComponent extends Component {
         } else {
             url = 'videos'
         }
+
+        await sleep(500)
 
         return new Promise(async resolve => {
             DM.api(url, params, (videos) => {
@@ -189,8 +191,6 @@ export default class VideosComponent extends Component {
      * TODO: refactor this pagination later on YUDHI
      */
     pagination() {
-
-        console.log(this.state.videos)
 
         if (this.state.videos.page === 1 && this.state.videos.has_more === true) {
             return (

@@ -129,6 +129,9 @@ class DM_Admin {
             if (!empty($params['playlist']) && $params['playlist'] !== null)
                 $dm_ce_data += ['playlist' => $params['playlist']];
 
+            if (!empty($params['playlist_id']) && $params['playlist_id'] !== null)
+                $dm_ce_data += ['playlist_id' => $params['playlist_id']];
+
             if (!empty($params['syndication']) && $params['syndication'] !== null)
                 $dm_ce_data += ['syndication' => $params['syndication']];
 

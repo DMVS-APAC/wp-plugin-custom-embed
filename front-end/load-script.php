@@ -87,10 +87,13 @@ class Load_Scripts {
                 }
             } else if ($options_content['video_id']) {
                 $player_holder .= ' videoId="' . $options_content['video_id'] . '"';
+            } else if ($options_content['playlist_id']) {
+                $player_holder .= ' playlistId="' . $options_content['playlist_id'] . '"';
             }
 
             $player_holder .= '></div></div>';
 
+            // Put the player to the right position defined
             if (sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' ) {
                 $content = explode("</p>", $content);
 

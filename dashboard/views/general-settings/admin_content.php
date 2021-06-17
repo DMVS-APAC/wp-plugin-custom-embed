@@ -2,7 +2,7 @@
 
 ?>
 
-<form action="<?php echo get_admin_url() . 'admin.php?page=dm-ce-admin&tab=content&action=save_data'; ?>" method="post">
+<form action="<?php echo get_admin_url() . 'admin.php?page=dm-general-settings&tab=content&action=save_data'; ?>" method="post">
 
     <?php wp_nonce_field("dm_save_data", "dm_save_data", true); ?>
 
@@ -67,12 +67,21 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="playlist"><?php echo __('Playlist'); ?> <span class="detail-info">?<span class="tooltip">the script will only look for content within the specified playlist xid</span></span></label></th>
+            <th scope="row"><label for="playlist"><?php echo __('Seach in Playlist'); ?> <span class="detail-info">?<span class="tooltip">the script will only look for content within the specified playlist xid</span></span></label></th>
             <td>
                 <input name="playlist" type="text" id="playlist" class="regular-text"
                        value="<?php echo ($options['playlist']) ? $options['playlist'] : '' ?>">
             </td>
         </tr>
+
+        <tr>
+            <th scope="row"><label for="playlist-id"><?php echo __('Playlist ID'); ?> <span class="detail-info">?<span class="tooltip">Embed a manual or dynamic playlist. The video playing first will be defined according to the sorting criterion you chose upon creating the playlist in the partner HQ (newest, oldest or most viewed)</span></span></label></th>
+            <td>
+                <input name="playlist_id" type="text" id="playlist-id" class="regular-text"
+                       value="<?php echo ($options['playlist_id']) ? $options['playlist_id'] : '' ?>">
+            </td>
+        </tr>
+
 
         <tr>
             <th scope="row"><label for="syndication"><?php echo __('Syndication ID'); ?> <span class="detail-info">?<span
