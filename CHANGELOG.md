@@ -1,46 +1,43 @@
 # Changelog
 
-###[1.0.0-4] (2021-03-10)
+###[1.0.0-13] (2021-06-23)
 
 **Implemented enhancements:**
-- Test the update process
-
-###[1.0.0-3] (2021-03-10)
-
-**Implemented enhancements:**
-- Update the version
-
-### [1.0.0-2] (2021-03-10)
-
-**Implemented enhancements:**
-- Remove update checker directory from repo
-
-### [1.0.0-1] (2021-03-10)
-
-**Implemented enhancements:**
-- Update checker
-
-### [1.0.0] (2020-04-09)
-
-**Implemented enhancements:**
-- Officially using new Custom Embed library
-
-
-### [0.0.3] (2020-03-19)
+- Added playlist embed on Gutenberg
 
 **Fixed bugs:**
-- PHP function `array_key_exists()` not covering an empty array
+- Fixed cookies expires time to make user stay logged in
+- Fixed a wrong `sort` param on the front end for auto-embed
 
 
-### [0.0.2] (2020-03-16)
+###[1.0.0-12] (2021-06-17)
 
 **Implemented enhancements:**
-- Remove title below the player
+- Added playlist-id to content settings
+
+**Fixed bugs:**
+- Fixed the private content bugs
+- Fixed the activation process flow
 
 
-### [0.0.1] (2020-03-04)
+###[1.0.0-11] (2021-06-17)
 
-**Features:**
-- Custom video embed
-- WP admin page to config the embed
-- Publisher can choose video player position
+**Implemented enhancements:**
+- Login page to connect to Dailymotion account to consume private content 
+
+**Fixed bugs:**
+- Fixed the pagination on video search 
+- Fixed the position of the player on the front-end
+- Fixed the vertical thumbnail view
+
+
+###[1.0.0-10] (2021-06-10)
+
+**Implemented enhancements:**
+- Added submenu to store API Key
+- Update some details in general settings
+
+**Fixed bugs:**
+- Fixed fetch private content
+- Fixed connect to Dailymotion account
+- Fixed editing preview in Gutenberg
