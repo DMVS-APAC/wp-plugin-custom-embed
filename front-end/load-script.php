@@ -80,7 +80,9 @@ class Load_Scripts {
             if (sizeof($video_data) !== 0) {
                 $video = json_decode($video_data[0]);
 
-                if ($video->private_id) {
+                if ($video->name) {
+                    $player_holder .= ' playlistId="' . $video->id . '"';
+                } else if ($video->private_id) {
                     $player_holder .= ' privateVideoId="' . $video->private_id . '"';
                 } else {
                     $player_holder .= ' videoId="' . $video->id . '"';
