@@ -7,7 +7,7 @@ import { __ } from "@wordpress/i18n"
 import { dailymotionIcon } from "../assets/dailymotionIcon"
 
 // Components
-import Videos from "./VideosComponent"
+import FindContent from "./FindContentComponent"
 import SelectedVideo from "./SelectedVideoComponent"
 
 export default class SidebarComponent {
@@ -23,7 +23,7 @@ export default class SidebarComponent {
                             title={__('Dailymotion Sidebar Settings', 'textdomain')}
                         >
                             <SelectedVideo />
-                            <Videos />
+                            <FindContent />
                         </PluginSidebar>
                     </>
                 )

@@ -1,76 +1,29 @@
-import {fetchApi, fetchData} from "../libs/apiCall"
-import {__} from "@wordpress/i18n"
-import {PanelBody} from "@wordpress/components"
-import {dispatch, select} from "@wordpress/data"
-import {Component} from "@wordpress/element"
-import {waitFor, sleep} from "../libs/waitFor";
+import { __ } from "@wordpress/i18n"
+import { waitFor, sleep } from "../libs/waitFor"
+import { Component } from "@wordpress/element"
+import { fetchApi } from "../libs/apiCall"
+import { dispatch } from "@wordpress/data"
+import Pagination from "../libs/pagination"
 
 export default class VideosComponent extends Component {
 
     constructor(props) {
         super(props)
+
         this.state = {
             videos: {},
-            keywords: "",
             currentPage: 1,
-            globalVideo: false,
-            connectionStatus: null
+            loadingData: true
         }
 
-        this.initDm()
-
-        // This binding is necessary to make `this` work in the callback
-        this.addToPost = this.addToPost.bind(this)
-        this.findVideo = this.findVideo.bind(this)
-        this.setKeywords = this.setKeywords.bind(this)
+        this.setVideos = this.setVideos.bind(this)
         this.loadPage = this.loadPage.bind(this)
-        this.setGlobalVideo = this.setGlobalVideo.bind(this)
+        this.setLoadingData = this.setLoadingData.bind(this)
     }
 
-    async initDm() {
-        await waitFor(() => DM !== undefined, 100, 10000, "Timeout waiting for DM loaded, please refresh and make sure your internet is active")
+    async getVideo(page = 1, keywords) {
 
-        // Get api-key
-        const options = await fetchApi('/dm/v1/get-api-key')
-
-        DM.init({
-            apiKey: options.api_key,
-            status: true, // check login status
-            cookie: true // enable cookies to allow the s
-        })
-    }
-
-    getDMLoginStatus() {
-        let self = this
-        return new Promise( (resolve, reject) => {
-            DM.getLoginStatus( response => {
-                if (response.session) {
-                    resolve(true)
-                } else {
-                    resolve(false)
-                }
-            })
-        })
-    }
-
-    async componentDidMount() {
-        const videos = await this.videoList()
-        const isConnected = await this.getDMLoginStatus()
-
-        let connectionStatus
-        if (isConnected) {
-            connectionStatus = <><span className="dm--connected"></span> You're connected</>
-        } else {
-            connectionStatus = <><span className="dm--disconnected"></span> You're not connected</>
-        }
-
-        this.setState({
-            videos: videos,
-            connectionStatus: connectionStatus
-        })
-    }
-
-    async videoList(page = 1, keywords) {
+        this.setLoadingData(true)
 
         // Get custom options
         const options = await fetchApi('/dm/v1/get-custom-options/mandatory')
@@ -79,7 +32,6 @@ export default class VideosComponent extends Component {
             fields: 'id,title,thumbnail_240_url,status,private,private_id',
             limit: 10,
             flags: 'no_live,exportable,verified',
-            // longer_than: 0.35,
             page: page
         }
 
@@ -93,21 +45,41 @@ export default class VideosComponent extends Component {
         let url = ''
         if (
             typeof options.owners !== 'undefined' &&
-            options.owners !== null && this.state.globalVideo !== true
-            ) {
+            options.owners !== null && this.props.globalVideo !== true
+        ) {
             url = 'user/' + options.owners + '/videos'
         } else {
             url = 'videos'
         }
 
+        // Waiting for DM.init() to be executed first
         await sleep(500)
 
         return new Promise(async resolve => {
             DM.api(url, params, (videos) => {
+                this.setLoadingData(false)
                 resolve(videos)
             })
         }).catch(error => {
             console.log(error)
+        })
+    }
+
+    setVideos(videos) {
+        this.setState({
+            videos: videos
+        })
+    }
+
+    setCurrentPage(page = 1) {
+        this.setState({
+            currentPage: page
+        })
+    }
+
+    setLoadingData(status) {
+        this.setState({
+            loadingData: status
         })
     }
 
@@ -123,143 +95,73 @@ export default class VideosComponent extends Component {
         document.dispatchEvent(videoUpdated)
     }
 
-    async findVideo(e) {
-        e.preventDefault()
+    async componentDidMount() {
+        const videos = await this.getVideo()
 
-        const videos = await this.videoList(1, this.state.keywords)
+        this.setVideos(videos)
+    }
 
-        this.setState({
-            videos: videos,
-            currentPage: 1
-        })
+    async componentDidUpdate(prevProps) {
+
+        // Listen to keywords changes
+        if ( this.props.keywords !== prevProps.keywords ||
+             this.props.globalVideo !== prevProps.globalVideo ) {
+
+            const videos = await this.getVideo(1, this.props.keywords)
+
+            this.setCurrentPage()
+            this.setVideos(videos)
+        }
+
+    }
+
+    async loadPage(page) {
+        const videos = await this.getVideo(page, this.props.keywords)
+
+        this.setCurrentPage(page)
+        this.setVideos(videos)
     }
 
     renderVideoList() {
-        let videos = []
+        const videos = []
 
-        if (this.state.videos !== undefined && Object.entries(this.state.videos).length > 0) {
+        if (this.state.videos !== undefined && Object.entries(this.state.videos).length > 0 && this.state.videos.list.length > 0) {
             const list = this.state.videos.list
 
+            console.log(list)
             for (let i = 0; i < list.length; i++) {
                 videos.push(
-                    <li key={list[i]} className="video__item">
+                    <li key={list[i]} className={`content__item ${list[i].private ? "private" : ""} ${list[i].status === 'ready' ? "draft" : ""}`}>
                         <button onClick={() => this.addToPost(list[i])}>
-                            <figure className="video__image-wrapper">
-                                <div className="video__placement">
-                                    <img src={list[i].thumbnail_240_url} alt={list[i].title} className="video__thumbnail"/>
+                            <figure className="content__image-wrapper">
+                                <div className="content__placement">
+                                    <img src={list[i].thumbnail_240_url} alt={list[i].title} className="content__thumbnail"/>
                                 </div>
                             </figure>
-                            <span className="video__title">{list[i].title}</span>
+                            <span className="content__title">{list[i].title}</span>
                         </button>
                     </li>
                 )
             }
 
         } else {
-            videos.push(
-                <li>No video found…</li>
-            )
+            return <li>No video found…</li>
         }
 
         return videos
     }
 
-    setKeywords(e) {
-        this.setState({
-            keywords: e.target.value
-        })
-    }
-
-    setGlobalVideo(e) {
-        this.setState({
-            globalVideo: (e.target.checked === true)
-        })
-    }
-
-    async loadPage(page) {
-        const videos = await this.videoList(page, this.state.keywords)
-
-        this.setState({
-            currentPage: page,
-            videos: videos
-        })
-    }
-
-    /**
-     * Pagination module to show on dailymotion sidebar
-     *
-     * TODO: refactor this pagination later on YUDHI
-     */
-    pagination() {
-
-        if (this.state.videos.page === 1 && this.state.videos.has_more === true) {
-            return (
-                <>
-                    <button type="button" className="components-button button action dm__next-button"
-                            onClick={() => this.loadPage(this.state.currentPage + 1)}>Next
-                    </button>
-                </>
-            )
-        }
-
-        if (this.state.videos.has_more === false && this.state.videos.page !== 1) {
-            return (
-                <>
-                    <button type="button" className="components-button button action dm__prev-button"
-                            onClick={() => this.loadPage(this.state.currentPage - 1)}>Previous
-                    </button>
-                </>
-            )
-        }
-
-        if (Object.entries(this.state.videos).length === 0 || this.state.videos.total === 0 || this.state.videos.has_more === false) {
-            return
-        }
+    render() {
 
         return (
             <>
-                <button type="button" className="components-button button action dm__prev-button"
-                        onClick={() => this.loadPage(this.state.currentPage - 1)}>Previous
-                </button>
-                <button type="button" className="components-button button action dm__next-button"
-                        onClick={() => this.loadPage(this.state.currentPage + 1)}>Next
-                </button>
+                <ul className="dm__search-results">
+                    { this.state.loadingData ? <li>{__('loading video…', 'textdomain')}</li> : this.renderVideoList() }
+                </ul>
+
+                <Pagination currentPage={this.state.currentPage} callback={this.loadPage} contentData={this.state.videos} />
             </>
         )
     }
 
-    render() {
-        return (
-            <PanelBody>
-                <p>{ this.state.connectionStatus }</p>
-                <div className="dm__video-list">
-                    <form onSubmit={this.findVideo}>
-                        <label htmlFor="keywords">{__("Find a video", "textdomain")}</label>
-                        <input id="keywords"
-                               onChange={this.setKeywords}
-                               type="text"
-                               name="keywords"
-                               className="dm__keywords-input"
-                        />
-                        <button type="submit" className="action button">Find</button>
-                    </form>
-
-                    <label htmlFor="global-video">
-                        <input type="checkbox"
-                               id="global-video"
-                               onChange={this.setGlobalVideo}
-                               name="globalVideo"
-                               value="1"
-                        /> Find global video
-                    </label>
-
-                    <ul className="dm__video-results">
-                        {this.renderVideoList()}
-                    </ul>
-
-                    {this.pagination()}
-                </div>
-            </PanelBody>
-        )
-    }
 }

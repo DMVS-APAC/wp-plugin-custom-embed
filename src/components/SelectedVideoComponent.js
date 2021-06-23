@@ -11,7 +11,7 @@ export default class SelectedVideoComponent extends Component {
     /**
      * Default valur for video data
      *
-     * @type {{thumbnail_240_url: string, id: string, title: string}}
+     * @type {{thumbnail_240_url: string, id: string, title?: string, name?: string}}
      */
     #videoDefault = {
         title: '',
@@ -27,7 +27,7 @@ export default class SelectedVideoComponent extends Component {
         }
 
         // Bind `this` to the method
-        this.getVideo = this.getVideo.bind(this)
+        this.getContent = this.getContent.bind(this)
         this.showImage = this.showImage.bind(this)
 
         this.subscribes()
@@ -42,7 +42,7 @@ export default class SelectedVideoComponent extends Component {
      *
      * @returns {{thumbnail_240_url: string, id: string, title: string}}
      */
-    getVideo() {
+    getContent() {
         return select('core/editor').getEditedPostAttribute('meta')['_dm_video_data']
     }
 
@@ -50,7 +50,7 @@ export default class SelectedVideoComponent extends Component {
      * Set video data to the local state
      */
     setVideo() {
-        const video = this.getVideo()
+        const video = this.getContent()
 
         this.setState({
             videoData: ( video === "" ) ? this.#videoDefault : JSON.parse(video),
@@ -67,16 +67,24 @@ export default class SelectedVideoComponent extends Component {
     }
 
     showImage() {
-        if (this.state.videoData.title !== '') {
+        if (this.state.videoData.title !== '' || this.state.videoData.name !== '') {
            return (
                <>
                    <h3>Selected video</h3>
-                   <figure className="video__image-wrapper">
-                       <div className="video__placement">
-                           <img src={this.state.videoData.thumbnail_240_url} alt={this.state.videoData.title} className="video__thumbnail" />
+                   <figure className="content__image-wrapper">
+                       <div className="content__placement">
+                           <img src={this.state.videoData.thumbnail_240_url} alt={
+                               this.state.videoData.title ?
+                                this.state.videoData.title :
+                                this.state.videoData.name
+                           } className="content__thumbnail" />
                        </div>
                    </figure>
-                   <span class="video__title">{this.state.videoData.title}</span>
+                   <span class="content__title">{
+                       this.state.videoData.title ?
+                           this.state.videoData.title :
+                           this.state.videoData.name
+                   }</span>
                </>
            )
         }

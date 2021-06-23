@@ -46,7 +46,7 @@ class Load_Scripts {
 
             // Mandatory options
             if ($options_mandatory['owners']) $player_holder .= ' owners="' . $options_mandatory['owners'] . '"';
-            if ($options_mandatory['sort']) $player_holder .= ' sort="' . $options_mandatory['sort'] . '"';
+            if ($options_mandatory['sort_by']) $player_holder .= ' sort="' . $options_mandatory['sort_by'] . '"';
 
             // Content options
             if ($options_content['category']) $player_holder .= ' category="' . $options_content['category'] . '"';
@@ -80,7 +80,9 @@ class Load_Scripts {
             if (sizeof($video_data) !== 0) {
                 $video = json_decode($video_data[0]);
 
-                if ($video->private_id) {
+                if ($video->name) {
+                    $player_holder .= ' playlistId="' . $video->id . '"';
+                } else if ($video->private_id) {
                     $player_holder .= ' privateVideoId="' . $video->private_id . '"';
                 } else {
                     $player_holder .= ' videoId="' . $video->id . '"';
