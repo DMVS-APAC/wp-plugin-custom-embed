@@ -1,6 +1,7 @@
 // Support server-side fetch for tests.
 import apiFetch from "@wordpress/api-fetch"
 
+// This is for test purposes
 let fetch = (typeof window === 'undefined') ? require('node-fetch') : window.fetch
 
 /**

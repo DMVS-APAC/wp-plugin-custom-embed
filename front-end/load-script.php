@@ -46,7 +46,7 @@ class Load_Scripts {
 
             // Mandatory options
             if ($options_mandatory['owners']) $player_holder .= ' owners="' . $options_mandatory['owners'] . '"';
-            if ($options_mandatory['sort']) $player_holder .= ' sort="' . $options_mandatory['sort'] . '"';
+            if ($options_mandatory['sort_by']) $player_holder .= ' sort="' . $options_mandatory['sort_by'] . '"';
 
             // Content options
             if ($options_content['category']) $player_holder .= ' category="' . $options_content['category'] . '"';

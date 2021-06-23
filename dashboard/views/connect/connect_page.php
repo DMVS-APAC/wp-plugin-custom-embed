@@ -36,12 +36,31 @@
         </template>
 
         <script type="text/javascript">
-            let apiKey = "<?php echo $options['api_key'] ?>";
-            let redirectUri = "<?php echo get_dashboard_url(); ?>/admin.php?page=dm-connect";
+            let apiKey = "<?php echo $options['api_key']; ?>"
+            let apiSecret = "<?php echo $options['api_secret']; ?>"
+            let redirectUri = "<?php echo get_dashboard_url(); ?>/admin.php?page=dm-connect"
+
+
 
             window.dmAsyncInit = function () {
+                DM._oauth.tokenUrl = 'https://api.dailymotion.com/oauth/token'
+                DM.Auth.isSessionExpired = (session, sessionLoadingMethod) => {
+                    if (typeof(session) === 'undefined') {
+                        session = DM._session;
+                    }
+                    if (!session) {
+                        return true;
+                    }
+                    if (session && 'expires_in' in session && new Date().getTime() < parseInt(session.expires_in, 10) * 1000) {
+                        return false;
+                    }
+                    delete session.expires_in;
+                    return true;
+                }
+
                 DM.init({
                     apiKey: apiKey,
+                    apiSecret: apiSecret,
                     status: true,
                     cookie: true
                 })
@@ -49,21 +68,31 @@
                 DM.Event.subscribe('auth.sessionChange', res => {
                     // To keep user logged in in 15 days
                     if (res?.status === "connected") {
-                        longSession = res.session;
+                        let longSession = res.session;
+
+                        if(!("expires_in" in res.session)) {
+                            longSession.expires_in = longSession.expires;
+                        }
+
                         longSession.expires = longSession.expires + (3600 * 24 * 28);
                         DM.Cookie.set(longSession);
                     }
                 })
 
                 DM.getLoginStatus(function (response) {
+                    console.log(response)
                     if (response.session) {
                         DM.api('/me', {
                             fields: ['id', 'screenname', 'avatar_120_url']
                         }, userInfo => {
-                            showLogout(userInfo)
+                            if (userInfo.error) {
+                                DM.Cookie.clear()
+                                showLogin()
+                            } else {
+                                showLogout(userInfo)
+                            }
                         })
                     } else {
-                        // showLogin()
                         loginWithCode()
                     }
                 })

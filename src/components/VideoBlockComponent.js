@@ -110,7 +110,8 @@ export default class VideoBlockComponent extends Component {
         if (video !== null) {
             this.setState({
                 videoId: (video.private !== true) ? video.id : null,
-                privateVideoId: (video.private === true) ? video.private_id : null
+                privateVideoId: (video.private === true) ? video.private_id : null,
+                playlistId: (video.name !== undefined) ? video.id : null
             })
 
             // Rerender the video player placeholder
@@ -136,6 +137,10 @@ export default class VideoBlockComponent extends Component {
     }
 
     generateVideoContainer(attrs) {
+
+        if (this.state.playlistId !== null) {
+            return <div className="dm-player" playlistId={this.state.playlistId} playerId="x1ozy" {...attrs} />
+        }
 
         if (this.state.privateVideoId !== null) {
             return <div className="dm-player" privateVideoId={ this.state.privateVideoId } playerId="x1ozy" {...attrs} />

@@ -1,6 +1,6 @@
 {
   "name": "wp-dm-custom-embed",
-  "version": "1.0.0-11",
+  "version": "1.0.0-13",
   "description": "This is a plugin for WordPress to embed video from Dailymotion.",
   "main": "index.js",
   "scripts": {
