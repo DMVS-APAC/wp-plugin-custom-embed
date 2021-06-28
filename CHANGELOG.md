@@ -1,5 +1,16 @@
 # Changelog
 
+###[1.0.0-14] (2021-06-28)
+
+**Implemented enhancements:**
+- Changed some infos on general settings
+
+**Fixed bugs:**
+- Fixed the video when there is no player on the blocks list
+- Avoid the error when data is empty or errors
+- Get first owner if there are more than one owner to avoid error
+
+
 ###[1.0.0-13] (2021-06-23)
 
 **Implemented enhancements:**

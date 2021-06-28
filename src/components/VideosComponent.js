@@ -47,7 +47,9 @@ export default class VideosComponent extends Component {
             typeof options.owners !== 'undefined' &&
             options.owners !== null && this.props.globalVideo !== true
         ) {
-            url = 'user/' + options.owners + '/videos'
+            const owner = options.owners.split(',')
+
+            url = 'user/' + owner[0] + '/videos'
         } else {
             url = 'videos'
         }
@@ -125,10 +127,13 @@ export default class VideosComponent extends Component {
     renderVideoList() {
         const videos = []
 
+        if (this.state.videos.error !== undefined) {
+            return <li>API errors, please check your settings…</li>
+        }
+
         if (this.state.videos !== undefined && Object.entries(this.state.videos).length > 0 && this.state.videos.list.length > 0) {
             const list = this.state.videos.list
 
-            console.log(list)
             for (let i = 0; i < list.length; i++) {
                 videos.push(
                     <li key={list[i]} className={`content__item ${list[i].private ? "private" : ""} ${list[i].status === 'ready' ? "draft" : ""}`}>

@@ -24,7 +24,6 @@ class Load_Scripts {
     public function load_script() {
         if ( is_single() ) {
             wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), '2.0.0-14', 'true');
-//            wp_enqueue_script('dm-ce', 'https://dm-ce-2.test/dm-ce.js', array(), '2.0.0-beta-14', true);
         }
     }
 
@@ -77,7 +76,7 @@ class Load_Scripts {
             $player_pos = get_post_meta($post_id, '_dm_player_position');
 
             // If video data is not empty, it will load video from database
-            if (sizeof($video_data) !== 0) {
+            if (sizeof($video_data) !== 0 && sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' ) {
                 $video = json_decode($video_data[0]);
 
                 if ($video->name) {

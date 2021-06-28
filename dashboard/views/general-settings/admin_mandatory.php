@@ -14,7 +14,7 @@
         <tbody>
 
         <tr>
-            <th scope="row"><label for="player-id"><?php echo __('Player ID'); ?> <span class="detail-info">?<span class="tooltip">You can get PLAYER ID from <a href="https://www.dailymotion.com/partner/x1wzpns/embed/players" target="_blank">Dailymotion partner HQ</a> in the player tab, inside the embed menu.</span></span></label></th>
+            <th scope="row"><label for="player-id"><?php echo __('Player ID'); ?> <span class="detail-info">?<span class="tooltip">You can get PLAYER ID from <a href="https://www.dailymotion.com/partner/embed/players" target="_blank">Dailymotion partner HQ</a> in the player tab, inside the embed menu.</span></span></label></th>
             <td>
                 <input name="player_id" type="text" id="player-id" class="regular-text"
                        value="<?php echo (!empty($options)) ? $options['player_id'] : '' ?>">
@@ -22,17 +22,18 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="channel-name"><?php echo __('Channel Name'); ?> <span class="detail-info">?<span class="tooltip">One or several owner usernames as defined on the official dailymotion chhannel URL slug (anything after www.dailymotion.com/xyz). This is case sensitive so pay attention to caps and special characters. If you pick several values, separate them with a ","</span></span></label></th>
+            <th scope="row"><label for="channel-name"><?php echo __('Channel Name'); ?> <span class="detail-info">?<span class="tooltip">One or several channel usernames (www.dailymotion.com/<strong>yourchannelusername</strong>). This is case sensitive so pay attention to caps and special characters. If you pick several values, separate them with a ",".</span></span></label></th>
             <td>
                 <input name="channel_name" type="text" id="channel-name" class="regular-text"
                        value="<?php echo (!empty($options)) ? $options['owners'] : '' ?>">
                 <p class="description" id="channel-description">If more than 1 channel, separate with comma. E.g.
-                    "channelname1,channelname2"</p>
+                    "channelname1,channelname2".</p>
+                <p class="description">Some channels may set video embed domain restrictions, always play the embedded video once before publishing your post to see if your website is allowed to embed it.</p>
             </td>
         </tr>
 
         <tr>
-            <th scope="row"><label for="sort-by"><?php echo __('Sort by'); ?> <span class="detail-info">?<span class="tooltip">This will rank the results from the script by the preferred sorting method. Pick relevance for contextual embed for instance</span></span></label></th>
+            <th scope="row"><label for="sort-by"><?php echo __('Sort by'); ?> <span class="detail-info">?<span class="tooltip">This will rank the video search results by the preferred sorting method. Pick <strong>relevance</strong> for contextual embed or <strong>recent</strong> to get the latest video for instance.</span></span></label></th>
             <td>
                 <select name="sort_by" type="text" id="sort-by" class="regular-text" required>
                     <option value="least-visited" <?php echo ($options['sort_by'] == 'least-visited') ? 'selected' : ''; ?>><?php echo __('Least Visited'); ?></option>

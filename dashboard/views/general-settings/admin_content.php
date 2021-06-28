@@ -10,7 +10,7 @@
 
         <tbody>
         <tr>
-            <th scope="row"><label for="category"><?php echo __('Category'); ?> <span class="detail-info">?<span class="tooltip"><a href="https://www.dailymotion.com/dmrss#MRSSImporterSpecifications-DailymotionCategories">https://www.dailymotion.com/dmrss#MRSSImporterSpecifications-DailymotionCategories</a></span></span></label></th>
+            <th scope="row"><label for="category"><?php echo __('Category'); ?> <span class="detail-info">?<span class="tooltip">The Dailymotion video categories available. You can limit results to the videos belonging to a specific category.</span></span></label></th>
             <td>
                 <select name="category" type="text" id="category" class="regular-text">
                     <option value="" <?php echo (empty($options['category'])) ? 'selected' : ''; ?>>--</option>
@@ -67,7 +67,7 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="playlist"><?php echo __('Seach in Playlist'); ?> <span class="detail-info">?<span class="tooltip">the script will only look for content within the specified playlist xid</span></span></label></th>
+            <th scope="row"><label for="playlist"><?php echo __('Search in Playlist'); ?> <span class="detail-info">?<span class="tooltip">the script will only look for content within the specified playlist xid</span></span></label></th>
             <td>
                 <input name="playlist" type="text" id="playlist" class="regular-text"
                        value="<?php echo ($options['playlist']) ? $options['playlist'] : '' ?>">
@@ -85,11 +85,10 @@
 
         <tr>
             <th scope="row"><label for="syndication"><?php echo __('Syndication ID'); ?> <span class="detail-info">?<span
-                                class="tooltip">Six digits syndication key</span></span></label></th>
+                                class="tooltip">Six digits syndication key <a href="https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter">https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter</a></span></span></label></th>
             <td>
                 <input name="syndication" type="text" id="syndication" class="regular-text"
                        value="<?php echo (!empty($options['syndication'])) ? $options['syndication'] : ''; ?>">
-                <p class="description" id="syndication">Optional</p>
             </td>
         </tr>
 
@@ -120,7 +119,7 @@
 <!--        </tr>-->
 
         <tr>
-            <th scope="row"><label for="language"><?php echo __('Language'); ?> <span class="detail-info">?<span class="tooltip">Specify if you want the content ecommendaiton to pick a video in the set language. This is based on ISO-3166 alpha-2 codes <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2</a></span></span></label></th>
+            <th scope="row"><label for="language"><?php echo __('Language'); ?> <span class="detail-info">?<span class="tooltip">Specify if you want language based content recommendation. This follows ISO-3166 alpha-2 codes <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2</a></span></span></label></th>
             <td>
                 <input name="language" type="text" id="language" class="regular-text"
                        value="<?php echo (!empty($options['language'])) ? $options['language'] : ''; ?>">
