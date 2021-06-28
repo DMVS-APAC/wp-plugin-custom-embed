@@ -24,7 +24,7 @@
         </tr> -->
 
         <tr>
-            <th scope="row"><label for="ads-params"><?php echo __('Ads Params'); ?> <span class="detail-info">?<span class="tooltip">To add custom ad prameters</span></span></label></th>
+            <th scope="row"><label for="ads-params"><?php echo __('Ads Parameters'); ?> <span class="detail-info">?<span class="tooltip"><a href="https://developer.dailymotion.com/data-api/customize-ad-tracking-ads-params-parameter/">https://developer.dailymotion.com/data-api/customize-ad-tracking-ads-params-parameter/</a></span></span></label></th>
             <td>
                 <input name="ads_params" type="text" id="ads-params" class="regular-text"
                        value="<?php echo ($options['ads_params']) ? $options['ads_params'] : '' ?>">
@@ -32,7 +32,7 @@
         </tr>
 
         <tr>
-            <th scope="row"><label for="pre-video-title"><?php echo __('Pre video title'); ?><span class="detail-info">?<span class="tooltip">A custom section title above the video player embed.</span></span></label></th>
+            <th scope="row"><label for="pre-video-title"><?php echo __('Pre video title'); ?> <span class="detail-info">?<span class="tooltip">A custom section title above the video player embed.</span></span></label></th>
             <td>
                 <input name="pre_video_title" type="text" id="pre-video-title" class="regular-text"
                        value="<?php echo ($options['pre_video_title']) ? $options['pre_video_title'] : '' ?>">
@@ -41,7 +41,7 @@
         </tr>
 
         <tr>
-            <th scope="row"><?php echo __('Show Video Title'); ?><span class="detail-info">?<span class="tooltip">Decide if you want to show video title or not, select if you need to show video title.</span></span></th>
+            <th scope="row"><?php echo __('Show Video Title'); ?> <span class="detail-info">?<span class="tooltip">Decide if you want to show the video title below the video. This is not compatible with the Info Card option.</span></span></th>
             <td>
                 <fieldset>
                     <legend class="screen-reader-text"><span><?php echo __('Show video title'); ?></span></legend>
@@ -67,7 +67,7 @@
         </tr>
 
         <tr>
-            <th scope="row"><?php echo __('Show Carousel Playlist'); ?> <span class="detail-info">?<span class="tooltip">this feature will deactivate the queue in the right part opf the player and instead display a widget at the bottom of the player with video recommendations outside the main frame</span></span></th>
+            <th scope="row"><?php echo __('Show Carousel Playlist'); ?> <span class="detail-info">?<span class="tooltip">this feature will deactivate the queue within the player and instead display video recommendations outside the main frame (on the right or below the player)</span></span></th>
             <td>
                 <fieldset>
                     <legend class="screen-reader-text"><span><?php echo __('Show carousel playlist'); ?></span></legend>
