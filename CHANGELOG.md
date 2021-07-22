@@ -1,10 +1,15 @@
 # Changelog
 
-###[1.0.0-15] ()
+###[1.0.0-16] (2021-07-22)
 
 **Implemented enhancements:**
-- Allow Super Admin, Administrator, Editor, Author, and Contributor to access Dailymotion settings
+- Giving the access properly to Administrator, Editor, Author, and Subscriber
+- Change the searching flow for manual embed
+- Now as long as user logged in, they can choose which player id they want to use
 
+###[1.0.0-15]
+
+We skip this version for development flow
 
 ###[1.0.0-14] (2021-06-28)
 
