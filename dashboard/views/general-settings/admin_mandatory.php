@@ -16,21 +16,12 @@
         <tr>
             <th scope="row"><label for="player-id"><?php echo __('Player ID'); ?> <span class="detail-info">?<span class="tooltip">You can get PLAYER ID from <a href="https://www.dailymotion.com/partner/embed/players" target="_blank">Dailymotion partner HQ</a> in the player tab, inside the embed menu.</span></span></label></th>
             <td>
-                <input name="player_id" type="text" id="player-id" class="regular-text"
-                       value="<?php echo (!empty($options)) ? $options['player_id'] : '' ?>">
+                <select name="player_id" id="player-id" class="regular-text">
+                    <option value="">--</option>
+                </select>
             </td>
         </tr>
 
-        <tr>
-            <th scope="row"><label for="channel-name"><?php echo __('Channel Name'); ?> <span class="detail-info">?<span class="tooltip">One or several channel usernames (www.dailymotion.com/<strong>yourchannelusername</strong>). This is case sensitive so pay attention to caps and special characters. If you pick several values, separate them with a ",".</span></span></label></th>
-            <td>
-                <input name="channel_name" type="text" id="channel-name" class="regular-text"
-                       value="<?php echo (!empty($options)) ? $options['owners'] : '' ?>">
-                <p class="description" id="channel-description">If more than 1 channel, separate with comma. E.g.
-                    "channelname1,channelname2".</p>
-                <p class="description">Some channels may set video embed domain restrictions, always play the embedded video once before publishing your post to see if your website is allowed to embed it.</p>
-            </td>
-        </tr>
 
         <tr>
             <th scope="row"><label for="sort-by"><?php echo __('Sort by'); ?> <span class="detail-info">?<span class="tooltip">This will rank the video search results by the preferred sorting method. Pick <strong>relevance</strong> for contextual embed or <strong>recent</strong> to get the latest video for instance.</span></span></label></th>
@@ -59,4 +50,84 @@
     <p class="submit">
         <input type="submit" name="submit" id="submit" class="button button-primary" value="Save">
     </p>
+
+    <script type="text/javascript">
+        const apiKey = "<?php echo $credentials['api_key']; ?>"
+        const apiSecret = "<?php echo $credentials['api_secret']; ?>"
+        const playerId = "<?php echo $options['player_id']; ?>"
+
+        window.addEventListener('load', (e) => {
+            DM._oauth.tokenUrl = 'https://api.dailymotion.com/oauth/token'
+            DM.Auth.isSessionExpired = (session, sessionLoadingMethod) => {
+                if (typeof(session) === 'undefined') {
+                    session = DM._session
+                }
+                if (!session) {
+                    return true
+                }
+                if (session && 'expires_in' in session && new Date().getTime() < parseInt(session.expires_in, 10) * 1000) {
+                    return false
+                }
+                delete session.expires_in
+                return true
+            }
+
+            DM.init({
+                apiKey: apiKey,
+                apiSecret: apiSecret,
+                status: true,
+                cookie: true
+            })
+
+            DM.Event.subscribe('auth.sessionChange', res => {
+                // To keep user logged in in 30 days
+                if (res?.status === "connected") {
+                    let longSession = res.session
+
+                    if(!("expires_in" in res.session)) {
+                        longSession.expires_in = longSession.expires
+                    }
+
+                    longSession.expires = longSession.expires + (3600 * 24 * 28)
+                    DM.Cookie.set(longSession)
+                }
+            })
+
+
+            DM.getLoginStatus( response => {
+                const playerIdSelector = document.querySelector('#player-id')
+
+                if (response.session) {
+                    DM.api('/user/<?php echo $dmUser; ?>/players', {
+                        fields: ['id', 'label']
+                    }, players => {
+
+                        if (Object.entries(players.list).length !== 0) {
+
+                            for (let i = 0; i < players.list.length; i++) {
+                                const option = document.createElement('option')
+                                option.innerText = players.list[i].id + ' - ' + players.list[i].label
+                                option.setAttribute('value', players.list[i].id)
+
+                                if ( players.list[i].id === playerId) {
+                                    option.setAttribute('selected', 'true')
+                                }
+
+                                playerIdSelector.appendChild(option)
+                            }
+                        }
+
+                    })
+                } else if (playerId) {
+                    console.log(playerId)
+                    const option = document.createElement('option')
+                    option.innerText = playerId
+                    option.setAttribute('selected', 'true')
+
+                    playerIdSelector.appendChild(option)
+                    playerIdSelector.setAttribute('disabled', 'true')
+                }
+            })
+        })
+    </script>
 </form>

@@ -2,7 +2,7 @@
 /**
  * Page to connect to dailymotion account
  *
- * Some styles is using WordPress style
+ * Some styles is using WordPress default style
  *
  */
 ?>
@@ -16,11 +16,12 @@
     <hr class="wp-header-end">
 
     <!-- the container -->
-    <div id="main-content">
+    <div id="main-content" class="dm__box-wrapper  dm--text-center  dm--first-child-bold">
         <?php if ( empty($options['api_key']) ): ?>
             <p>You must store your API key <a href="<?php echo get_dashboard_url(); ?>/admin.php?page=dm-credentials">here</a></p>
         <?php endif; ?>
     </div>
+
 
     <?php if ( !empty($options['api_key']) ): ?>
         <template id="login">
@@ -36,26 +37,26 @@
         </template>
 
         <script type="text/javascript">
-            let apiKey = "<?php echo $options['api_key']; ?>"
-            let apiSecret = "<?php echo $options['api_secret']; ?>"
-            let redirectUri = "<?php echo get_dashboard_url(); ?>/admin.php?page=dm-connect"
-
-
+            const apiKey = "<?php echo $options['api_key']; ?>"
+            const apiSecret = "<?php echo $options['api_secret']; ?>"
+            const redirectUri = "<?php echo get_dashboard_url(); ?>/admin.php?page=dm-connect"
+            const apiUrl = "<?php echo rest_url(); ?>"
+            const wpNonce = "<?php echo wp_create_nonce('wp_rest'); ?>"
 
             window.dmAsyncInit = function () {
                 DM._oauth.tokenUrl = 'https://api.dailymotion.com/oauth/token'
                 DM.Auth.isSessionExpired = (session, sessionLoadingMethod) => {
                     if (typeof(session) === 'undefined') {
-                        session = DM._session;
+                        session = DM._session
                     }
                     if (!session) {
-                        return true;
+                        return true
                     }
                     if (session && 'expires_in' in session && new Date().getTime() < parseInt(session.expires_in, 10) * 1000) {
-                        return false;
+                        return false
                     }
-                    delete session.expires_in;
-                    return true;
+                    delete session.expires_in
+                    return true
                 }
 
                 DM.init({
@@ -66,24 +67,23 @@
                 })
 
                 DM.Event.subscribe('auth.sessionChange', res => {
-                    // To keep user logged in in 15 days
+                    // To keep user logged in in 30 days
                     if (res?.status === "connected") {
-                        let longSession = res.session;
+                        let longSession = res.session
 
                         if(!("expires_in" in res.session)) {
-                            longSession.expires_in = longSession.expires;
+                            longSession.expires_in = longSession.expires
                         }
 
-                        longSession.expires = longSession.expires + (3600 * 24 * 28);
-                        DM.Cookie.set(longSession);
+                        longSession.expires = longSession.expires + (3600 * 24 * 28)
+                        DM.Cookie.set(longSession)
                     }
                 })
 
                 DM.getLoginStatus(function (response) {
-                    console.log(response)
                     if (response.session) {
                         DM.api('/me', {
-                            fields: ['id', 'screenname', 'avatar_120_url']
+                            fields: ['id', 'screenname', 'avatar_120_url', 'username']
                         }, userInfo => {
                             if (userInfo.error) {
                                 DM.Cookie.clear()
@@ -143,14 +143,33 @@
                 DM.login(res => {
                     if (res.session) {
                         DM.api('/me', {
-                            fields: ['id', 'screenname', 'avatar_120_url']
+                            fields: ['id', 'screenname', 'avatar_120_url', 'username']
                         }, userInfo => {
+                            // Save the DM user logged in
+                            fetch( apiUrl + 'dm/v1/userinfo', {
+                                method: 'POST',
+                                credentials: 'same-origin',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-WP-Nonce': wpNonce
+                                },
+                                body: JSON.stringify(userInfo.username)
+                            })
+                            .then( res => res.json())
+                            .then( data => {
+                                // nothing to do on this section
+                                // console.log(data) // for debugging
+                            })
+                            .catch( err => {
+                                // console.log(err)
+                            })
+
                             showLogout(userInfo)
                         })
                     }
 
                 }, {
-                    scope: ['userinfo', 'manage_videos', 'manage_player'],
+                    scope: ['userinfo', 'manage_videos', 'manage_players'],
                     response_type: 'code',
                     display: 'popup',
                     redirect_uri: redirectUri,
@@ -206,17 +225,16 @@
                             }
 
                             if (DM.type(response) != 'object') {
-                                response = globalError;
-                                DM.error('Cannot parse call response data ' + xhr.responseText);
+                                response = globalError
+                                DM.error('Cannot parse call response data ' + xhr.responseText)
                             }
                             if (xhr.status && xhr.status !== 200) {
-                                response = globalError;
+                                response = globalError
                             }
 
-                            var newSession = response.access_token ? response : null;
-                            newSession.state = state;
-                            window.location.replace(redirectUri + "#" + DM.QS.encode(newSession));
-                            // console.log(newSession)
+                            var newSession = response.access_token ? response : null
+                            newSession.state = state
+                            window.location.replace(redirectUri + "#" + DM.QS.encode(newSession))
                         }
                     };
                 }

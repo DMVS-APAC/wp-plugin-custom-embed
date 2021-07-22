@@ -25,8 +25,8 @@ export default class VideosComponent extends Component {
 
         this.setLoadingData(true)
 
-        // Get custom options
-        const options = await fetchApi('/dm/v1/get-custom-options/mandatory')
+        const dmUser = await fetchApi('/dm/v1/userinfo')
+        const content = await fetchApi('/dm/v1/get-custom-options/content')
 
         const params = {
             fields: 'id,title,thumbnail_240_url,status,private,private_id',
@@ -35,19 +35,21 @@ export default class VideosComponent extends Component {
             page: page
         }
 
-        if ( options.sort_by !== null && keywords) {
-            params.sort = options.sort_by
+        if (keywords) {
+            params.sort = 'relevance'
             params.search = keywords
         } else {
             params.sort = 'recent'
         }
 
         let url = ''
-        if (
-            typeof options.owners !== 'undefined' &&
-            options.owners !== null && this.props.globalVideo !== true
-        ) {
-            const owner = options.owners.split(',')
+
+        const isOwners = typeof content.owners !== 'undefined'
+
+        if (dmUser !== false && this.props.globalVideo !== true && !isOwners) {
+            url = 'user/' + dmUser + '/videos'
+        } else if (isOwners) {
+            const owner = content.owners.split(',')
 
             url = 'user/' + owner[0] + '/videos'
         } else {
@@ -59,6 +61,7 @@ export default class VideosComponent extends Component {
 
         return new Promise(async resolve => {
             DM.api(url, params, (videos) => {
+                console.log(videos)
                 this.setLoadingData(false)
                 resolve(videos)
             })
@@ -128,7 +131,7 @@ export default class VideosComponent extends Component {
         const videos = []
 
         if (this.state.videos.error !== undefined) {
-            return <li>API errors, please check your settings…</li>
+            return <li className="dm__show-message">API errors, please check your settings…</li>
         }
 
         if (this.state.videos !== undefined && Object.entries(this.state.videos).length > 0 && this.state.videos.list.length > 0) {
