@@ -33,7 +33,7 @@ $update_checker = Puc_v4_Factory::buildUpdateChecker(
 );
 
 // TODO: test this first
-if (DM_BETA === true) {
+if (defined( 'DM_BETA' ) && DM_BETA === true) {
     $update_checker->setBranch('beta');
 } else {
     $update_checker->getVcsApi()->enableReleaseAssets();
