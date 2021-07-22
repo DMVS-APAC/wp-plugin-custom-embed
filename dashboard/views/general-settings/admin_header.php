@@ -6,7 +6,7 @@
  */
 ?>
 <h1 class="wp-heading-inline">
-    <?php echo __('Dailymotion HQ'); ?>
+    <?php echo __('Dailymotion Custom Embed Settings'); ?>
 </h1>
 
 <hr class="wp-header-end">

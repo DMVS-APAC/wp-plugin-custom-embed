@@ -37,26 +37,23 @@ export default class PlaylistComponent extends Component {
 
         this.setLoadingData(true)
 
-        // Get custom options
-        const options = await fetchApi('/dm/v1/get-custom-options/mandatory')
+        const dmUser = await fetchApi('/dm/v1/userinfo')
 
         const url = '/playlists'
         const params = {
             limit: 10,
             fields: 'id,name,thumbnail_240_url,private',
             page: page,
-            sort: 'relevance'
+            sort: 'relevance',
+            flags: 'verified',
         }
 
         if (keywords) {
             params.search = keywords
         }
 
-        if (
-            typeof options.owners !== 'undefined' &&
-            options.owners !== null && this.props.globalVideo !== true
-        ) {
-            params.owner = options.owners
+        if ( dmUser !== false && this.props.globalVideo !== true ) {
+            params.owner = dmUser
         }
 
         return new Promise( resolve => {
@@ -64,6 +61,8 @@ export default class PlaylistComponent extends Component {
                 this.setLoadingData(false)
                 resolve(playlists)
             })
+        }).catch( err => {
+            console.log(err)
         })
     }
 
@@ -115,7 +114,9 @@ export default class PlaylistComponent extends Component {
     renderPlaylists() {
         const playlists = []
 
-        console.log(this.state.playlists)
+        if (this.state.playlists.error !== undefined) {
+            return <li className="dm__show-message">API errors, to search playlist you must login first…</li>
+        }
 
         if (this.state.playlists !== undefined && Object.entries(this.state.playlists).length > 0 && this.state.playlists.list.length > 0) {
             const list = this.state.playlists.list

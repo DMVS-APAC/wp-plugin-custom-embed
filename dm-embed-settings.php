@@ -26,11 +26,18 @@ define( 'DM__PATH', plugin_dir_path( DM__FILE__ ) );
 /**
  * Plugin update checker to let user know if there is a new update available
  */
-$my_update_checker = Puc_v4_Factory::buildUpdateChecker(
+$update_checker = Puc_v4_Factory::buildUpdateChecker(
     'https://github.com/DMVS-APAC/wp-plugin-custom-embed/',
     DM__FILE__,
     'dm-embed-settings'
 );
+
+// TODO: test this first
+if (DM_BETA === true) {
+    $update_checker->setBranch('beta');
+} else {
+    $update_checker->getVcsApi()->enableReleaseAssets();
+}
 
 require DM__PATH . 'dashboard/admin.php';
 require DM__PATH . 'api/Custom_Get_Options.php';

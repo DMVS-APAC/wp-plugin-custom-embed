@@ -18,16 +18,16 @@
         DM._oauth.tokenUrl = 'https://api.dailymotion.com/oauth/token'
         DM.Auth.isSessionExpired = (session, sessionLoadingMethod) => {
             if (typeof(session) === 'undefined') {
-                session = DM._session;
+                session = DM._session
             }
             if (!session) {
-                return true;
+                return true
             }
             if (session && 'expires_in' in session && new Date().getTime() < parseInt(session.expires_in, 10) * 1000) {
-                return false;
+                return false
             }
-            delete session.expires_in;
-            return true;
+            delete session.expires_in
+            return true
         }
 
         DM.init({
@@ -38,7 +38,7 @@
         })
 
         DM.Event.subscribe('auth.sessionChange', res => {
-            // To keep user logged in in 28 days
+            // To keep user logged in in 30 days
             if (res?.status === "connected") {
                 let longSession = res.session
 
@@ -52,6 +52,7 @@
         })
 
         DM.getLoginStatus(function (response) {
+            console.log(response)
             if (response.session) {
                 DM.api('/me', {
                     fields: ['id', 'screenname', 'username']

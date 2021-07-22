@@ -44,21 +44,21 @@ class Load_Scripts {
             $options_player = get_option('dm_ce_options_player');
 
             // Mandatory options
-            if ($options_mandatory['owners']) $player_holder .= ' owners="' . $options_mandatory['owners'] . '"';
             if ($options_mandatory['sort_by']) $player_holder .= ' sort="' . $options_mandatory['sort_by'] . '"';
 
             // Content options
+            if ($options_content['owners']) $player_holder .= ' owners="' . $options_content['owners'] . '"';
             if ($options_content['category']) $player_holder .= ' category="' . $options_content['category'] . '"';
             if ($options_content['exclude_ids']) $player_holder .= ' excludeIds="' . $options_content['exclude_ids'] . '"';
             if ($options_content['playlist']) $player_holder .= ' searchInPlaylist="' . $options_content['playlist'] . '"';
-            if ($options_content['syndication']) $player_holder .= ' syndication="' . $options_content['syndication'] . '"';
 //            if ($options_content['disable_queue'] === 'true') $player_holder .= ' queueEnable="false"';
 //            if ($options_content['disable_auto_next'] === 'true') $player_holder .= ' queueEnableNext="false"';
             if ($options_content['language']) $player_holder .= ' language="' . $options_content['language'] . '"';
-            if ($options_content['keywords_selector']) $player_holder .= ' keywordsSelector="' . $options_content['keywords_selector'] . '"';
+//            if ($options_content['keywords_selector']) $player_holder .= ' keywordsSelector="' . $options_content['keywords_selector'] . '"';
             if ($options_content['range_day']) $player_holder .= ' rangeDay="' . $options_content['range_day'] . '"';
 
             // Player options
+            if ($options_player['syndication']) $player_holder .= ' syndication="' . $options_content['syndication'] . '"';
             if ($options_player['hide_controls'] === 'true') $player_holder .= ' controls="false"';
             if ($options_player['ads_params']) $player_holder .= ' adsParams="' . $options_player['ads_params'] . '"';
             if ($options_player['pre_video_title']) $player_holder .= ' preVideoTitle="' . $options_player['pre_video_title'] . '"';

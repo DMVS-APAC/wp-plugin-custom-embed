@@ -15,7 +15,7 @@ class DM_Admin {
         add_menu_page(
             'Dailymotion HQ',
             'Dailymotion HQ',
-            'manage_options',
+            'publish_pages',
             'dm-general-settings',
             '',
             plugins_url('dm-embed-settings/assets/dailymotion-icon.svg')
@@ -26,7 +26,7 @@ class DM_Admin {
             'dm-general-settings',
             'General Settings',
             'General Settings',
-            'manage_options',
+            'publish_pages',
             'dm-general-settings',
             array($this, 'load_admin_page')
         );
@@ -35,7 +35,7 @@ class DM_Admin {
             'dm-general-settings',
             'Connect to Dailymotion',
             '<span aria-label="Connect to Dailymotion">Connect</span>',
-            'manage_options',
+            'edit_posts',
             'dm-connect',
             array($this, 'load_connect_page')
         );
@@ -44,7 +44,7 @@ class DM_Admin {
             'dm-general-settings',
             'Credentials',
             '<span aria-label="Dailymotion Credentials">Credentials</span>',
-            'manage_options',
+            'publish_pages',
             'dm-credentials',
             array($this, 'load_credentials_page')
         );
@@ -76,7 +76,11 @@ class DM_Admin {
                 break;
         endswitch;
 
+        $currentUser = wp_get_current_user();
+
         $options = get_option('dm_ce_options_' . $tab);
+        $credentials = get_option('dm_ce_credentials');
+        $dmUser = get_option('dm_ce_user_' . $currentUser->data->user_login);
 
         require DM__PATH . 'dashboard/views/general-settings/admin_page.php';
     }
@@ -112,14 +116,14 @@ class DM_Admin {
             if (!empty($params['player_id']) && $params['player_id'] !== null)
                 $dm_ce_data += ['player_id' =>  $params['player_id']];
 
-            if (!empty($params['channel_name']) && $params['channel_name'] !== null)
-                $dm_ce_data += ['owners' => $params['channel_name']];
-
             if (!empty($params['sort_by']) && $params['sort_by'] !== null)
                 $dm_ce_data += ['sort_by' => $params['sort_by']];
 
 
             // Content options
+            if (!empty($params['channel_name']) && $params['channel_name'] !== null)
+                $dm_ce_data += ['owners' => $params['channel_name']];
+
             if (!empty($params['category']) && $params['category'] !== null)
                 $dm_ce_data += ['category' => $params['category']];
 
@@ -132,9 +136,6 @@ class DM_Admin {
             if (!empty($params['playlist_id']) && $params['playlist_id'] !== null)
                 $dm_ce_data += ['playlist_id' => $params['playlist_id']];
 
-            if (!empty($params['syndication']) && $params['syndication'] !== null)
-                $dm_ce_data += ['syndication' => $params['syndication']];
-
             if (!empty($params['disable_queue']) && $params['disable_queue'] !== null)
                 $dm_ce_data += ['disable_queue' => $params['disable_queue']];
 
@@ -144,8 +145,8 @@ class DM_Admin {
             if (!empty($params['language']) && $params['language'] !== null)
                 $dm_ce_data += ['language' => $params['language']];
 
-            if (!empty($params['keywords_selector']) && $params['keywords_selector'] !== null)
-                $dm_ce_data += ['keywords_selector' => $params['keywords_selector']];
+//            if (!empty($params['keywords_selector']) && $params['keywords_selector'] !== null)
+//                $dm_ce_data += ['keywords_selector' => $params['keywords_selector']];
 
             if (!empty($params['range_day']) && $params['range_day'] !== null)
                 $dm_ce_data += ['range_day' => $params['range_day']];
@@ -156,6 +157,9 @@ class DM_Admin {
 
 
             // Player options
+            if (!empty($params['syndication']) && $params['syndication'] !== null)
+                $dm_ce_data += ['syndication' => $params['syndication']];
+
             if (!empty($params['hide_controls']) && $params['hide_controls'] !== null)
                 $dm_ce_data += ['hide_controls' => $params['hide_controls']];
 

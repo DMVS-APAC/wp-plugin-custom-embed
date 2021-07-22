@@ -1,5 +1,11 @@
 # Changelog
 
+###[1.0.0-15] ()
+
+**Implemented enhancements:**
+- Allow Super Admin, Administrator, Editor, Author, and Contributor to access Dailymotion settings
+
+
 ###[1.0.0-14] (2021-06-28)
 
 **Implemented enhancements:**

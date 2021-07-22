@@ -171,7 +171,8 @@ export default class FindContentComponent extends Component {
 
                     { this.state.findPlaylist ?
                         <Playlist keywords={this.state.findKeywords} globalVideo={this.state.findGlobal} /> :
-                        <Videos keywords={this.state.findKeywords} globalVideo={this.state.findGlobal} />}
+                        <Videos keywords={this.state.findKeywords} globalVideo={this.state.findGlobal} />
+                    }
 
                 </div>
             </PanelBody>

@@ -24,6 +24,16 @@
         </tr> -->
 
         <tr>
+            <th scope="row"><label for="syndication"><?php echo __('Syndication ID'); ?> <span class="detail-info">?<span
+                                class="tooltip">Six digits syndication key <a href="https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter">https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter</a></span></span></label></th>
+            <td>
+                <input name="syndication" type="text" id="syndication" class="regular-text"
+                       value="<?php echo (!empty($options['syndication'])) ? $options['syndication'] : ''; ?>">
+            </td>
+        </tr>
+
+
+        <tr>
             <th scope="row"><label for="ads-params"><?php echo __('Ads Parameters'); ?> <span class="detail-info">?<span class="tooltip"><a href="https://developer.dailymotion.com/data-api/customize-ad-tracking-ads-params-parameter/">https://developer.dailymotion.com/data-api/customize-ad-tracking-ads-params-parameter/</a></span></span></label></th>
             <td>
                 <input name="ads_params" type="text" id="ads-params" class="regular-text"

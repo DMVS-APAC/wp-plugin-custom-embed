@@ -2,6 +2,17 @@
 
 ?>
 
+<div class="dm__box-wrapper">
+    <p>Only use this section if you need to recommend public content from a specific pool of channels (it can be a mix of channels you own and 3rd parties)</p>
+
+    <p>Once you input channels in the dedicated field,</p>
+    <ol>
+        <li>The script will recommend content automatically for you - no further action needed</li>
+        <li>However you can still manually search videos from selected channels through the dailymotion search bar while writing posts</li>
+        <li>This is overriden if you connect a channel in the connect and credentials sections of the plugin</li>
+    </ol>
+</div>
+
 <form action="<?php echo get_admin_url() . 'admin.php?page=dm-general-settings&tab=content&action=save_data'; ?>" method="post">
 
     <?php wp_nonce_field("dm_save_data", "dm_save_data", true); ?>
@@ -9,6 +20,17 @@
     <table class="form-table" role="presentation">
 
         <tbody>
+        <tr>
+            <th scope="row"><label for="channel-name"><?php echo __('Channel Name'); ?> <span class="detail-info">?<span class="tooltip">One or several channel usernames (www.dailymotion.com/<strong>yourchannelusername</strong>). This is case sensitive so pay attention to caps and special characters. If you pick several values, separate them with a ",".</span></span></label></th>
+            <td>
+                <input name="channel_name" type="text" id="channel-name" class="regular-text"
+                       value="<?php echo (!empty($options)) ? $options['owners'] : '' ?>">
+                <p class="description" id="channel-description">If more than 1 channel, separate with comma. E.g.
+                    "channelname1,channelname2".</p>
+                <p class="description">Some channels may set video embed domain restrictions, always play the embedded video once before publishing your post to see if your website is allowed to embed it.</p>
+            </td>
+        </tr>
+
         <tr>
             <th scope="row"><label for="category"><?php echo __('Category'); ?> <span class="detail-info">?<span class="tooltip">The Dailymotion video categories available. You can limit results to the videos belonging to a specific category.</span></span></label></th>
             <td>
@@ -84,65 +106,10 @@
 
 
         <tr>
-            <th scope="row"><label for="syndication"><?php echo __('Syndication ID'); ?> <span class="detail-info">?<span
-                                class="tooltip">Six digits syndication key <a href="https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter">https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter</a></span></span></label></th>
-            <td>
-                <input name="syndication" type="text" id="syndication" class="regular-text"
-                       value="<?php echo (!empty($options['syndication'])) ? $options['syndication'] : ''; ?>">
-            </td>
-        </tr>
-
-<!--        <tr>-->
-<!--            <th scope="row">--><?php //echo __('Disable Queue'); ?><!-- <span class="detail-info">?<span class="tooltip">toggle this to hide the playlist on the right side of the player upon mouse-over</span></span></th>-->
-<!--            <td>-->
-<!--                <fieldset>-->
-<!--                    <legend class="screen-reader-text"><span>--><?php //echo __('Disable Queue'); ?><!--</span></legend>-->
-<!--                    <label for="disable-queue">-->
-<!--                        <input name="disable_queue" type="checkbox" id="disable-queue"-->
-<!--                               value="1" --><?php //echo ($options['disable_queue'] ==    1) ? 'checked' : '' ?><!--
-<!--                    </label>-->
-<!--                </fieldset>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!---->
-<!--        <tr>-->
-<!--            <th scope="row">--><?php //echo __('Disable Auto Next'); ?><!-- <span class="detail-info">?<span class="tooltip">toggle this to automatically sta playback of the next video in the queue</span></span></th>-->
-<!--            <td>-->
-<!--                <fieldset>-->
-<!--                    <legend class="screen-reader-text"><span>--><?php //echo __('Disable Auto Next'); ?><!--</span></legend>-->
-<!--                    <label for="disable-auto-next">-->
-<!--                        <input name="disable_auto_next" type="checkbox" id="disable-auto-next"-->
-<!--                               value="1" --><?php //echo ($options['disable_auto_next'] == 1) ? 'checked' : '' ?><!--
-<!--                    </label>-->
-<!--                </fieldset>-->
-<!--            </td>-->
-<!--        </tr>-->
-
-        <tr>
             <th scope="row"><label for="language"><?php echo __('Language'); ?> <span class="detail-info">?<span class="tooltip">Specify if you want language based content recommendation. This follows ISO-3166 alpha-2 codes <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2</a></span></span></label></th>
             <td>
                 <input name="language" type="text" id="language" class="regular-text"
                        value="<?php echo (!empty($options['language'])) ? $options['language'] : ''; ?>">
-            </td>
-        </tr>
-
-        <tr>
-            <th scope="row"><label for="keywords-selector"><?php echo __('Keywords Selector'); ?>  <span class="detail-info">?<span class="tooltip">Define which meta tag you will use for the contextual embed. If you leave it blank it will get the <code>h1</code> the words in the meta tag will be chunked, sanitized, and matched against your own video catalog or the video catalog of the 3rd parties you include in your script.</span></span></label></th>
-            <td>
-                <select name="keywords_selector" type="text" id="keywords-selector" class="regular-text">
-                    <option value="" <?php echo (empty($options['keywords_selector'])) ? 'selected' : ''; ?>>--</option>
-                    <option value="meta[name='keywords']" <?php echo ($options['keywords_selector'] === "meta[name='keywords']") ? 'selected' : ''; ?>>
-                        meta[name='keywords']
-                    </option>
-                    <option value="h1" <?php echo ($options['keywords_selector'] === "h1") ? 'selected' : ''; ?>>h1
-                    </option>
-                    <option value="title" <?php echo ($options['keywords_selector'] === "title") ? 'selected' : ''; ?>>
-                        title
-                    </option>
-                    <option value="meta[name='news_keywords']" <?php echo ($options['keywords_selector'] === "meta[name='news_keywords']") ? 'selected' : ''; ?>>
-                        meta[name='news_keywords']
-                    </option>
-                </select>
             </td>
         </tr>
 
@@ -153,14 +120,6 @@
                        value="<?php echo ($options['range_day']) ? $options['range_day'] : ''; ?>">
             </td>
         </tr>
-
-<!--        <tr>-->
-<!--            <th scope="row"><label for="video-id">--><?php //echo __('Video Id'); ?><!-- <span class="detail-info">?<span class="tooltip">Input any video xid to recommend a video in particular.</span></span></label></th>-->
-<!--            <td>-->
-<!--                <input name="video_id" type="text" id="video-id" class="regular-text"-->
-<!--                       value="--><?php //echo ($options['video_id']) ? $options['video_id'] : '' ?><!--">-->
-<!--            </td>-->
-<!--        </tr>-->
 
         </tbody>
 
