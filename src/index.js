@@ -1,5 +1,5 @@
 import { registerBlockType } from '@wordpress/blocks'
-import {select} from "@wordpress/data";
+import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n"
 
 // Video block
@@ -40,4 +40,4 @@ registerBlockType( 'dm-settings/click-embed', {
 // Sidebar
 import Sidebar from "./components/SidebarComponent"
 
-Sidebar.registerSidebar()
+new Sidebar()

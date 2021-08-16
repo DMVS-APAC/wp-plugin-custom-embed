@@ -3,6 +3,23 @@ import { dispatch, select } from "@wordpress/data"
 import { Component } from "@wordpress/element"
 import {fetchApi} from "../libs/apiCall";
 
+/**
+ * Video Block Component
+ *
+ * This is a block that user can drag n' drop in the editor
+ * It will render preview a video block. Technically, it won't
+ * add anything in the editor, just for preview. It only record
+ * the position of the player. Once user save the post it also
+ * save post meta.
+ *
+ * In the front end, the component will be created on the fly
+ * when user start loading the page.
+ *
+ * The way we decide is to avoid adding something in the editor.
+ * Once partner decide to not using it anymore, then they just
+ * need to deactivate the plugin, and voila! the content is still
+ * clean.
+ */
 export default class VideoBlockComponent extends Component {
     /**
      * Store previous player position

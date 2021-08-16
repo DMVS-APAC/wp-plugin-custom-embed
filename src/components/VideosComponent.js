@@ -1,11 +1,23 @@
 import { __ } from "@wordpress/i18n"
-import { waitFor, sleep } from "../libs/waitFor"
 import { Component } from "@wordpress/element"
 import { fetchApi } from "../libs/apiCall"
-import { dispatch } from "@wordpress/data"
+import { dispatch, select } from "@wordpress/data"
 import Pagination from "../libs/pagination"
+import { STORE_KEY as DM_SDK_STORE_KEY } from "../store/dmSdkStore"
 
+
+/**
+ * VideosComponent
+ *
+ * This component will generate a search results
+ *
+ */
 export default class VideosComponent extends Component {
+
+    /**
+     * A variable to store a state from the state management
+     */
+    #connectionStatus = null
 
     constructor(props) {
         super(props)
@@ -13,7 +25,7 @@ export default class VideosComponent extends Component {
         this.state = {
             videos: {},
             currentPage: 1,
-            loadingData: true
+            loadingData: true,
         }
 
         this.setVideos = this.setVideos.bind(this)
@@ -21,7 +33,24 @@ export default class VideosComponent extends Component {
         this.setLoadingData = this.setLoadingData.bind(this)
     }
 
-    async getVideo(page = 1, keywords) {
+    /**
+     * fetchVideo
+     *
+     * There are several conditions to get the video result
+     *
+     * 1. User not connected and channel name is empty. It will get current global videos.
+     * 2. User not connected and channel name is not empty at least one channel name. It will from all channels defined.
+     * 3. User connected and channel name is empty. It will get a connected channel name videos.
+     * 4. User connected and channel name is not empty. It will override a channel name using connected channel name.
+     * 5. When `find global` ticked, it override all channel name defined.
+     *
+     *
+     *
+     * @param page page number of the result
+     * @param keywords keywords used to get the result
+     * @returns {Promise<any>}
+     */
+    async fetchVideo(page = 1, keywords) {
 
         this.setLoadingData(true)
 
@@ -46,22 +75,17 @@ export default class VideosComponent extends Component {
 
         const isOwners = typeof content.owners !== 'undefined'
 
-        if (dmUser !== false && this.props.globalVideo !== true && !isOwners) {
+        if (this.#connectionStatus && this.props.globalVideo !== true && !isOwners) {
             url = 'user/' + dmUser + '/videos'
         } else if (isOwners) {
-            const owner = content.owners.split(',')
-
-            url = 'user/' + owner[0] + '/videos'
+            params.owners = content.owners
+            url = 'videos'
         } else {
             url = 'videos'
         }
 
-        // Waiting for DM.init() to be executed first
-        await sleep(500)
-
         return new Promise(async resolve => {
             DM.api(url, params, (videos) => {
-                console.log(videos)
                 this.setLoadingData(false)
                 resolve(videos)
             })
@@ -88,6 +112,16 @@ export default class VideosComponent extends Component {
         })
     }
 
+    /**
+     * addToPost
+     *
+     * This function will dispatch the data to `core/editor` to save
+     * later on when the user save the post. It also send a custom
+     * event for `VideoBlockComponent` to listen that the video is
+     * updated.
+     *
+     * @param video
+     */
     addToPost(video) {
         dispatch('core/editor').editPost({
             meta: {
@@ -101,18 +135,19 @@ export default class VideosComponent extends Component {
     }
 
     async componentDidMount() {
-        const videos = await this.getVideo()
+        this.#connectionStatus = select(DM_SDK_STORE_KEY).getConnectionStatus()['connectionStatus']
+        const videos = await this.fetchVideo()
 
         this.setVideos(videos)
     }
 
     async componentDidUpdate(prevProps) {
 
-        // Listen to keywords changes
+        // Listen to props changes (keywords and globalVideo)
         if ( this.props.keywords !== prevProps.keywords ||
              this.props.globalVideo !== prevProps.globalVideo ) {
 
-            const videos = await this.getVideo(1, this.props.keywords)
+            const videos = await this.fetchVideo(1, this.props.keywords)
 
             this.setCurrentPage()
             this.setVideos(videos)
@@ -121,7 +156,7 @@ export default class VideosComponent extends Component {
     }
 
     async loadPage(page) {
-        const videos = await this.getVideo(page, this.props.keywords)
+        const videos = await this.fetchVideo(page, this.props.keywords)
 
         this.setCurrentPage(page)
         this.setVideos(videos)
@@ -146,7 +181,7 @@ export default class VideosComponent extends Component {
                                     <img src={list[i].thumbnail_240_url} alt={list[i].title} className="content__thumbnail"/>
                                 </div>
                             </figure>
-                            <span className="content__title">{list[i].title}</span>
+                            <span className="content__title" title={list[i].title}>{list[i].title}</span>
                         </button>
                     </li>
                 )

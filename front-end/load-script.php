@@ -22,7 +22,7 @@ class Load_Scripts {
      * It only showing on post type
      */
     public function load_script() {
-        if ( is_single() ) {
+        if ( is_single() || is_page() ) {
             wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), '2.0.0-14', 'true');
         }
     }
@@ -35,7 +35,7 @@ class Load_Scripts {
      */
     public function hook_player_into_content ( $content ) {
 
-        if ( is_single() ) {
+        if ( is_single() || is_page() ) {
 
             $player_holder = '<div class="dm-player__wrapper"><div class="dm-player"';
 
@@ -44,6 +44,7 @@ class Load_Scripts {
             $options_player = get_option('dm_ce_options_player');
 
             // Mandatory options
+            if ($options_mandatory['player_id']) $player_holder .= ' playerId="' . $options_mandatory['player_id'] . '"';
             if ($options_mandatory['sort_by']) $player_holder .= ' sort="' . $options_mandatory['sort_by'] . '"';
 
             // Content options
@@ -58,7 +59,7 @@ class Load_Scripts {
             if ($options_content['range_day']) $player_holder .= ' rangeDay="' . $options_content['range_day'] . '"';
 
             // Player options
-            if ($options_player['syndication']) $player_holder .= ' syndication="' . $options_content['syndication'] . '"';
+            if ($options_player['syndication']) $player_holder .= ' syndication="' . $options_player['syndication'] . '"';
             if ($options_player['hide_controls'] === 'true') $player_holder .= ' controls="false"';
             if ($options_player['ads_params']) $player_holder .= ' adsParams="' . $options_player['ads_params'] . '"';
             if ($options_player['pre_video_title']) $player_holder .= ' preVideoTitle="' . $options_player['pre_video_title'] . '"';
