@@ -15,7 +15,7 @@ class DM_Admin {
         add_menu_page(
             'Dailymotion HQ',
             'Dailymotion HQ',
-            'publish_pages',
+            'publish_posts',
             'dm-general-settings',
             '',
             plugins_url('dm-embed-settings/assets/dailymotion-icon.svg')
@@ -26,7 +26,7 @@ class DM_Admin {
             'dm-general-settings',
             'General Settings',
             'General Settings',
-            'publish_pages',
+            'publish_posts',
             'dm-general-settings',
             array($this, 'load_admin_page')
         );
@@ -44,7 +44,7 @@ class DM_Admin {
             'dm-general-settings',
             'Credentials',
             '<span aria-label="Dailymotion Credentials">Credentials</span>',
-            'publish_pages',
+            'publish_posts',
             'dm-credentials',
             array($this, 'load_credentials_page')
         );

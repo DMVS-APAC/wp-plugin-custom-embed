@@ -9,7 +9,7 @@ import { Component } from "@wordpress/element"
  */
 export default class SelectedVideoComponent extends Component {
     /**
-     * Default valur for video data
+     * Default value for video data
      *
      * @type {{thumbnail_240_url: string, id: string, title?: string, name?: string}}
      */
@@ -80,7 +80,10 @@ export default class SelectedVideoComponent extends Component {
                            } className="content__thumbnail" />
                        </div>
                    </figure>
-                   <span class="content__title">{
+                   <span className="content__title" title={
+                       this.state.videoData.title ?
+                        this.state.videoData.title :
+                        this.state.videoData.name}>{
                        this.state.videoData.title ?
                            this.state.videoData.title :
                            this.state.videoData.name

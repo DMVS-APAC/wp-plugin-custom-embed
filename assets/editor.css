@@ -8,6 +8,7 @@
 .dm__content-list .dm__search-results {
     display: grid;
     grid-template-columns: 50% 50%;
+    grid-template-rows: repeat(5, 90px);
     min-height: 450px;
 }
 

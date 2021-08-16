@@ -1,11 +1,17 @@
 import { __ } from "@wordpress/i18n"
-import { waitFor, sleep } from "../libs/waitFor"
 import { Component } from "@wordpress/element"
 import { fetchApi } from "../libs/apiCall"
-import { dispatch } from "@wordpress/data"
+import { dispatch, select } from "@wordpress/data"
 import Pagination from "../libs/pagination"
 
+import { STORE_KEY as DM_SDK_STORE_KEY } from "../store/dmSdkStore";
+
 export default class PlaylistComponent extends Component {
+
+    /**
+     * A variable to store a state from the state management
+     */
+    #connectionStatus = null
 
     constructor(props) {
         super(props)
@@ -33,11 +39,12 @@ export default class PlaylistComponent extends Component {
         document.dispatchEvent(videoUpdated)
     }
 
-    async getPlaylist(page = 1, keywords) {
+    async fetchPlaylist(page = 1, keywords) {
 
         this.setLoadingData(true)
 
         const dmUser = await fetchApi('/dm/v1/userinfo')
+        const content = await fetchApi('/dm/v1/get-custom-options/content')
 
         const url = '/playlists'
         const params = {
@@ -52,8 +59,11 @@ export default class PlaylistComponent extends Component {
             params.search = keywords
         }
 
-        if ( dmUser !== false && this.props.globalVideo !== true ) {
-            params.owner = dmUser
+        if (this.#connectionStatus && this.props.globalVideo !== true ) {
+            const owner = content.owners.split(',')
+            params.owner = owner[0]
+        } else {
+
         }
 
         return new Promise( resolve => {
@@ -67,14 +77,15 @@ export default class PlaylistComponent extends Component {
     }
 
     async loadPage(page) {
-        const playlists = await this.getPlaylist(page, this.props.keywords)
+        const playlists = await this.fetchPlaylist(page, this.props.keywords)
 
         this.setCurrentPage(page)
         this.setPlaylist(playlists)
     }
 
     async componentDidMount() {
-        const playlists = await this.getPlaylist()
+        this.#connectionStatus = select(DM_SDK_STORE_KEY).getConnectionStatus()['connectionStatus']
+        const playlists = await this.fetchPlaylist()
 
         this.setCurrentPage()
         this.setPlaylist(playlists)
@@ -82,11 +93,10 @@ export default class PlaylistComponent extends Component {
 
     async componentDidUpdate(prevProps) {
 
-        console.log(prevProps)
         if ( this.props.keywords !== prevProps.keywords ||
             this.props.globalVideo !== prevProps.globalVideo) {
 
-            const playlists = await this.getPlaylist(1, this.props.keywords)
+            const playlists = await this.fetchPlaylist(1, this.props.keywords)
 
             this.setCurrentPage(1)
             this.setPlaylist(playlists)
