@@ -1,5 +1,7 @@
 <?php
 
+$categories = ['animals', 'creation', 'auto', 'school', 'people', 'fun', 'videogames', 'tech'];
+
 ?>
 
 <div class="dm__box-wrapper">
@@ -24,7 +26,7 @@
             <th scope="row"><label for="channel-name"><?php echo __('Channel Name'); ?> <span class="detail-info">?<span class="tooltip">One or several channel usernames (www.dailymotion.com/<strong>yourchannelusername</strong>). This is case sensitive so pay attention to caps and special characters. If you pick several values, separate them with a ",".</span></span></label></th>
             <td>
                 <input name="channel_name" type="text" id="channel-name" class="regular-text"
-                       value="<?php echo (!empty($options)) ? $options['owners'] : '' ?>">
+                       value="<?php echo (isset($options['owners'])) ? $options['owners'] : '' ?>">
                 <p class="description" id="channel-description">If more than 1 channel, separate with comma. E.g.
                     "channelname1,channelname2".</p>
                 <p class="description">Some channels may set video embed domain restrictions, always play the embedded video once before publishing your post to see if your website is allowed to embed it.</p>
@@ -84,7 +86,7 @@
             <th scope="row"><label for="exclude-ids"><?php echo __('Exclude Ids'); ?> <span class="detail-info">?<span class="tooltip">use this field if you need to exclude one or several specific video xid from recommendations. Separate several values by a ","</span></span></label></th>
             <td>
                 <input name="exclude_ids" type="text" id="exclude-ids" class="regular-text"
-                       value="<?php echo ($options['exclude_ids']) ? $options['exclude_ids'] : '' ?>">
+                       value="<?php echo (isset($options['exclude_ids'])) ? $options['exclude_ids'] : '' ?>">
             </td>
         </tr>
 
@@ -92,7 +94,7 @@
             <th scope="row"><label for="playlist"><?php echo __('Search in Playlist'); ?> <span class="detail-info">?<span class="tooltip">the script will only look for content within the specified playlist xid</span></span></label></th>
             <td>
                 <input name="playlist" type="text" id="playlist" class="regular-text"
-                       value="<?php echo ($options['playlist']) ? $options['playlist'] : '' ?>">
+                       value="<?php echo (isset($options['playlist'])) ? $options['playlist'] : '' ?>">
             </td>
         </tr>
 
@@ -100,7 +102,7 @@
             <th scope="row"><label for="playlist-id"><?php echo __('Playlist ID'); ?> <span class="detail-info">?<span class="tooltip">Embed a manual or dynamic playlist. The video playing first will be defined according to the sorting criterion you chose upon creating the playlist in the partner HQ (newest, oldest or most viewed)</span></span></label></th>
             <td>
                 <input name="playlist_id" type="text" id="playlist-id" class="regular-text"
-                       value="<?php echo ($options['playlist_id']) ? $options['playlist_id'] : '' ?>">
+                       value="<?php echo (isset($options['playlist_id'])) ? $options['playlist_id'] : '' ?>">
             </td>
         </tr>
 
@@ -109,7 +111,7 @@
             <th scope="row"><label for="language"><?php echo __('Language'); ?> <span class="detail-info">?<span class="tooltip">Specify if you want language based content recommendation. This follows ISO-3166 alpha-2 codes <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2</a></span></span></label></th>
             <td>
                 <input name="language" type="text" id="language" class="regular-text"
-                       value="<?php echo (!empty($options['language'])) ? $options['language'] : ''; ?>">
+                       value="<?php echo (isset($options['language'])) ? $options['language'] : ''; ?>">
             </td>
         </tr>
 

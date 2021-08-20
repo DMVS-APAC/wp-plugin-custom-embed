@@ -32,7 +32,6 @@ $update_checker = Puc_v4_Factory::buildUpdateChecker(
     'dm-embed-settings'
 );
 
-// TODO: test this first
 if (defined( 'DM_BETA' ) && DM_BETA === true) {
     $update_checker->setBranch('beta');
 } else {
@@ -47,7 +46,7 @@ require DM__PATH . 'onboarding/activation.php';
 
 
 /**
- * Load global library needed by the plugin
+ * Load global library needed by the plugin on the admin dashboard
  */
 add_action('admin_enqueue_scripts', 'admin_styles');
 function admin_styles() {
@@ -57,11 +56,20 @@ function admin_styles() {
     );
 }
 
-wp_enqueue_script(
-    'dm-sdk',
-    'https://api.dmcdn.net/all.js',
-    [],
-    '',
-    true
-);
-
+/**
+ * Enqueue the script after WP done with enqueue its scripts
+ * This `global_script` will enqueue both on the admin side
+ * and front end side. If we're not do this, the WP will see
+ * this as an error if the `debug` mode is active.
+ */
+function global_script() {
+    wp_enqueue_script(
+        'dm-sdk',
+        'https://api.dmcdn.net/all.js',
+        [],
+        '',
+        true
+    );
+}
+add_action('admin_enqueue_scripts', 'global_script');
+add_action('wp_enqueue_scripts', 'global_script');
