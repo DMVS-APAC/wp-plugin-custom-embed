@@ -2,6 +2,7 @@
 
 $categories = ['animals', 'creation', 'auto', 'school', 'people', 'fun', 'videogames', 'tech'];
 
+
 ?>
 
 <div class="dm__box-wrapper">

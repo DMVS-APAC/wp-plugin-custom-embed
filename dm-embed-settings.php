@@ -73,5 +73,3 @@ function global_script() {
 }
 add_action('admin_enqueue_scripts', 'global_script');
 add_action('wp_enqueue_scripts', 'global_script');
-
-// Just a line
