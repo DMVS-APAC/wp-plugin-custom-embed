@@ -121,6 +121,9 @@ class DM_Admin {
 
 
             // Content options
+            if (!empty($params['auto_embed']) && $params['auto_embed'] !== null)
+                $dm_ce_data += ['auto_embed' => $params['auto_embed']];
+
             if (!empty($params['channel_name']) && $params['channel_name'] !== null)
                 $dm_ce_data += ['owners' => $params['channel_name']];
 
@@ -160,8 +163,8 @@ class DM_Admin {
             if (!empty($params['syndication']) && $params['syndication'] !== null)
                 $dm_ce_data += ['syndication' => $params['syndication']];
 
-            if (!empty($params['hide_controls']) && $params['hide_controls'] !== null)
-                $dm_ce_data += ['hide_controls' => $params['hide_controls']];
+//            if (!empty($params['hide_controls']) && $params['hide_controls'] !== null)
+//                $dm_ce_data += ['hide_controls' => $params['hide_controls']];
 
             if (!empty($params['ads_params']) && $params['ads_params'] !== null)
                 $dm_ce_data += ['ads_params' => $params['ads_params']];
@@ -178,17 +181,20 @@ class DM_Admin {
             if (!empty($params['show_carousel_playlist']) && $params['show_carousel_playlist'] !== null)
                 $dm_ce_data += ['show_carousel_playlist' => $params['show_carousel_playlist']];
 
-            if (!empty($params['hide_controls_ad']) && $params['hide_controls_ad'] !== null)
-                $dm_ce_data += ['hide_controls_ad' => $params['hide_controls_ad']];
+            if (!empty($params['mute']) && $params['mute'] !== null)
+                $dm_ce_data += ['mute' => $params['mute']];
 
-            if (!empty($params['pip_at_start']) && $params['pip_at_start'] !== null)
-                $dm_ce_data += ['pip_at_start' => $params['pip_at_start']];
-
-            if (!empty($params['click_to_play']) && $params['click_to_play'] !== null)
-                $dm_ce_data += ['click_to_play' => $params['click_to_play']];
-
-            if (!empty($params['deactivate_pip']) && $params['deactivate_pip'] !== null)
-                $dm_ce_data += ['deactivate_pip' => $params['deactivate_pip']];
+//            if (!empty($params['hide_controls_ad']) && $params['hide_controls_ad'] !== null)
+//                $dm_ce_data += ['hide_controls_ad' => $params['hide_controls_ad']];
+//
+//            if (!empty($params['pip_at_start']) && $params['pip_at_start'] !== null)
+//                $dm_ce_data += ['pip_at_start' => $params['pip_at_start']];
+//
+//            if (!empty($params['click_to_play']) && $params['click_to_play'] !== null)
+//                $dm_ce_data += ['click_to_play' => $params['click_to_play']];
+//
+//            if (!empty($params['deactivate_pip']) && $params['deactivate_pip'] !== null)
+//                $dm_ce_data += ['deactivate_pip' => $params['deactivate_pip']];
 
 
             // Save the option to database
