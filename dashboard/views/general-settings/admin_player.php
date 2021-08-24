@@ -1,4 +1,9 @@
 <?php
+/**
+ * A player settings section tab
+ *
+ * @since 1.0.0
+ */
 
 ?>
 
@@ -10,25 +15,12 @@
 
         <tbody>
 
-        <!-- <tr>
-            <th scope="row"><?php echo __('Hide Controls'); ?></th>
-            <td>
-                <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Hide Controls'); ?></span></legend>
-                    <label for="hide-controls">
-                        <input name="hide_controls" type="checkbox" id="hide-controls"
-                               value="1" <?php echo ($options['hide_controls'] == 1) ? 'checked' : '' ?>>
-                    </label>
-                </fieldset>
-            </td>
-        </tr> -->
-
         <tr>
             <th scope="row"><label for="syndication"><?php echo __('Syndication ID'); ?> <span class="detail-info">?<span
                                 class="tooltip">Six digits syndication key <a href="https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter">https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter</a></span></span></label></th>
             <td>
                 <input name="syndication" type="text" id="syndication" class="regular-text"
-                       value="<?php echo (!empty($options['syndication'])) ? $options['syndication'] : ''; ?>">
+                       value="<?php echo ( isset($options['syndication']) ) ? $options['syndication'] : ''; ?>">
             </td>
         </tr>
 
@@ -37,7 +29,7 @@
             <th scope="row"><label for="ads-params"><?php echo __('Ads Parameters'); ?> <span class="detail-info">?<span class="tooltip"><a href="https://developer.dailymotion.com/data-api/customize-ad-tracking-ads-params-parameter/">https://developer.dailymotion.com/data-api/customize-ad-tracking-ads-params-parameter/</a></span></span></label></th>
             <td>
                 <input name="ads_params" type="text" id="ads-params" class="regular-text"
-                       value="<?php echo ($options['ads_params']) ? $options['ads_params'] : '' ?>">
+                       value="<?php echo ( isset($options['ads_params']) ) ? $options['ads_params'] : '' ?>">
             </td>
         </tr>
 
@@ -45,7 +37,7 @@
             <th scope="row"><label for="pre-video-title"><?php echo __('Pre video title'); ?> <span class="detail-info">?<span class="tooltip">A custom section title above the video player embed.</span></span></label></th>
             <td>
                 <input name="pre_video_title" type="text" id="pre-video-title" class="regular-text"
-                       value="<?php echo ($options['pre_video_title']) ? $options['pre_video_title'] : '' ?>">
+                       value="<?php echo ( isset($options['pre_video_title']) ) ? $options['pre_video_title'] : '' ?>">
                 <p class="description" id="syndication">E.g., "See also: Recommended videos"</p>
             </td>
         </tr>
@@ -57,7 +49,8 @@
                     <legend class="screen-reader-text"><span><?php echo __('Show video title'); ?></span></legend>
                     <label for="show-video-title">
                         <input name="show_video_title" type="checkbox" id="show-video-title"
-                               value="1" <?php echo ($options['show_video_title'] == 1) ? 'checked' : '' ?>>
+                               value="1"
+                            <?php echo ( isset($options['show_video_title']) ) ? 'checked' : '' ?>>
                     </label>
                 </fieldset>
             </td>
@@ -70,7 +63,8 @@
                     <legend class="screen-reader-text"><span><?php echo __('Show video infocard'); ?></span></legend>
                     <label for="show-info-card">
                         <input name="show_info_card" type="checkbox" id="show-info-card"
-                               value="1" <?php echo ($options['show_info_card'] == 1) ? 'checked' : '' ?>>
+                               value="1"
+                            <?php echo ( isset($options['show_info_card']) ) ? 'checked' : '' ?>>
                     </label>
                 </fieldset>
             </td>
@@ -83,64 +77,26 @@
                     <legend class="screen-reader-text"><span><?php echo __('Show carousel playlist'); ?></span></legend>
                     <label for="show-carousel-playlist">
                         <input name="show_carousel_playlist" type="checkbox" id="show-carousel-playlist"
-                               value="1" <?php echo ($options['show_carousel_playlist'] == 1) ? 'checked' : '' ?>>
+                               value="1"
+                            <?php echo ( isset($options['show_carousel_playlist']) ) ? 'checked' : '' ?>>
                     </label>
                 </fieldset>
             </td>
         </tr>
 
-        <!-- <tr>
-            <th scope="row"><?php echo __('Hide Controls on Ad Playing'); ?></th>
+        <tr>
+            <th scope="row"><?php echo __('Mute'); ?></th>
             <td>
                 <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Hide Controls on Ad Playing'); ?></span></legend>
-                    <label for="hide-controls-ad">
-                        <input name="hide_controls_ad" type="checkbox" id="hide-controls-ad"
-                               value="1" <?php echo ($options['hide_controls_ad'] == 1) ? 'checked' : '' ?>>
+                    <legend class="screen-reader-text"><span><?php echo __('Mute'); ?></span></legend>
+                    <label for="mute">
+                        <input name="mute" type="checkbox" id="mute"
+                               value="1"
+                            <?php echo ( isset($options['mute']) ) ? 'checked' : '' ?>>
                     </label>
                 </fieldset>
             </td>
-        </tr> -->
-
-<!--        <tr>-->
-<!--            <th scope="row">--><?php //echo __('Show PiP at Start'); ?><!--</th>-->
-<!--            <td>-->
-<!--                <fieldset>-->
-<!--                    <legend class="screen-reader-text"><span>--><?php //echo __('Show PiP at start'); ?><!--</span></legend>-->
-<!--                    <label for="pip-at-start">-->
-<!--                        <input name="pip_at_start" type="checkbox" id="pip-at-start"-->
-<!--                               value="1" --><?php //echo ($options['pip_at_start'] == 1) ? 'checked' : '' ?>
-<!--                    </label>-->
-<!--                </fieldset>-->
-<!--            </td>-->
-<!--        </tr>-->
-
-<!--        <tr>-->
-<!--            <th scope="row">--><?php //echo __('Click to Play'); ?><!--</th>-->
-<!--            <td>-->
-<!--                <fieldset>-->
-<!--                    <legend class="screen-reader-text"><span>--><?php //echo __('Click to play'); ?><!--</span></legend>-->
-<!--                    <label for="click-to-play">-->
-<!--                        <input name="click_to_play" type="checkbox" id="click-to-play"-->
-<!--                               value="1" --><?php //echo ($options['click_to_play'] == 1) ? 'checked' : '' ?>
-<!--                    </label>-->
-<!--                </fieldset>-->
-<!--            </td>-->
-<!--        </tr>-->
-
-        <!-- <tr>
-            <th scope="row"><?php echo __('Deactivate PiP'); ?></th>
-            <td>
-                <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Deactivate PiP'); ?></span></legend>
-                    <label for="deactivate-pip">
-                        <input name="deactivate_pip" type="checkbox" id="deactivate-pip"
-                               value="1" <?php echo ($options['deactivate_pip'] == 1) ? 'checked' : '' ?>>
-                    </label>
-                </fieldset>
-                in NPE if this deactivated then the scroll to pause automatically true
-            </td>
-        </tr> -->
+        </tr>
 
         </tbody>
 
