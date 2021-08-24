@@ -20,7 +20,7 @@ function dm_activation() {
 
 add_action('admin_init', 'dm_admin_init');
 function dm_admin_init() {
-    $current_version = '1.0.0-12';
+    $current_version = DM_CE__VERSION;
     $version= get_option('dm_version');
     if ($version != $current_version) {
         // Do whatever upgrades needed here.
