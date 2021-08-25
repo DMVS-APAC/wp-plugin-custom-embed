@@ -1,5 +1,18 @@
 # Changelog
 
+###[1.0.2] (2021-08-24)
+
+This release fixed a bug that appears when debug mode is active and added a new feature for toggling automatic embed.
+
+###[1.0.1] (2021-08-18)
+
+This release adds several features and clarifications to the plugin:
+
+- You can now see the labels of your players (on top of their unique ID) in the mandatory settings so it's easier to pick one
+- We moved the channel selection to the content settings and clarified the video content recommendation uses cases covered by this section
+- The plugin now supports WordPress roles : editors, authors, contributors can see part or all of the plugin whereas subscribers do not have access to it
+
+
 ###[1.0.0-16] (2021-07-22)
 
 **Implemented enhancements:**
