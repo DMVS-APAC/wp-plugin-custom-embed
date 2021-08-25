@@ -62,8 +62,6 @@ export default class PlaylistComponent extends Component {
         if (this.#connectionStatus && this.props.globalVideo !== true ) {
             const owner = content.owners.split(',')
             params.owner = owner[0]
-        } else {
-
         }
 
         return new Promise( resolve => {

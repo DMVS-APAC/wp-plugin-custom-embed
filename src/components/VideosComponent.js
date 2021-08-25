@@ -77,7 +77,7 @@ export default class VideosComponent extends Component {
 
         if (this.#connectionStatus && this.props.globalVideo !== true && !isOwners) {
             url = 'user/' + dmUser + '/videos'
-        } else if (isOwners) {
+        } else if (isOwners && this.props.globalVideo !== true) {
             params.owners = content.owners
             url = 'videos'
         } else {
