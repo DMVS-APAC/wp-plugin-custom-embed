@@ -67,82 +67,84 @@ $sorts = [
     </p>
 
     <script type="text/javascript">
-        const apiKey = "<?php echo $credentials['api_key']; ?>"
-        const apiSecret = "<?php echo $credentials['api_secret']; ?>"
-        const playerId = "<?php echo $options['player_id']; ?>"
+        const apiKey = "<?php echo isset($credentials['api_key']) ? $credentials['api_key'] : ''; ?>"
+        const apiSecret = "<?php echo isset($credentials['api_secret']) ? $credentials['api_secret'] : ''; ?>"
+        const playerId = "<?php echo isset($options['player_id']) ? $options['player_id'] : ''; ?>"
 
-        window.addEventListener('load', (e) => {
-            DM._oauth.tokenUrl = 'https://api.dailymotion.com/oauth/token'
-            DM.Auth.isSessionExpired = (session, sessionLoadingMethod) => {
-                if (typeof(session) === 'undefined') {
-                    session = DM._session
-                }
-                if (!session) {
+        if ( apiKey !== '' && apiSecret !== '') {
+            window.addEventListener('load', (e) => {
+                DM._oauth.tokenUrl = 'https://api.dailymotion.com/oauth/token'
+                DM.Auth.isSessionExpired = (session, sessionLoadingMethod) => {
+                    if (typeof (session) === 'undefined') {
+                        session = DM._session
+                    }
+                    if (!session) {
+                        return true
+                    }
+                    if (session && 'expires_in' in session && new Date().getTime() < parseInt(session.expires_in, 10) * 1000) {
+                        return false
+                    }
+                    delete session.expires_in
                     return true
                 }
-                if (session && 'expires_in' in session && new Date().getTime() < parseInt(session.expires_in, 10) * 1000) {
-                    return false
-                }
-                delete session.expires_in
-                return true
-            }
 
-            DM.init({
-                apiKey: apiKey,
-                apiSecret: apiSecret,
-                status: true,
-                cookie: true
-            })
+                DM.init({
+                    apiKey: apiKey,
+                    apiSecret: apiSecret,
+                    status: true,
+                    cookie: true
+                })
 
-            DM.Event.subscribe('auth.sessionChange', res => {
-                // To keep user logged in in 30 days
-                if (res?.status === "connected") {
-                    let longSession = res.session
+                DM.Event.subscribe('auth.sessionChange', res => {
+                    // To keep user logged in in 30 days
+                    if (res?.status === "connected") {
+                        let longSession = res.session
 
-                    if(!("expires_in" in res.session)) {
-                        longSession.expires_in = longSession.expires
-                    }
-
-                    longSession.expires = longSession.expires + (3600 * 24 * 28)
-                    DM.Cookie.set(longSession)
-                }
-            })
-
-
-            DM.getLoginStatus( response => {
-                const playerIdSelector = document.querySelector('#player-id')
-
-                if (response.session) {
-                    DM.api('/user/<?php echo $dmUser; ?>/players', {
-                        fields: ['id', 'label']
-                    }, players => {
-
-                        if (Object.entries(players.list).length !== 0) {
-
-                            for (let i = 0; i < players.list.length; i++) {
-                                const option = document.createElement('option')
-                                option.innerText = players.list[i].id + ' - ' + players.list[i].label
-                                option.setAttribute('value', players.list[i].id)
-
-                                if ( players.list[i].id === playerId) {
-                                    option.setAttribute('selected', 'true')
-                                }
-
-                                playerIdSelector.appendChild(option)
-                            }
+                        if (!("expires_in" in res.session)) {
+                            longSession.expires_in = longSession.expires
                         }
 
-                    })
-                } else if (playerId) {
-                    console.log(playerId)
-                    const option = document.createElement('option')
-                    option.innerText = playerId
-                    option.setAttribute('selected', 'true')
+                        longSession.expires = longSession.expires + (3600 * 24 * 28)
+                        DM.Cookie.set(longSession)
+                    }
+                })
 
-                    playerIdSelector.appendChild(option)
-                    playerIdSelector.setAttribute('disabled', 'true')
-                }
-            })
-        })
+
+                DM.getLoginStatus(response => {
+                    const playerIdSelector = document.querySelector('#player-id')
+
+                    if (response.session) {
+                        DM.api('/user/<?php echo $dmUser; ?>/players', {
+                            fields: ['id', 'label']
+                        }, players => {
+
+                            if (Object.entries(players.list).length !== 0) {
+
+                                for (let i = 0; i < players.list.length; i++) {
+                                    const option = document.createElement('option')
+                                    option.innerText = players.list[i].id + ' - ' + players.list[i].label
+                                    option.setAttribute('value', players.list[i].id)
+
+                                    if (players.list[i].id === playerId) {
+                                        option.setAttribute('selected', 'true')
+                                    }
+
+                                    playerIdSelector.appendChild(option)
+                                }
+                            }
+
+                        })
+                    } else if (playerId) {
+                        console.log(playerId)
+                        const option = document.createElement('option')
+                        option.innerText = playerId
+                        option.setAttribute('selected', 'true')
+
+                        playerIdSelector.appendChild(option)
+                        playerIdSelector.setAttribute('disabled', 'true')
+                    }
+                })
+            }) // load event listener
+        } // if statement
     </script>
 </form>
