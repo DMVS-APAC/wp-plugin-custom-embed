@@ -45,6 +45,7 @@ export default class PlaylistComponent extends Component {
 
         const dmUser = await fetchApi('/dm/v1/userinfo')
         const content = await fetchApi('/dm/v1/get-custom-options/content')
+        console.log('dm: ', content, dmUser)
 
         const url = '/playlists'
         const params = {
@@ -60,6 +61,8 @@ export default class PlaylistComponent extends Component {
         }
 
         if (this.#connectionStatus && this.props.globalVideo !== true ) {
+            params.owner = dmUser
+        } else if ( !this.#connectionStatus && content !== false ) {
             const owner = content.owners.split(',')
             params.owner = owner[0]
         }
