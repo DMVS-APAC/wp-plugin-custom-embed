@@ -27,9 +27,7 @@ export default class ContentFinderComponent extends Component {
         this.state = {
             playlists: {},
             keywords: "",
-            findKeywords: "",
             currentPage: 1,
-            globalVideo: false,
             findGlobal: false,
             findPlaylist: false,
         }
@@ -61,11 +59,6 @@ export default class ContentFinderComponent extends Component {
 
     async findVideo(e) {
         e.preventDefault()
-
-        this.setState({
-            findKeywords: this.state.keywords,
-            findGlobal: this.state.globalVideo
-        })
     }
 
     setKeywords(e) {
@@ -76,7 +69,7 @@ export default class ContentFinderComponent extends Component {
 
     setGlobalVideo(e) {
         this.setState({
-            globalVideo: (e.target.checked === true)
+            findGlobal: (e.target.checked === true)
         })
     }
 
@@ -122,8 +115,8 @@ export default class ContentFinderComponent extends Component {
 
 
                     { this.state.findPlaylist ?
-                        <Playlist keywords={this.state.findKeywords} globalVideo={this.state.findGlobal} /> :
-                        <Videos keywords={this.state.findKeywords} globalVideo={this.state.findGlobal} />
+                        <Playlist keywords={this.state.keywords} globalVideo={this.state.findGlobal} /> :
+                        <Videos keywords={this.state.keywords} globalVideo={this.state.findGlobal} />
                     }
 
                 </div>
