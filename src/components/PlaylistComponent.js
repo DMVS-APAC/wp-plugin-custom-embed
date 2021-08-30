@@ -60,11 +60,9 @@ export default class PlaylistComponent extends Component {
             params.sort = 'relevance'
         }
 
-        const isOwners = typeof content.owners !== 'undefined'
-
         if (this.#connectionStatus && this.props.globalVideo !== true ) {
             params.owner = dmUser
-        } else if (isOwners && this.props.globalVideo !== true) {
+        } else if ( !this.#connectionStatus && content !== false ) {
             const owner = content.owners.split(',')
             params.owner = owner[0]
         }
