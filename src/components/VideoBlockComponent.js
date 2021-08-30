@@ -189,6 +189,9 @@ export default class VideoBlockComponent extends Component {
             if (this.dmOptions.show_video_title === '1')
                 attrs.showVideoTitle = 'true'
 
+            if (this.dmOptions.show_carousel_playlist === '1')
+                attrs.showOutsidePlaylist = 'true'
+
         }
 
         // `playerId` is using only for preview, it's Yudhi's `playerId`

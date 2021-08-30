@@ -51,12 +51,13 @@ export default class PlaylistComponent extends Component {
             limit: 10,
             fields: 'id,name,thumbnail_240_url,private',
             page: page,
-            sort: 'relevance',
+            sort: 'recent',
             flags: 'verified',
         }
 
         if (keywords) {
             params.search = keywords
+            params.sort = 'relevance'
         }
 
         if (this.#connectionStatus && this.props.globalVideo !== true ) {
