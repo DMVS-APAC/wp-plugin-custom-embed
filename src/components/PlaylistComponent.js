@@ -51,15 +51,20 @@ export default class PlaylistComponent extends Component {
             limit: 10,
             fields: 'id,name,thumbnail_240_url,private',
             page: page,
-            sort: 'relevance',
+            sort: 'recent',
             flags: 'verified',
         }
 
         if (keywords) {
             params.search = keywords
+            params.sort = 'relevance'
         }
 
+        const isOwners = typeof content.owners !== 'undefined'
+
         if (this.#connectionStatus && this.props.globalVideo !== true ) {
+            params.owner = dmUser
+        } else if (isOwners && this.props.globalVideo !== true) {
             const owner = content.owners.split(',')
             params.owner = owner[0]
         }
