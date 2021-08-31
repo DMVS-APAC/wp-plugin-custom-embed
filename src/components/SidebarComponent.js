@@ -1,6 +1,7 @@
 // Wordpress packages
 import { registerPlugin } from "@wordpress/plugins"
-import { PluginSidebar } from "@wordpress/edit-post"
+import { PluginSidebar, PluginSidebarMoreMenuItem } from "@wordpress/edit-post"
+import { Fragment } from "@wordpress/element"
 import { __ } from "@wordpress/i18n"
 
 // Libs
@@ -42,18 +43,24 @@ export default class SidebarComponent {
 
     registerSidebar() {
         registerPlugin( 'dm-sidebar-settings', {
-            icon: dailymotionIcon,
             render: () => {
                 return (
-                    <>
+                    <Fragment>
+                        <PluginSidebarMoreMenuItem
+                            target="dm-sidebar-settings"
+                            icon={dailymotionIcon()}
+                        >
+                            {__('Dailymotion Sidebar Settings', 'textdomain')}
+                        </PluginSidebarMoreMenuItem>
                         <PluginSidebar
                             name="dm-sidebar-settings"
                             title={__('Dailymotion Sidebar Settings', 'textdomain')}
+                            icon={dailymotionIcon()}
                         >
                             <SelectedVideo />
                             <ContentFinder />
                         </PluginSidebar>
-                    </>
+                    </Fragment>
                 )
             }
         })
