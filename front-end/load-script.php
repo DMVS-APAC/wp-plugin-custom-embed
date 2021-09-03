@@ -16,7 +16,7 @@ class Load_Scripts
     {
 
         add_action('wp_footer', array($this, 'load_script'));
-        add_filter('the_content', array($this, 'hook_player_into_content'));
+//        add_filter('the_content', array($this, 'hook_player_into_content'));
     }
 
     /**
@@ -38,7 +38,6 @@ class Load_Scripts
      */
     public function hook_player_into_content($content)
     {
-
         if (is_single() || is_page()) {
 
             $player_holder = '<div class="dm-player__wrapper"><div class="dm-player"';
@@ -96,7 +95,10 @@ class Load_Scripts
 
             // Put the player to the right position defined
             if (sizeof($player_pos) !== 0 && $player_pos[0] !== '-1') {
-                $content = explode("</p>", $content);
+                // A splitter content to array
+                // https://stackoverflow.com/questions/38542878/split-all-html-tags-into-a-array
+//                preg_match_all("/\<\w[^<>]*?\>([^<>]+?\<\/\w+?\>)?|\<\/\w+?\>/i", $content, $array);
+                preg_match_all("|<[^>]+>(.*)</[^>]+>|U", $content, $array);
 
                 $new_content = '';
 
@@ -104,11 +106,11 @@ class Load_Scripts
                     $new_content .= $player_holder;
                 }
 
-                for ($i = 0; $i < count($content); $i++) {
-                    $new_content .= $content[$i] . "</p>";
+                for ($i = 0; $i < count($array[0]); $i++) {
+                    $new_content .= $array[0][$i] . ' pos: ' . $i;
 
                     if ($i === $player_pos[0] - 1) {
-                        $new_content .= $player_holder;
+                        $new_content .= 'Ini player pos: ' . $player_pos[0];
                     }
                 }
 
