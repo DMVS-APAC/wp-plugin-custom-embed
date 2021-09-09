@@ -5,6 +5,12 @@
  * @since 1.0.0
  */
 
+$player_pos = [
+    'top',
+    'middle',
+    'bottom'
+];
+
 ?>
 
 <form action="<?php echo get_admin_url() . 'admin.php?page=dm-general-settings&tab=player&action=save_data'; ?>" method="post">
@@ -14,6 +20,24 @@
     <table class="form-table" role="presentation">
 
         <tbody>
+
+        <tr>
+            <th scope="row"><label for="auto-player-pos"><?php echo __('Player Position'); ?></label></th>
+            <td>
+                <select name="auto_player_pos" id="auto-player-pos" class="regular-text">
+                    <?php
+                        for($i = 0; $i < sizeof($player_pos); $i++) {
+                            echo '<option value="' . $player_pos[$i] . '" ';
+                                if ( isset($options['auto_player_pos']) && $options['auto_player_pos'] === $player_pos[$i]
+                                || !isset($options['auto_player_pos']) && 'bottom' === $player_pos[$i] ) {
+                                    echo 'selected ';
+                                }
+                            echo '>' . $player_pos[$i] . '</option>';
+                        }
+                    ?>
+                </select>
+            </td>
+        </tr>
 
         <tr>
             <th scope="row"><label for="syndication"><?php echo __('Syndication ID'); ?> <span class="detail-info">?<span
