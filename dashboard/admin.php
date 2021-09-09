@@ -148,23 +148,16 @@ class DM_Admin {
             if (!empty($params['language']) && $params['language'] !== null)
                 $dm_ce_data += ['language' => $params['language']];
 
-//            if (!empty($params['keywords_selector']) && $params['keywords_selector'] !== null)
-//                $dm_ce_data += ['keywords_selector' => $params['keywords_selector']];
-
             if (!empty($params['range_day']) && $params['range_day'] !== null)
                 $dm_ce_data += ['range_day' => $params['range_day']];
 
-            // Because of
-//            if (!empty($params['video_id']) && $params['video_id'] !== null)
-//                $dm_ce_data += ['video_id' => $params['video_id']];
-
 
             // Player options
+            if (!empty($params['auto_player_pos']) && $params['auto_player_pos'] !== null)
+                $dm_ce_data += ['auto_player_pos' => $params['auto_player_pos']];
+
             if (!empty($params['syndication']) && $params['syndication'] !== null)
                 $dm_ce_data += ['syndication' => $params['syndication']];
-
-//            if (!empty($params['hide_controls']) && $params['hide_controls'] !== null)
-//                $dm_ce_data += ['hide_controls' => $params['hide_controls']];
 
             if (!empty($params['ads_params']) && $params['ads_params'] !== null)
                 $dm_ce_data += ['ads_params' => $params['ads_params']];
@@ -183,19 +176,6 @@ class DM_Admin {
 
             if (!empty($params['mute']) && $params['mute'] !== null)
                 $dm_ce_data += ['mute' => $params['mute']];
-
-//            if (!empty($params['hide_controls_ad']) && $params['hide_controls_ad'] !== null)
-//                $dm_ce_data += ['hide_controls_ad' => $params['hide_controls_ad']];
-//
-//            if (!empty($params['pip_at_start']) && $params['pip_at_start'] !== null)
-//                $dm_ce_data += ['pip_at_start' => $params['pip_at_start']];
-//
-//            if (!empty($params['click_to_play']) && $params['click_to_play'] !== null)
-//                $dm_ce_data += ['click_to_play' => $params['click_to_play']];
-//
-//            if (!empty($params['deactivate_pip']) && $params['deactivate_pip'] !== null)
-//                $dm_ce_data += ['deactivate_pip' => $params['deactivate_pip']];
-
 
             // Save the option to database
             update_option('dm_ce_options_' . $tab, $dm_ce_data);

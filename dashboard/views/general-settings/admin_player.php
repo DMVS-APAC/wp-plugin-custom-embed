@@ -22,10 +22,20 @@ $player_pos = [
         <tbody>
 
         <tr>
-            <th scope="row"><label for="player-pos"><?php echo __('Player Position'); ?></label></th>
+            <th scope="row"><label for="auto-player-pos"><?php echo __('Player Position'); ?></label></th>
             <td>
-                <input name="player-pos" type="text" id="player_pos" class="regular-text"
-                       value="<?php echo ( isset($options['player_pos']) ) ? $options['player_pos'] : ''; ?>">
+                <select name="auto_player_pos" id="auto-player-pos" class="regular-text">
+                    <?php
+                        for($i = 0; $i < sizeof($player_pos); $i++) {
+                            echo '<option value="' . $player_pos[$i] . '" ';
+                                if ( isset($options['auto_player_pos']) && $options['auto_player_pos'] === $player_pos[$i]
+                                || !isset($options['auto_player_pos']) && 'bottom' === $player_pos[$i] ) {
+                                    echo 'selected ';
+                                }
+                            echo '>' . $player_pos[$i] . '</option>';
+                        }
+                    ?>
+                </select>
             </td>
         </tr>
 
