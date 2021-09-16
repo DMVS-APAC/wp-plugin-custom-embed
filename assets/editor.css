@@ -12,6 +12,16 @@
     min-height: 450px;
 }
 
+#dm-search-classic .dm__content-list .dm__search-results {
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: auto;
+}
+#dm-search-classic .dm__content-list:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
 .dm__show-message {
     grid-column: 1 / span 2;
 }

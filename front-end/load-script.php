@@ -2,7 +2,8 @@
 /**
  * Load_Scripts
  *
- * This class is handle all things to show the player to the front end
+ * This class is handle all things to show the player to the front end.
+ * Technically, it is hook the player inside the content via `add_filter`.
  */
 
 if (!defined('ABSPATH')) {
@@ -27,6 +28,13 @@ class Load_Scripts {
         }
     }
 
+    /**
+     *
+     *
+     * @param $post_id int
+     * @param $player_pos int
+     * @return array it contains auto embed status, player position for auto embed, player string holder
+     */
     private function generate_player_holder($post_id, $player_pos): array {
         $player_string = '<div class="dm-player__wrapper"><div class="dm-player"';
 
@@ -86,7 +94,7 @@ class Load_Scripts {
     }
 
     /**
-     * Clean the html tag node from generated `#text`
+     * Clean the html tag node from generated empty string typed `#text`
      *
      * @param mixed $html tags generated nodes
      * @return array a list of html tags
