@@ -41,7 +41,6 @@ if (defined( 'DM_BETA' ) && DM_BETA === true) {
 require DM__PATH . 'dashboard/admin.php';
 require DM__PATH . 'api/Custom_Get_Options.php';
 require DM__PATH . 'custom-block/dm-block.php';
-require DM__PATH . 'classic-editor/video-selected.php';
 require DM__PATH . 'classic-editor/search-video.php';
 require DM__PATH . 'front-end/load-script.php';
 require DM__PATH . 'onboarding/activation.php';
