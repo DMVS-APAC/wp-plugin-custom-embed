@@ -67,6 +67,7 @@ function global_script() {
     wp_enqueue_script(
         'dm-sdk',
         'https://api.dmcdn.net/all.js',
+        // 'https://dm.test/dm-sdk.js',
         [],
         '',
         true

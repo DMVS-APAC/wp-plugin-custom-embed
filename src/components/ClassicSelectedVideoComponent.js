@@ -15,7 +15,28 @@ export default function ClassicSelectedVideoComponent(props) {
 
     })
 
-    function showImage() {
+    useEffect(() => {
+        console.log('aha')
+    })
+
+    const setVideo = () => {
+        // const video = getVideo()
+
+        setVideoData({
+            title: 'nganu',
+            id: '234'
+        })
+    }
+
+    const showImage = () => {
+        if ( videoData.title !== '' || videoData.name !== '') {
+            return (
+                <>
+                    Video is here!
+                </>
+            )
+        }
+
         return (
             <p>No video selected.</p>
         )

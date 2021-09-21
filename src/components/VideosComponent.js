@@ -175,7 +175,7 @@ export default class VideosComponent extends Component {
             for (let i = 0; i < list.length; i++) {
                 videos.push(
                     <li key={list[i]} className={`content__item ${list[i].private ? "private" : ""} ${list[i].status === 'ready' ? "draft" : ""}`}>
-                        <button onClick={() => this.addToPost(list[i])}>
+                        <button onClick={() => this.addToPost(list[i])} type="button">
                             <figure className="content__image-wrapper">
                                 <div className="content__placement">
                                     <img src={list[i].thumbnail_240_url} alt={list[i].title} className="content__thumbnail"/>
