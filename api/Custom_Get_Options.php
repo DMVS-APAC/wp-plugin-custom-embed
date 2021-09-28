@@ -67,11 +67,12 @@ class Custom_Get_Options extends WP_REST_Controller {
         /*
          * Get custom post meta
          */
-        register_rest_route($namespace, '/custom-post-meta/(?P<post_id>[a-zA-Z0-9-]+)/(?P<meta_name>[a-zA-Z0-9-]+)', [
+        register_rest_route($namespace, '/custom-post-meta/', [
             [
-                'methods'               => WP_REST_Server::READABLE,
+                'methods'               => WP_REST_Server::EDITABLE,
                 'callback'              => [ $this, 'get_custom_post_meta'],
-                'permission_callback'   => [ $this, 'permission_check']
+                'permission_callback'   => [ $this, 'permissions_check'],
+                'args'                  => $this->get_endpoint_args_for_item_schema(true),
             ]
         ]);
     }
@@ -80,7 +81,7 @@ class Custom_Get_Options extends WP_REST_Controller {
      * @param $request
      * @return WP_REST_Response
      */
-    public function get_custom_post_meta($request) {
+    public function get_custom_post_meta(WP_REST_Request $request): WP_REST_Response {
         $post_id = $request->get_param('post_id');
         $meta_name = $request->get_param('meta_name');
         $post_meta = get_post_meta($post_id, $meta_name);
@@ -155,7 +156,7 @@ class Custom_Get_Options extends WP_REST_Controller {
      * @return WP_Error|bool
      */
     public function permissions_check( $request ) {
-        //return true; <--use to make readable by all
+//        return true; //<--use to make readable by all
         return current_user_can( 'edit_posts' );
     }
 }

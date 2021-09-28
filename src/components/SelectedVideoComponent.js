@@ -1,6 +1,7 @@
 import { PanelBody } from "@wordpress/components"
 import { select, subscribe } from "@wordpress/data"
 import { Component } from "@wordpress/element"
+import { fetchApi } from "../libs/apiCall"
 
 /**
  * SelectedVideoComponent
@@ -19,6 +20,12 @@ export default class SelectedVideoComponent extends Component {
         id: ''
     }
 
+    /**
+     *
+     * @type {string}
+     */
+    #editorMode = ''
+
     constructor(props) {
         super(props)
 
@@ -26,11 +33,22 @@ export default class SelectedVideoComponent extends Component {
             videoData: this.#videoDefault,
         }
 
+        this.#editorMode = this.#checkEditorMode()
+
         // Bind `this` to the method
         this.getContent = this.getContent.bind(this)
         this.showImage = this.showImage.bind(this)
 
         this.subscribes()
+    }
+
+
+    #checkEditorMode() {
+        if ( document.body.classList.contains( 'block-editor-page' ) ) {
+            return 'gutenberg'
+        }
+
+        return 'classic-editor'
     }
 
     componentDidMount() {
@@ -42,15 +60,28 @@ export default class SelectedVideoComponent extends Component {
      *
      * @returns {{thumbnail_240_url: string, id: string, title: string}}
      */
-    getContent() {
-        return select('core/editor').getEditedPostAttribute('meta')['_dm_video_data']
+    async getContent() {
+        if (this.#editorMode === 'gutenberg') {
+            return select('core/editor').getEditedPostAttribute('meta')['_dm_video_data']
+        } else {
+            const videoData = await fetchApi('/dm/v1/custom-post-meta/',
+                'POST',
+                { post_id: postId, meta_name: '_dm_video_data'}
+            )
+
+            let jsonObject = JSON.parse(videoData)
+            const videoDataInput = document.getElementById('dm_video_data')
+            videoDataInput.setAttribute('value', JSON.stringify(jsonObject))
+
+            return videoData
+        }
     }
 
     /**
      * Set video data to the local state
      */
-    setVideo() {
-        const video = this.getContent()
+    async setVideo() {
+        const video = await this.getContent()
 
         this.setState({
             videoData: ( video === "" ) ? this.#videoDefault : JSON.parse(video),
@@ -61,15 +92,24 @@ export default class SelectedVideoComponent extends Component {
      * Subscribe to all methods available to update the state globally
      */
     subscribes() {
-        subscribe( e => {
-            this.setVideo()
-        })
+
+        if (this.#editorMode === 'gutenberg') {
+            subscribe(e => {
+                this.setVideo()
+            })
+        } else {
+            document.addEventListener('dm-video-updated', e => {
+                this.setState({
+                    videoData: e.detail.videoData
+                })
+            })
+        }
     }
 
     showImage() {
         if (this.state.videoData.title !== '' || this.state.videoData.name !== '') {
            return (
-               <>
+               <div className="selected-video">
                    <h3>Selected video</h3>
                    <figure className="content__image-wrapper">
                        <div className="content__placement">
@@ -88,7 +128,7 @@ export default class SelectedVideoComponent extends Component {
                            this.state.videoData.title :
                            this.state.videoData.name
                    }</span>
-               </>
+               </div>
            )
         }
 

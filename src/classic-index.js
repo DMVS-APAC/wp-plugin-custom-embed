@@ -1,12 +1,13 @@
-import { render, createElement } from '@wordpress/element'
+import { render } from '@wordpress/element'
 import ContentFinder from "./components/ContentFinderComponent"
-import ClassicSelectedVideo from './components/ClassicSelectedVideoComponent'
+import SelectedVideo from './components/SelectedVideoComponent'
 import DmSdk from "./libs/dmSdk"
 
 function dmVideoSearch() {
     return (
         <>
-            <ClassicSelectedVideo />
+            <SelectedVideo />
+            <hr />
             <ContentFinder />
         </>
     )

@@ -12,6 +12,12 @@ if (!defined('ABSPATH')) {
 
 class Load_Scripts {
 
+    private $player_pos_enum = [
+        'top',
+        'middle',
+        'bottom'
+    ];
+
     public function __construct() {
 
         add_action('wp_footer', array($this, 'load_script'));
@@ -68,7 +74,7 @@ class Load_Scripts {
         $video_data = get_post_meta($post_id, '_dm_video_data');
 
         // If video data is not empty, it will load video from database
-        if (sizeof($video_data) !== 0 && sizeof($player_pos) !== 0 && $player_pos[0] !== '-1') {
+        if (sizeof($video_data) !== 0 && !in_array($player_pos, $this->player_pos_enum) && $player_pos[0] !== '-1') {
             $video = json_decode($video_data[0]);
 
             if (isset($video->name)) {
@@ -133,14 +139,38 @@ class Load_Scripts {
 
                 // TODO we still have problem with this `getElementsByTagName`, the result is included empty string.
                 //  The empty string is messed up the `childNodes` so can't count it properly. Unfortunately,
-                //  the `shortcode` indetified the same as an empty string type, `#text`.
+                //  the `shortcode` identified the same as an empty string type, `#text`.
                 $body = $dom->getElementsByTagName('body')->item(0)->childNodes;
                 $body = $this->cleanup_html($body);
             }
 
 
             // Put the player to the right position defined
-            if (sizeof($player_pos) !== 0 && $player_pos[0] !== '-1') {
+            if ( isset($player_pos) && in_array($player_pos[0], $this->player_pos_enum) ) {
+                //TODO: refactor this function
+                $new_content = '';
+                switch ($player_pos[0]):
+                    case 'top':
+                        $new_content = $player_holder['string'] . $content;
+                        break;
+                    case 'middle':
+                        $middle_pos = round(sizeof($body) / 2);
+                        for ($i = 0; $i < sizeof($body); $i++) {
+
+                            $new_content .= $dom->saveHTML($body[$i]);
+
+                            if ($i == $middle_pos - 1) {
+                                $new_content .= $player_holder['string'];
+                            }
+                        }
+                        break;
+                    default:
+                        $new_content = $content . $player_holder['string'];
+                endswitch;
+
+                $new_content .= 'classic - ' . gettype($player_pos[0]);
+
+            } else if (sizeof($player_pos) !== 0 && $player_pos[0] !== '-1') {
                 $new_content = '';
 
                 if ($player_pos[0] == 0) {
@@ -157,6 +187,8 @@ class Load_Scripts {
                         }
                     }
                 }
+
+                $new_content .= 'gutenberg';
 
             } else if ( isset($player_holder['auto']) ) {
                 $new_content = '';
@@ -179,6 +211,8 @@ class Load_Scripts {
                         $new_content = $content . $player_holder['string'];
                 endswitch;
 
+                $new_content .= 'auto';
+
             } else {
                 $new_content = $content;
             }
@@ -189,6 +223,10 @@ class Load_Scripts {
         } // if the post and the page
 
         return $content;
+    }
+
+    private function put_the_player($content, $pos) {
+
     }
 
 }

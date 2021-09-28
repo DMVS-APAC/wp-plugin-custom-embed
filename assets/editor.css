@@ -81,6 +81,13 @@
         padding-bottom: 56.25%;
         background-color: #000;
     }
+
+        #dm-search-classic .selected-video {
+            max-width: 450px;
+        }
+        #dm-search-classic .checkbox-label {
+            margin-left: 20px;
+        }
         .content__placement {
             position: absolute;
             top: 0;
@@ -93,6 +100,8 @@
             max-height: 100%;
             max-width: 100%;
             object-fit: cover;
+            width: 100%;
+            height: 100%;
         }
 
 
