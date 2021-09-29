@@ -19,6 +19,12 @@ export default class VideosComponent extends Component {
      */
     #connectionStatus = null
 
+    /**
+     *
+     * @type {string}
+     */
+    #editorMode = ''
+
     constructor(props) {
         super(props)
 
@@ -28,9 +34,27 @@ export default class VideosComponent extends Component {
             loadingData: true,
         }
 
+        this.#editorMode = this.#checkEditorMode()
+
         this.setVideos = this.setVideos.bind(this)
         this.loadPage = this.loadPage.bind(this)
         this.setLoadingData = this.setLoadingData.bind(this)
+    }
+
+    /**
+     * Check which editor is active
+     *
+     * TODO: Should be available on global exist on VideosComponent and SelectedVideoComponent
+     *
+     * @link for reference how to check which editor in use https://github.com/WordPress/gutenberg/issues/12200
+     * @returns {string}
+     */
+    #checkEditorMode() {
+        if ( document.body.classList.contains( 'block-editor-page' ) ) {
+            return 'gutenberg'
+        }
+
+        return 'classic-editor'
     }
 
     /**
@@ -123,15 +147,29 @@ export default class VideosComponent extends Component {
      * @param video
      */
     addToPost(video) {
-        dispatch('core/editor').editPost({
-            meta: {
-                _dm_video_data: JSON.stringify(video)
-            }
-        })
+        if (this.#editorMode === 'gutenberg') {
+            dispatch('core/editor').editPost({
+                meta: {
+                    _dm_video_data: JSON.stringify(video)
+                }
+            })
 
-        // Send custom event to catch on VideoBlockComponent to render a new video
-        const videoUpdated = new CustomEvent("dm-video-updated")
-        document.dispatchEvent(videoUpdated)
+            // Send custom event to catch on VideoBlockComponent to render a new video
+            const videoUpdated = new CustomEvent("dm-video-updated")
+            document.dispatchEvent(videoUpdated)
+        } else {
+            const videoDataInput = document.getElementById('dm_video_data')
+            videoDataInput.setAttribute('value', JSON.stringify(video))
+
+            // Send custom event to catch on VideoBlockComponent to render a new video
+            const videoUpdated = new CustomEvent("dm-video-updated", {
+                detail: {
+                    videoData: video
+                }
+            })
+            document.dispatchEvent(videoUpdated)
+        }
+
     }
 
     async componentDidMount() {
@@ -175,7 +213,7 @@ export default class VideosComponent extends Component {
             for (let i = 0; i < list.length; i++) {
                 videos.push(
                     <li key={list[i]} className={`content__item ${list[i].private ? "private" : ""} ${list[i].status === 'ready' ? "draft" : ""}`}>
-                        <button onClick={() => this.addToPost(list[i])}>
+                        <button onClick={() => this.addToPost(list[i])} type="button">
                             <figure className="content__image-wrapper">
                                 <div className="content__placement">
                                     <img src={list[i].thumbnail_240_url} alt={list[i].title} className="content__thumbnail"/>

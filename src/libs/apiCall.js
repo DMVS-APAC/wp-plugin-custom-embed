@@ -30,14 +30,21 @@ export function fetchData(urlParams) {
  *
  * @param {string} url
  * @param {string} method
+ * @param data
  * @returns {Promise<any>}
  */
-export function fetchApi(url, method = 'GET') {
+export function fetchApi(url, method = 'GET', data) {
+    const options = {
+        path: url,
+        method: method,
+    }
+
+    if (typeof(data) !== 'undefined') {
+        options.data = data
+    }
+
     return new Promise(resolve => {
-        apiFetch({
-            path: url,
-            method: method
-        }).then(result => {
+        apiFetch(options).then(result => {
             resolve(result)
         })
     })
