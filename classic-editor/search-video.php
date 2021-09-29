@@ -85,10 +85,13 @@ class Search_Video {
             $post_id = $parent_id;
         }
 
-//        print_r($_POST['_dm_video_data']);die();
+        $postmetas = [ '_dm_video_data', '_dm_player_position' ];
 
-        update_post_meta( $post_id, '_dm_video_data', sanitize_text_field($_POST['_dm_video_data']) );
-        update_post_meta( $post_id, '_dm_player_position', sanitize_text_field($_POST['_dm_player_position']) );
+        for ($i = 0; $i < sizeof($postmetas); $i++) {
+            if ( isset( $_POST[ $postmetas[$i] ] ) ) {
+                update_post_meta( $post_id, $postmetas[$i], sanitize_text_field( $_POST[ $postmetas[$i] ] ) );
+            }
+        }
     }
 }
 

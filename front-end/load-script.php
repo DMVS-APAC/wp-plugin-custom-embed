@@ -72,10 +72,15 @@ class Load_Scripts {
 
 
         $video_data = get_post_meta($post_id, '_dm_video_data');
+        $video = json_decode($video_data[0]);
 
         // If video data is not empty, it will load video from database
-        if (sizeof($video_data) !== 0 && !in_array($player_pos, $this->player_pos_enum) && $player_pos[0] !== '-1') {
-            $video = json_decode($video_data[0]);
+        // the `$player_pos` is the indicator if the player is embedded in the page or not
+        if ( !empty($video) &&
+            sizeof($player_pos) !== 0 &&
+            $player_pos[0] !== '-1' &&
+            !empty($player_pos[0])
+        ) {
 
             if (isset($video->name)) {
                 $player_string .= ' playlistId="' . $video->id . '"';
@@ -168,9 +173,8 @@ class Load_Scripts {
                         $new_content = $content . $player_holder['string'];
                 endswitch;
 
-                $new_content .= 'classic - ' . gettype($player_pos[0]);
-
-            } else if (sizeof($player_pos) !== 0 && $player_pos[0] !== '-1') {
+            // `$player_post` has a mixed value string and number, so need to filter based on both
+            } else if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' && !empty($player_pos[0]) ) {
                 $new_content = '';
 
                 if ($player_pos[0] == 0) {
@@ -187,8 +191,6 @@ class Load_Scripts {
                         }
                     }
                 }
-
-                $new_content .= 'gutenberg';
 
             } else if ( isset($player_holder['auto']) ) {
                 $new_content = '';
@@ -210,8 +212,6 @@ class Load_Scripts {
                     default:
                         $new_content = $content . $player_holder['string'];
                 endswitch;
-
-                $new_content .= 'auto';
 
             } else {
                 $new_content = $content;
