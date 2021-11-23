@@ -5,11 +5,11 @@
  * Description: Embed video from Dailymotion
  * Author: DMVS APAC Team
  * Author URI: https://github.com/DMVS-APAC
- * Version: 1.1.0-2
+ * Version: 1.1.0-3
  * Plugin URI: https://github.com/DMVS-APAC/wp-plugin-custom-embed
  * Download
  *
- * @version 1.1.0-2
+ * @version 1.1.0-3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,10 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require 'vendor/autoload.php';
 
-define( 'DM_CE__VERSION', '1.1.0-2');
+define( 'DM_CE__VERSION', '1.1.0-3');
 define( 'DM__FILE__', __FILE__ );
 define( 'DM__PLUGIN_BASE', plugin_basename( DM__FILE__ ) );
 define( 'DM__PATH', plugin_dir_path( DM__FILE__ ) );
+
 
 /**
  * Plugin update checker to let user know if there is a new update available
@@ -44,17 +45,20 @@ require DM__PATH . 'custom-block/dm-block.php';
 require DM__PATH . 'front-end/load-script.php';
 require DM__PATH . 'onboarding/activation.php';
 
-/**
+/*
  * Load only if the classic editor is active
  */
-add_action('admin_init', 'load_custom_metabox');
-function load_custom_metabox() {
+add_action('admin_init', 'check_editor');
+function check_editor() {
     if (is_plugin_active('classic-editor/classic-editor.php')) {
         require DM__PATH . 'classic-editor/search-video.php';
     }
-
 }
 
+/**
+ * Load shortcodes
+ */
+require DM__PATH . 'shortcodes/dm-player-shortcode.php';
 
 /**
  * Load global library needed by the plugin on the admin dashboard
@@ -63,7 +67,9 @@ add_action('admin_enqueue_scripts', 'admin_styles');
 function admin_styles() {
     wp_enqueue_style(
         'dm-editor-stylesheet',
-        plugin_dir_url(DM__FILE__) . 'assets/editor.css'
+        plugin_dir_url(DM__FILE__) . 'assets/editor.css',
+        // Load components styles to use on classic editor
+        ['wp-components']
     );
 }
 
@@ -77,7 +83,6 @@ function global_script() {
     wp_enqueue_script(
         'dm-sdk',
         'https://api.dmcdn.net/all.js',
-        // 'https://dm.test/dm-sdk.js',
         [],
         '',
         true

@@ -61,7 +61,8 @@ class DM_Block {
         ));
         register_meta('post', '_dm_player_position', array(
             'show_in_rest' => true,
-            'type' => 'string',
+//            'type' => (DM__EDITOR === 'classic editor') ? 'string' : 'integer',
+            'type' => 'integer',
             'single' => true,
             'sanitize_callback' => 'sanitize_text_field',
             'auth_callback' => function() {

@@ -1,12 +1,11 @@
-// import { registerBlockType, getBlockContent } from '@wordpress/blocks'
 import { dispatch, select } from "@wordpress/data"
 import { Component } from "@wordpress/element"
-import {fetchApi} from "../libs/apiCall";
+import { fetchApi } from "../libs/apiCall"
 
 /**
  * Video Block Component
  *
- * This is a block that user can drag n' drop in the editor
+ * This is a block that user can drag n' drop in the editor.
  * It will render preview a video block. Technically, it won't
  * add anything in the editor, just for preview. It only record
  * the position of the player. Once user save the post it also
@@ -29,30 +28,29 @@ export default class VideoBlockComponent extends Component {
     /**
      * Dailymotion options
      */
-    dmOptions
+    dmPlayerAttributes
 
     constructor(props) {
         super(props)
 
         this.subscribes()
 
-        this.state = props.attributes
+        this.state = {
+            videoId: '',
+            privateVideoId: '',
+            playlistId: ''
+        }
     }
 
     /**
      * List of event listener to update the data
+     *
+     * 1. Video Updated
      */
     subscribes() {
         document.addEventListener('dm-video-updated', e => {
             this.setAttr()
         })
-    }
-
-    /**
-     *
-     */
-    async getDmOptions() {
-        return await fetchApi('/dm/v1/get-custom-options/player')
     }
 
     /**
@@ -137,7 +135,7 @@ export default class VideoBlockComponent extends Component {
     }
 
     async componentDidMount() {
-        this.dmOptions = await this.getDmOptions()
+        this.dmPlayerAttributes = await fetchApi('/dm/v1/get-custom-options/player')
 
         this.setAttr()
     }
@@ -155,6 +153,7 @@ export default class VideoBlockComponent extends Component {
 
     generateVideoContainer(attrs) {
 
+        // `playerId` is using only for preview, it's Yudhi's `playerId`
         if (this.state.playlistId !== null) {
             return <div className="dm-player" playlistId={this.state.playlistId} playerId="x1ozy" {...attrs} />
         }
@@ -179,29 +178,28 @@ export default class VideoBlockComponent extends Component {
         }
 
         let attrs = {}
-        if ( this.dmOptions ) {
-            if (this.dmOptions.pre_video_title !== undefined && this.dmOptions.pre_video_title !== '')
-                attrs.preVideoTitle = this.dmOptions.pre_video_title
+        if ( this.dmPlayerAttributes ) {
+            if (this.dmPlayerAttributes.pre_video_title !== undefined && this.dmPlayerAttributes.pre_video_title !== '')
+                attrs.preVideoTitle = this.dmPlayerAttributes.pre_video_title
 
-            if (this.dmOptions.show_info_card === '1')
+            if (this.dmPlayerAttributes.show_info_card === '1')
                 attrs.showInfocard = 'true'
 
-            if (this.dmOptions.show_video_title === '1')
+            if (this.dmPlayerAttributes.show_video_title === '1')
                 attrs.showVideoTitle = 'true'
 
-            if (this.dmOptions.show_carousel_playlist === '1')
+            if (this.dmPlayerAttributes.show_carousel_playlist === '1')
                 attrs.showOutsidePlaylist = 'true'
 
         }
 
-        // `playerId` is using only for preview, it's Yudhi's `playerId`
         return (
             <div className="dm-player__holder">
                 <p className="dm-player__holder--title">
                     <span className="dashicons dashicons-edit-large"/> Dailymotion Player
                 </p>
 
-                {this.generateVideoContainer(attrs)}
+                { this.generateVideoContainer(attrs) }
             </div>
         )
     }

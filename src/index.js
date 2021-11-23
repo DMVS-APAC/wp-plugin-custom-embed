@@ -1,6 +1,7 @@
 import { registerBlockType } from '@wordpress/blocks'
-import { select } from "@wordpress/data";
+import { select } from "@wordpress/data"
 import { __ } from "@wordpress/i18n"
+import {fetchApi} from "./libs/apiCall"
 
 // Video block
 import VideoBlock from "./components/VideoBlockComponent"
@@ -13,10 +14,25 @@ registerBlockType( 'dm-settings/click-embed', {
         __('Dailymotion'),
         __('Embed')
     ],
+
+    // TODO: preapare the block for future use
+    attributes: {
+        videoData: {
+            type: 'object',
+            default: {
+                id: "",
+                private: false,
+                private_id: "",
+                status: "",
+                thumbnail_240_url: "",
+                title: ""
+            }
+        },
+    },
     edit: VideoBlock,
     // No information saved to the block
     // Data is saved to post meta via the hook
-    save( props ) {
+    save: async ( props ) => {
         const blocks = select('core/editor').getBlocks()
 
         if (blocks.length !== 0) {
@@ -34,6 +50,30 @@ registerBlockType( 'dm-settings/click-embed', {
         }
 
         return null
+
+        // TODO: will be migrated using code below
+        // const postId = select("core/editor").getCurrentPostId()
+        // let videoData = await fetchApi('/dm/v1/custom-post-meta/',
+        //     'POST',
+        //     { post_id: postId, meta_name: '_dm_video_data'}
+        // )
+        // let attrs = ''
+        //
+        // if (videoData !== '') {
+        //     videoData = JSON.parse(videoData)
+        //     console.log('dm: ', videoData)
+        //
+        //     if (videoData.private_id !== undefined) {
+        //         attrs = `privatevideoid="${videoData.private_id}"`
+        //     } else {
+        //         attrs = `videoid="${videoData.id}"`
+        //     }
+        //
+        //     return 'haha' //'[dm-player ' + attrs + ']'
+        // }
+
+        // return '<div class="dm-player" sort="recent" owners="kompastv"></div>'
+
     },
 } )
 

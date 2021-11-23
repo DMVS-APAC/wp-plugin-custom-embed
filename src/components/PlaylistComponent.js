@@ -13,6 +13,12 @@ export default class PlaylistComponent extends Component {
      */
     #connectionStatus = null
 
+    /**
+     *
+     * @type {string}
+     */
+    #editorMode = ''
+
     constructor(props) {
         super(props)
 
@@ -22,21 +28,47 @@ export default class PlaylistComponent extends Component {
             loadingData: true
         }
 
+        this.#editorMode = this.#checkEditorMode()
+
         this.setPlaylist = this.setPlaylist.bind(this)
         this.loadPage = this.loadPage.bind(this)
         this.setLoadingData = this.setLoadingData.bind(this)
     }
 
-    addToPost(video) {
-        dispatch('core/editor').editPost({
-            meta: {
-                _dm_video_data: JSON.stringify(video)
-            }
-        })
+    /**
+     * Check which editor is active
+     *
+     * TODO: Should be available on global exist on VideosComponent and SelectedVideoComponent
+     *
+     * @link for reference how to check which editor in use https://github.com/WordPress/gutenberg/issues/12200
+     * @returns {string}
+     */
+    #checkEditorMode() {
+        if ( document.body.classList.contains( 'block-editor-page' ) ) {
+            return 'gutenberg'
+        }
 
-        // Send custom event to catch on VideoBlockComponent to render a new video
-        const videoUpdated = new CustomEvent("dm-video-updated")
-        document.dispatchEvent(videoUpdated)
+        return 'classic-editor'
+    }
+
+    async addToPost(video) {
+
+        if (this.#editorMode === 'gutenberg') {
+            dispatch('core/editor').editPost({
+                meta: {
+                    _dm_video_data: JSON.stringify(video)
+                }
+            })
+
+            // Send custom event to catch on VideoBlockComponent to render a new video
+            const videoUpdated = new CustomEvent("dm-video-updated")
+            document.dispatchEvent(videoUpdated)
+        } else {
+            let attrsString = ''
+            attrsString += ' playlistid="' + video.id + '"'
+
+            wp.media.editor.insert('[dm-player' + attrsString + ']');
+        }
     }
 
     async fetchPlaylist(page = 1, keywords) {
@@ -48,7 +80,7 @@ export default class PlaylistComponent extends Component {
 
         const url = '/playlists'
         const params = {
-            limit: 10,
+            limit: this.props.perPage ? this.props.perPage : 10,
             fields: 'id,name,thumbnail_240_url,private',
             page: page,
             sort: 'recent',

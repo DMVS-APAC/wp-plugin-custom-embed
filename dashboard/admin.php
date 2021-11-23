@@ -116,6 +116,9 @@ class DM_Admin {
             if (!empty($params['player_id']) && $params['player_id'] !== null)
                 $dm_ce_data += ['player_id' =>  $params['player_id']];
 
+            if (!empty($params['player_id_2']) && $params['player_id_2'] !== null)
+                $dm_ce_data += ['player_id_2' =>  $params['player_id_2']];
+
             if (!empty($params['sort_by']) && $params['sort_by'] !== null)
                 $dm_ce_data += ['sort_by' => $params['sort_by']];
 

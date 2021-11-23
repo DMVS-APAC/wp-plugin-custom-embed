@@ -83,7 +83,7 @@ export default class VideosComponent extends Component {
 
         const params = {
             fields: 'id,title,thumbnail_240_url,status,private,private_id',
-            limit: 10,
+            limit: this.props.perPage ? this.props.perPage : 10,
             flags: 'no_live,exportable,verified',
             page: page
         }
@@ -146,7 +146,7 @@ export default class VideosComponent extends Component {
      *
      * @param video
      */
-    addToPost(video) {
+    async addToPost(video) {
         if (this.#editorMode === 'gutenberg') {
             dispatch('core/editor').editPost({
                 meta: {
@@ -158,16 +158,15 @@ export default class VideosComponent extends Component {
             const videoUpdated = new CustomEvent("dm-video-updated")
             document.dispatchEvent(videoUpdated)
         } else {
-            const videoDataInput = document.getElementById('dm_video_data')
-            videoDataInput.setAttribute('value', JSON.stringify(video))
+            let attrsString = ''
 
-            // Send custom event to catch on VideoBlockComponent to render a new video
-            const videoUpdated = new CustomEvent("dm-video-updated", {
-                detail: {
-                    videoData: video
-                }
-            })
-            document.dispatchEvent(videoUpdated)
+            if (video.private === true) {
+                attrsString += ' privatevideoid="' + video.private_id + '"'
+            } else {
+                attrsString += ' videoid="' + video.id + '"'
+            }
+
+            wp.media.editor.insert('[dm-player' + attrsString + ']');
         }
 
     }
@@ -175,6 +174,7 @@ export default class VideosComponent extends Component {
     async componentDidMount() {
         this.#connectionStatus = select(DM_SDK_STORE_KEY).getConnectionStatus()['connectionStatus']
         const videos = await this.fetchVideo()
+
 
         this.setVideos(videos)
     }
