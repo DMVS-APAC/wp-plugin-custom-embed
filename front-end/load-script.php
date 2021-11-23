@@ -12,11 +12,11 @@ if (!defined('ABSPATH')) {
 
 class Load_Scripts {
 
-    private $player_pos_enum = [
-        'top',
-        'middle',
-        'bottom'
-    ];
+//    private $player_pos_enum = [
+//        'top',
+//        'middle',
+//        'bottom'
+//    ];
 
     public function __construct() {
 
@@ -72,7 +72,7 @@ class Load_Scripts {
 
 
         $video_data = get_post_meta($post_id, '_dm_video_data');
-        $video = json_decode($video_data[0]);
+        $video = isset($video_data[0]) ? json_decode($video_data[0]) : null;
 
         // If video data is not empty, it will load video from database
         // the `$player_pos` is the indicator if the player is embedded in the page or not
@@ -102,6 +102,17 @@ class Load_Scripts {
             'pos' => isset($options_player['auto_player_pos']) ? $options_player['auto_player_pos'] : 'bottom',
             'string' => $player_string
         ];
+    }
+
+    /**
+     * To count the number of players in the page
+     *
+     * @param $matches
+     * @return string
+     */
+    function shortcode_counter($matches) {
+        static $i = 1;
+        return '[dm-player number="' . $i++ .'" ';
     }
 
     /**
@@ -136,6 +147,9 @@ class Load_Scripts {
 
             $player_holder = $this->generate_player_holder($post_id, $player_pos);
 
+            // To check and adding `number` string to the shortcode to handle multiple players
+            $content = preg_replace_callback('/\[dm-player/', [$this, 'shortcode_counter'], $content);
+
             if (!empty($content)) {
                 $dom = new DOMDocument;
                 // This is to avoid error on HTML5 tag detected like `<figure>`, `<figcaption>`. DOMDocument still based on HTML4 though
@@ -150,31 +164,31 @@ class Load_Scripts {
             }
 
 
-            // Put the player to the right position defined
-            if ( isset($player_pos) && in_array($player_pos[0], $this->player_pos_enum) ) {
-                //TODO: refactor this function
-                $new_content = '';
-                switch ($player_pos[0]):
-                    case 'top':
-                        $new_content = $player_holder['string'] . $content;
-                        break;
-                    case 'middle':
-                        $middle_pos = round(sizeof($body) / 2);
-                        for ($i = 0; $i < sizeof($body); $i++) {
-
-                            $new_content .= $dom->saveHTML($body[$i]);
-
-                            if ($i == $middle_pos - 1) {
-                                $new_content .= $player_holder['string'];
-                            }
-                        }
-                        break;
-                    default:
-                        $new_content = $content . $player_holder['string'];
-                endswitch;
+//            // Put the player to the right position defined
+//            if ( isset($player_pos) && in_array($player_pos[0], $this->player_pos_enum) ) {
+//                //TODO: refactor this function
+//                $new_content = '';
+//                switch ($player_pos[0]):
+//                    case 'top':
+//                        $new_content = $player_holder['string'] . $content;
+//                        break;
+//                    case 'middle':
+//                        $middle_pos = round(sizeof($body) / 2);
+//                        for ($i = 0; $i < sizeof($body); $i++) {
+//
+//                            $new_content .= $dom->saveHTML($body[$i]);
+//
+//                            if ($i == $middle_pos - 1) {
+//                                $new_content .= $player_holder['string'];
+//                            }
+//                        }
+//                        break;
+//                    default:
+//                        $new_content = $content . $player_holder['string'];
+//                endswitch;
 
             // `$player_post` has a mixed value string and number, so need to filter based on both
-            } else if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' && !empty($player_pos[0]) ) {
+            if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' && !empty($player_pos[0]) ) {
                 $new_content = '';
 
                 if ($player_pos[0] == 0) {
@@ -192,7 +206,7 @@ class Load_Scripts {
                     }
                 }
 
-            } else if ( isset($player_holder['auto']) ) {
+            } else if ( isset($player_holder['auto']) && $player_holder['auto'] === true ) {
                 $new_content = '';
                 switch ($player_holder['pos']):
                     case 'top':
@@ -223,10 +237,6 @@ class Load_Scripts {
         } // if the post and the page
 
         return $content;
-    }
-
-    private function put_the_player($content, $pos) {
-
     }
 
 }

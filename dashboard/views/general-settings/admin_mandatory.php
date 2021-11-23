@@ -38,6 +38,15 @@ $sorts = [
             </td>
         </tr>
 
+        <tr>
+            <th scope="row"><label for="player-id"><?php echo __('Secondary Player ID'); ?></label></th>
+            <td>
+                <select name="player_id_2" id="player-id-2" class="regular-text">
+                    <option value="">--</option>
+                </select>
+            </td>
+        </tr>
+
 
         <tr>
             <th scope="row"><label for="sort-by"><?php echo __('Sort by'); ?> <span class="detail-info">?<span class="tooltip">This will rank the video search results by the preferred sorting method. Pick <strong>relevance</strong> for contextual embed or <strong>recent</strong> to get the latest video for instance.</span></span></label></th>
@@ -70,6 +79,7 @@ $sorts = [
         const apiKey = "<?php echo isset($credentials['api_key']) ? $credentials['api_key'] : ''; ?>"
         const apiSecret = "<?php echo isset($credentials['api_secret']) ? $credentials['api_secret'] : ''; ?>"
         const playerId = "<?php echo isset($options['player_id']) ? $options['player_id'] : ''; ?>"
+        const playerId2 = "<?php echo isset($options['player_id_2']) ? $options['player_id_2'] : ''; ?>"
 
         if ( apiKey !== '' && apiSecret !== '') {
             window.addEventListener('load', (e) => {
@@ -112,6 +122,7 @@ $sorts = [
 
                 DM.getLoginStatus(response => {
                     const playerIdSelector = document.querySelector('#player-id')
+                    const playerId2Selector = document.querySelector('#player-id-2')
 
                     if (response.session) {
                         DM.api('/user/<?php echo $dmUser; ?>/players', {
@@ -131,17 +142,35 @@ $sorts = [
 
                                     playerIdSelector.appendChild(option)
                                 }
+
+                                for (let i = 0; i < players.list.length; i++) {
+                                    const option = document.createElement('option')
+                                    option.innerText = players.list[i].id + ' - ' + players.list[i].label
+                                    option.setAttribute('value', players.list[i].id)
+
+                                    if (players.list[i].id === playerId2) {
+                                        option.setAttribute('selected', 'true')
+                                    }
+
+                                    playerId2Selector.appendChild(option)
+                                }
                             }
 
                         })
-                    } else if (playerId) {
-                        console.log(playerId)
+                    } else if (playerId || playerId2) {
                         const option = document.createElement('option')
                         option.innerText = playerId
                         option.setAttribute('selected', 'true')
 
                         playerIdSelector.appendChild(option)
                         playerIdSelector.setAttribute('disabled', 'true')
+
+                        const option2 = document.createElement('option')
+                        option2.innerText = playerId2
+                        option2.setAttribute('selected', 'true')
+
+                        playerId2Selector.appendChild(option2)
+                        playerId2Selector.setAttribute('disabled', 'true')
                     }
                 })
             }) // load event listener

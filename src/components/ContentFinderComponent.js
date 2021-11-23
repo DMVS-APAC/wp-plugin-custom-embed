@@ -115,8 +115,8 @@ export default class ContentFinderComponent extends Component {
 
 
                     { this.state.findPlaylist ?
-                        <Playlist keywords={this.state.keywords} globalVideo={this.state.findGlobal} /> :
-                        <Videos keywords={this.state.keywords} globalVideo={this.state.findGlobal} />
+                        <Playlist keywords={this.state.keywords} globalVideo={this.state.findGlobal} perPage={this.props.resultsPerPage} /> :
+                        <Videos keywords={this.state.keywords} globalVideo={this.state.findGlobal} perPage={this.props.resultsPerPage} />
                     }
 
                 </div>
