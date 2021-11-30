@@ -30,7 +30,7 @@ $sorts = [
         <tbody>
 
         <tr>
-            <th scope="row"><label for="player-id"><?php echo __('Player ID'); ?></label></th>
+            <th scope="row"><label for="player-id"><?php echo __('Automated Embed Player ID'); ?></label></th>
             <td>
                 <select name="player_id" id="player-id" class="regular-text">
                     <option value="">--</option>
@@ -39,7 +39,7 @@ $sorts = [
         </tr>
 
         <tr>
-            <th scope="row"><label for="player-id"><?php echo __('Secondary Player ID'); ?></label></th>
+            <th scope="row"><label for="player-id"><?php echo __('Manual Embed Player ID'); ?></label></th>
             <td>
                 <select name="player_id_2" id="player-id-2" class="regular-text">
                     <option value="">--</option>

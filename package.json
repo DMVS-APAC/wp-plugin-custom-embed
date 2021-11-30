@@ -35,19 +35,24 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-methods": "^7.13.0",
     "@wordpress/api-fetch": "^3.22.0",
-    "@wordpress/block-editor": "^5.3.2",
-    "@wordpress/block-library": "^2.29.2",
+    "@wordpress/block-editor": "^3.9.1",
+    "@wordpress/block-library": "^2.16.1",
     "@wordpress/components": "^13.0.0",
     "@wordpress/compose": "^3.25.2",
     "@wordpress/data": "^4.27.0",
-    "@wordpress/edit-post": "^3.27.0",
+    "@wordpress/edit-post": "^3.15.1",
     "@wordpress/element": "^2.20.2",
     "@wordpress/i18n": "^3.19.0",
     "@wordpress/icons": "^2.10.0",
     "@wordpress/plugins": "^2.25.0",
-    "@wordpress/scripts": "^14.0.0",
+    "@wordpress/scripts": "^19.2.2",
+    "ansi-regex": "^5.0.1",
+    "json-schema": "^0.4.0",
     "mitt": "^2.1.0",
     "node-fetch": "^2.6.1",
-    "react": "^16.14.0"
+    "nth-check": "^2.0.1",
+    "react": "^16.14.0",
+    "tmpl": "^1.0.5",
+    "trim": ">=0.0.3"
   }
 }

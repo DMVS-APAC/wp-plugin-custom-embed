@@ -5,33 +5,6 @@ import DmSdk from "./libs/dmSdk"
 import { Button, Modal } from '@wordpress/components'
 import '@wordpress/components/build-style/style.css'
 
-function dmVideoSearch() {
-    return (
-        <>
-            <SelectedVideo />
-            <hr />
-            <ContentFinder />
-        </>
-    )
-}
-
-// const MyModal = withState( {
-//     isOpen: false,
-// } )( ( { isOpen, setState } ) => (
-//     <>
-//         <Button isDefault onClick={ () => setState( { isOpen: true } ) }>Open Modal</Button>
-//         { isOpen && (
-//             <Modal
-//                 title="This is my modal"
-//                 onRequestClose={ () => setState( { isOpen: false } ) }>
-//                 <Button isDefault onClick={ () => setState( { isOpen: false } ) }>
-//                     My custom close button
-//                 </Button>
-//             </Modal>
-//         ) }
-//     </>
-// ) )
-
 const MyModal = () => {
 
     const [ isOpen, setIsOpen ] = useState(false)
@@ -49,7 +22,6 @@ const MyModal = () => {
             { isOpen && (
                 <Modal className="popup__content-finder" title="Find a Video" onRequestClose={ () => setIsOpen( false ) }>
                     <ContentFinder resultsPerPage={12} />
-                    {/*<Button isDefault onClick={ () => setIsOpen(false) }>Close</Button>*/}
                 </Modal>
             ) }
         </>
@@ -57,6 +29,14 @@ const MyModal = () => {
 }
 
 document.addEventListener('dm-sdk-ready', () => {
+
+    // Hook modal button to editor tools
+    const wpEditorTools = document.getElementById('wp-content-editor-tools')
+    const placeHolder = document.createElement('span')
+    placeHolder.id = 'dm-search-classic'
+
+    wpEditorTools.appendChild(placeHolder)
+
     render( createElement( MyModal ), document.getElementById('dm-search-classic'))
 })
 

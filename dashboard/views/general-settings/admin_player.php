@@ -50,7 +50,7 @@ $player_pos = [
 
 
         <tr>
-            <th scope="row"><label for="ads-params"><?php echo __('Ads Parameters'); ?> <span class="detail-info">?<span class="tooltip"><a href="https://developer.dailymotion.com/data-api/customize-ad-tracking-ads-params-parameter/">https://developer.dailymotion.com/data-api/customize-ad-tracking-ads-params-parameter/</a></span></span></label></th>
+            <th scope="row"><label for="ads-params"><?php echo __('Custom Parameter'); ?> <span class="detail-info">?<span class="tooltip">one or several declarative values, separated by a comma.</span></span></label></th>
             <td>
                 <input name="ads_params" type="text" id="ads-params" class="regular-text"
                        value="<?php echo ( isset($options['ads_params']) ) ? $options['ads_params'] : '' ?>">

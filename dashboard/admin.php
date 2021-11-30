@@ -15,7 +15,7 @@ class DM_Admin {
         add_menu_page(
             'Dailymotion HQ',
             'Dailymotion HQ',
-            'publish_posts',
+            'publish_pages',
             'dm-general-settings',
             '',
             plugins_url('dm-embed-settings/assets/dailymotion-icon.svg')
@@ -26,7 +26,7 @@ class DM_Admin {
             'dm-general-settings',
             'General Settings',
             'General Settings',
-            'publish_posts',
+            'publish_pages',
             'dm-general-settings',
             array($this, 'load_admin_page')
         );
@@ -44,7 +44,7 @@ class DM_Admin {
             'dm-general-settings',
             'Credentials',
             '<span aria-label="Dailymotion Credentials">Credentials</span>',
-            'publish_posts',
+            'publish_pages',
             'dm-credentials',
             array($this, 'load_credentials_page')
         );
@@ -162,6 +162,7 @@ class DM_Admin {
             if (!empty($params['syndication']) && $params['syndication'] !== null)
                 $dm_ce_data += ['syndication' => $params['syndication']];
 
+            // This param in the database still using adsParams but in the frontend it's using customParams
             if (!empty($params['ads_params']) && $params['ads_params'] !== null)
                 $dm_ce_data += ['ads_params' => $params['ads_params']];
 
