@@ -136,6 +136,11 @@
         margin-bottom: 13px;
     }
 
+
+.dm-form-table th {
+    width: 215px;
+}
+
 .detail-info {
     font-weight: 700;
     display: inline-block;
