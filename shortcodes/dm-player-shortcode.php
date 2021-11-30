@@ -34,11 +34,30 @@ function dm_player_shortcode($atts, $content) {
     if ($atts['playlistid']) $params .= ' playlistId="' . $atts['playlistid'] . '"';
 
     // Player settings
+    if (isset($options_player['syndication'])) $params .= ' syndication="' . $options_player['syndication'] . '"';
     if (isset($options_player['pre_video_title'])) $params .= ' preVideoTitle="' . $options_player['show_video_title'] . '"';
     if (isset($options_player['show_info_card'])) $params .= ' showInfocard="' . $options_player['show_info_card'] . '"';
     if (isset($options_player['show_video_title'])) $params .= ' showVideoTitle="' . $options_player['show_video_title'] . '"';
     if (isset($options_player['show_carousel_playlist'])) $params .= ' showOutsidePlaylist="' . $options_player['show_carousel_playlist'] . '"';
     if (isset($options_player['mute'])) $params .= ' mute="' . $options_player['mute'] . '"';
+
+    // adsParams now is customParams, but in the database it is still adsParams
+    if (isset($options_player['ads_params'])) {
+        $split_ads_params = explode(',', $options_player['ads_params']);
+        $ads_params = '';
+
+        for ($i = 0; $i < count($split_ads_params); $i++) {
+            if ($i === 1) {
+                $ads_params .= '/var' . $i . '=' . $split_ads_params[$i];
+            } else if ($i > 1) {
+                $ads_params .= '&var' . $i . '=' . $split_ads_params[$i];
+            } else {
+                $ads_params .= $split_ads_params[$i];
+            }
+        }
+
+        $params .= ' customParams="' . $ads_params . '"';
+    }
 
     return '<div class="dm-player" ' . $params . ' style="margin-bottom: 1.75em;"></div>';
 }

@@ -57,14 +57,29 @@ class Load_Scripts {
 
         // Player options
         if (isset($options_player['syndication'])) $player_string .= ' syndication="' . $options_player['syndication'] . '"';
-
-        // adsParams now is customParams, but in the database it is still adsParams
-        if (isset($options_player['ads_params'])) $player_string .= ' customParams="' . $options_player['ads_params'] . '"';
         if (isset($options_player['pre_video_title'])) $player_string .= ' preVideoTitle="' . $options_player['pre_video_title'] . '"';
         if (isset($options_player['show_video_title'])) $player_string .= ' showVideoTitle="' . $options_player['show_video_title'] . '"';
         if (isset($options_player['show_info_card'])) $player_string .= ' showInfoCard="' . $options_player['show_info_card'] . '"';
         if (isset($options_player['show_carousel_playlist'])) $player_string .= ' showOutsidePlaylist="true"';
         if (isset($options_player['mute'])) $player_string .= ' mute="true"';
+
+        // adsParams now is customParams, but in the database it is still adsParams
+        if (isset($options_player['ads_params'])) {
+            $split_ads_params = explode(',', $options_player['ads_params']);
+            $ads_params = '';
+
+            for ($i = 0; $i < count($split_ads_params); $i++) {
+                if ($i === 1) {
+                    $ads_params .= '/var' . $i . '=' . $split_ads_params[$i];
+                } else if ($i > 1) {
+                    $ads_params .= '&var' . $i . '=' . $split_ads_params[$i];
+                } else {
+                    $ads_params .= $split_ads_params[$i];
+                }
+            }
+
+            $player_string .= ' customParams="' . $ads_params . '"';
+        }
 
 
         $video_data = get_post_meta($post_id, '_dm_video_data');
