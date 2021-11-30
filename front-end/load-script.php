@@ -12,14 +12,8 @@ if (!defined('ABSPATH')) {
 
 class Load_Scripts {
 
-//    private $player_pos_enum = [
-//        'top',
-//        'middle',
-//        'bottom'
-//    ];
 
     public function __construct() {
-
         add_action('wp_footer', array($this, 'load_script'));
         add_filter('the_content', array($this, 'hook_player_into_content'));
     }
@@ -30,7 +24,7 @@ class Load_Scripts {
      */
     public function load_script() {
         if (is_single() || is_page()) {
-            wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), '2.0.0-14', 'true');
+            wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), '2.0.0-beta.40', 'true');
         }
     }
 
@@ -63,12 +57,29 @@ class Load_Scripts {
 
         // Player options
         if (isset($options_player['syndication'])) $player_string .= ' syndication="' . $options_player['syndication'] . '"';
-        if (isset($options_player['ads_params'])) $player_string .= ' adsParams="' . $options_player['ads_params'] . '"';
         if (isset($options_player['pre_video_title'])) $player_string .= ' preVideoTitle="' . $options_player['pre_video_title'] . '"';
         if (isset($options_player['show_video_title'])) $player_string .= ' showVideoTitle="' . $options_player['show_video_title'] . '"';
         if (isset($options_player['show_info_card'])) $player_string .= ' showInfoCard="' . $options_player['show_info_card'] . '"';
         if (isset($options_player['show_carousel_playlist'])) $player_string .= ' showOutsidePlaylist="true"';
         if (isset($options_player['mute'])) $player_string .= ' mute="true"';
+
+        // adsParams now is customParams, but in the database it is still adsParams
+        if (isset($options_player['ads_params'])) {
+            $split_ads_params = explode(',', $options_player['ads_params']);
+            $ads_params = '';
+
+            for ($i = 0; $i < count($split_ads_params); $i++) {
+                if ($i === 1) {
+                    $ads_params .= '/var' . $i . '=' . $split_ads_params[$i];
+                } else if ($i > 1) {
+                    $ads_params .= '&var' . $i . '=' . $split_ads_params[$i];
+                } else {
+                    $ads_params .= $split_ads_params[$i];
+                }
+            }
+
+            $player_string .= ' customParams="' . $ads_params . '"';
+        }
 
 
         $video_data = get_post_meta($post_id, '_dm_video_data');
@@ -106,6 +117,8 @@ class Load_Scripts {
 
     /**
      * To count the number of players in the page
+     *
+     * FIXME: This function is not used for a while until we have another unique case
      *
      * @param $matches
      * @return string
@@ -147,8 +160,9 @@ class Load_Scripts {
 
             $player_holder = $this->generate_player_holder($post_id, $player_pos);
 
+            // FIXME: We don't use this for a while
             // To check and adding `number` string to the shortcode to handle multiple players
-            $content = preg_replace_callback('/\[dm-player/', [$this, 'shortcode_counter'], $content);
+//            $content = preg_replace_callback('/\[dm-player/', [$this, 'shortcode_counter'], $content);
 
             if (!empty($content)) {
                 $dom = new DOMDocument;

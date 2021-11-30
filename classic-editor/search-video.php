@@ -21,7 +21,6 @@ class Search_Video {
 
     public function __construct() {
         add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
-        add_action('media_buttons', [$this, 'embed_player']);
     }
 
     public function enqueue_assets($hook_suffix) {
@@ -43,9 +42,6 @@ class Search_Video {
         }
     }
 
-    public function embed_player() {
-        echo '<span id="dm-search-classic"></span>';
-    }
 }
 
 new Search_Video();
