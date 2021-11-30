@@ -25,12 +25,12 @@ $sorts = [
 
     <?php wp_nonce_field("dm_save_data", "dm_save_data", true); ?>
 
-    <table class="form-table" role="presentation">
+    <table class="form-table  dm-form-table" role="presentation">
 
         <tbody>
 
         <tr>
-            <th scope="row"><label for="player-id"><?php echo __('Automated Embed Player ID'); ?></label></th>
+            <th scope="row"><label for="player-id"><?php echo __('Automated Embed Player ID'); ?> <span class="detail-info">?<span class="tooltip">This player ID is used for all your automated embeds: the videos embedded along the criteria in the content and player settings</span></span></label></th>
             <td>
                 <select name="player_id" id="player-id" class="regular-text">
                     <option value="">--</option>
@@ -39,7 +39,7 @@ $sorts = [
         </tr>
 
         <tr>
-            <th scope="row"><label for="player-id"><?php echo __('Manual Embed Player ID'); ?></label></th>
+            <th scope="row"><label for="player-id"><?php echo __('Manual Embed Player ID'); ?> <span class="detail-info">?<span class="tooltip">This player ID is used for all your manual embeds: the videos you embed specifically within each WordPress post</span></span></label></th>
             <td>
                 <select name="player_id_2" id="player-id-2" class="regular-text">
                     <option value="">--</option>
