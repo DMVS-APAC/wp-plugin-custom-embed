@@ -135,7 +135,7 @@ export default class VideoBlockComponent extends Component {
     }
 
     async componentDidMount() {
-        this.dmPlayerAttributes = await fetchApi('/dm/v1/get-custom-options/player')
+        this.dmPlayerAttributes = await fetchApi('/dm/v1/get-custom-options/manual_embed_player')
 
         this.setAttr()
     }

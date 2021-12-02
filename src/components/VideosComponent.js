@@ -79,7 +79,7 @@ export default class VideosComponent extends Component {
         this.setLoadingData(true)
 
         const dmUser = await fetchApi('/dm/v1/userinfo')
-        const content = await fetchApi('/dm/v1/get-custom-options/content')
+        const content = await fetchApi('/dm/v1/get-custom-options/manual_embed_content')
 
         const params = {
             fields: 'id,title,thumbnail_240_url,status,private,private_id',

@@ -14,20 +14,15 @@ function dm_player_shortcode($atts, $content) {
         'number' => 0
     ), $atts, 'dm-player');
 
-    $options_mandatory = get_option('dm_ce_options_mandatory');
-    $options_player = get_option('dm_ce_options_player');
+    $options_playback = get_option('dm_ce_options_manual_embed_playback');
+    $options_player = get_option('dm_ce_options_manual_embed_player');
     $params = '';
 
-    // FIXME: for manual embed, we use specific player id
-    // Player ID for the player
-//    if (isset($options_mandatory['player_id']) && ($atts['number'] === 0 || $atts['number'] === 1) )
-//        $params .= ' playerId="' . $options_mandatory['player_id'] . '"';
-
     // Player ID for multiple player
-    if (isset($options_mandatory['player_id_2']))
-        $params .= ' playerId="' . $options_mandatory['player_id_2'] . '"';
-//    else if (!isset($options_mandatory['player_id_2']))
-//        $params .= ' playerId="' . $options_mandatory['player_id'] . '"';
+    if (isset($options_playback['player_id']))
+        $params .= ' playerId="' . $options_playback['player_id'] . '"';
+    else
+        $params .= ' playerId="x2yci"';
 
     if ($atts['privatevideoid'] !== '') $params .= ' privateVideoId="' . $atts['privatevideoid'] . '"';
     if ($atts['videoid'] !== '' && $atts['privatevideoid'] === '') $params .= ' videoId="' . $atts['videoid'] . '"';

@@ -13,47 +13,66 @@ class DM_Admin {
 
         // For root menu
         add_menu_page(
-            'Dailymotion HQ',
-            'Dailymotion HQ',
+            __('Dailymotion HQ'),
+            __('Dailymotion HQ'),
             'publish_pages',
-            'dm-general-settings',
+            'dm-automated-embed-settings',
             '',
-            plugins_url('dm-embed-settings/assets/dailymotion-icon.svg')
+            plugin_dir_url( __DIR__ ) . 'assets/dailymotion-icon.svg'
         );
 
         // For submenu
         add_submenu_page(
-            'dm-general-settings',
-            'General Settings',
-            'General Settings',
+            'dm-automated-embed-settings',
+            __('Automated Embed'),
+            __('Automated Embed'),
             'publish_pages',
-            'dm-general-settings',
-            array($this, 'load_admin_page')
+            'dm-automated-embed-settings',
+            array($this, 'load_automated_embed_page')
         );
 
         add_submenu_page(
-            'dm-general-settings',
-            'Connect to Dailymotion',
-            '<span aria-label="Connect to Dailymotion">Connect</span>',
+            'dm-automated-embed-settings',
+            __('Manual Embed'),
+            __('Manual Embed'),
+            'publish_pages',
+            'dm-manual-embed-settings',
+            array($this, 'load_manual_embed_page')
+        );
+
+
+        add_submenu_page(
+            'dm-automated-embed-settings',
+            __('Connect to Dailymotion'),
+            __('<span aria-label="Connect to Dailymotion">Connect</span>'),
             'edit_posts',
             'dm-connect',
             array($this, 'load_connect_page')
         );
 
         add_submenu_page(
-            'dm-general-settings',
-            'Credentials',
-            '<span aria-label="Dailymotion Credentials">Credentials</span>',
+            'dm-automated-embed-settings',
+            __('Credentials'),
+            __('<span aria-label="Dailymotion Credentials">Credentials</span>'),
             'publish_pages',
             'dm-credentials',
             array($this, 'load_credentials_page')
+        );
+
+        add_submenu_page(
+            'dm-automated-embed-settings',
+            __('Migration'),
+            __('Migration'),
+            'publish_pages',
+            'dm-migration',
+            array($this, 'load_migration_page')
         );
     }
 
     public function register_widget() {
         wp_add_dashboard_widget(
             'dm-login-status',
-            'Dailymotion connection status',
+            __('Dailymotion connection status'),
             array($this, 'load_dashboard_widget'),
             null,
             null,
@@ -66,23 +85,47 @@ class DM_Admin {
         require DM__PATH . 'dashboard/views/dashboard-widget/dashboard-widget-box.php';
     }
 
-    public function load_admin_page() {
+    /**
+     * Load the automated embed settings page
+     */
+    public function load_automated_embed_page() {
+        $prefix = 'auto_embed_';
         $action = $_GET['action'] ?? '';
-        $tab = $_GET['tab'] ?? 'mandatory';
+        $tab = $_GET['tab'] ?? 'playback';
 
         switch($action):
             case "save_data":
-                self::store_general_settings($_POST, $tab);
+                self::store_general_settings($_POST, $prefix . $tab);
                 break;
         endswitch;
 
         $currentUser = wp_get_current_user();
 
-        $options = get_option('dm_ce_options_' . $tab);
+        $options = get_option('dm_ce_options_' . $prefix . $tab);
         $credentials = get_option('dm_ce_credentials');
         $dmUser = get_option('dm_ce_user_' . $currentUser->data->user_login);
 
-        require DM__PATH . 'dashboard/views/general-settings/admin_page.php';
+        require DM__PATH . 'dashboard/views/automated-embed/page.php';
+    }
+
+    public function load_manual_embed_page() {
+        $prefix = 'manual_embed_';
+        $action = $_GET['action'] ?? '';
+        $tab = $_GET['tab'] ?? 'playback';
+
+        switch($action):
+            case "save_data":
+                self::store_general_settings($_POST, $prefix . $tab);
+                break;
+        endswitch;
+
+        $currentUser = wp_get_current_user();
+
+        $options = get_option('dm_ce_options_' . $prefix . $tab);
+        $credentials = get_option('dm_ce_credentials');
+        $dmUser = get_option('dm_ce_user_' . $currentUser->data->user_login);
+
+        require DM__PATH . 'dashboard/views/manual-embed/page.php';
     }
 
     public function load_connect_page() {
@@ -107,25 +150,25 @@ class DM_Admin {
         require DM__PATH . 'dashboard/views/credentials/credentials_page.php';
     }
 
+    public function load_migration_page() {
+        require DM__PATH . 'dashboard/views/migration/page.php';
+    }
+
     private function store_general_settings($params, $tab) {
         if (!empty($params) && wp_verify_nonce($params['dm_save_data'], 'dm_save_data') ) {
 
             $dm_ce_data = [];
 
-            // Mandatory options
+            // Playback options
             if (!empty($params['player_id']) && $params['player_id'] !== null)
                 $dm_ce_data += ['player_id' =>  $params['player_id']];
-
-            if (!empty($params['player_id_2']) && $params['player_id_2'] !== null)
-                $dm_ce_data += ['player_id_2' =>  $params['player_id_2']];
-
-            if (!empty($params['sort_by']) && $params['sort_by'] !== null)
-                $dm_ce_data += ['sort_by' => $params['sort_by']];
-
 
             // Content options
             if (!empty($params['auto_embed']) && $params['auto_embed'] !== null)
                 $dm_ce_data += ['auto_embed' => $params['auto_embed']];
+
+            if (!empty($params['sort_by']) && $params['sort_by'] !== null)
+                $dm_ce_data += ['sort_by' => $params['sort_by']];
 
             if (!empty($params['channel_name']) && $params['channel_name'] !== null)
                 $dm_ce_data += ['owners' => $params['channel_name']];

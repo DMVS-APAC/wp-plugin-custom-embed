@@ -36,7 +36,7 @@ class Search_Video {
                 'dm-ce',
                 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js',
                 [],
-                '2.0.0-15',
+                DM_CE__VERSION,
                 true
             );
         }

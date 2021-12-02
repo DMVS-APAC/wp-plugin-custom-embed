@@ -5,11 +5,11 @@
  * Description: Embed video from Dailymotion
  * Author: DMVS APAC Team
  * Author URI: https://github.com/DMVS-APAC
- * Version: 1.1.0-5
+ * Version: 1.1.0-6
  * Plugin URI: https://github.com/DMVS-APAC/wp-plugin-custom-embed
  * Download
  *
- * @version 1.1.0-5
+ * @version 1.1.0-6
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require 'vendor/autoload.php';
 
-define( 'DM_CE__VERSION', '1.1.0-5');
+define( 'DM_CE__VERSION', '1.1.0-6');
 define( 'DM__FILE__', __FILE__ );
 define( 'DM__PLUGIN_BASE', plugin_basename( DM__FILE__ ) );
 define( 'DM__PATH', plugin_dir_path( DM__FILE__ ) );
@@ -41,6 +41,7 @@ if (defined( 'DM_BETA' ) && DM_BETA === true) {
 
 require DM__PATH . 'dashboard/admin.php';
 require DM__PATH . 'api/Custom_Get_Options.php';
+require DM__PATH . 'api/Migration_Database.php';
 require DM__PATH . 'custom-block/dm-block.php';
 require DM__PATH . 'front-end/load-script.php';
 require DM__PATH . 'onboarding/activation.php';
@@ -84,7 +85,7 @@ function global_script() {
         'dm-sdk',
         'https://api.dmcdn.net/all.js',
         [],
-        '',
+        DM_CE__VERSION,
         true
     );
 }

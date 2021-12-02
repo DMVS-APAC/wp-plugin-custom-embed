@@ -76,7 +76,7 @@ export default class PlaylistComponent extends Component {
         this.setLoadingData(true)
 
         const dmUser = await fetchApi('/dm/v1/userinfo')
-        const content = await fetchApi('/dm/v1/get-custom-options/content')
+        const content = await fetchApi('/dm/v1/get-custom-options/manual_embed_content')
 
         const url = '/playlists'
         const params = {

@@ -38,22 +38,38 @@ class Load_Scripts {
     private function generate_player_holder($post_id, $player_pos): array {
         $player_string = '<div class="dm-player__wrapper"><div class="dm-player"';
 
-        $options_mandatory = get_option('dm_ce_options_mandatory');
-        $options_content = get_option('dm_ce_options_content');
-        $options_player = get_option('dm_ce_options_player');
+
+        $options_auto_content = get_option('dm_ce_options_auto_embed_content');
+
+        if (isset( $options_auto_content['auto_embed'] ) && $options_auto_content['auto_embed'] == true) {
+            $options_content = $options_auto_content;
+            $options_playback = get_option('dm_ce_options_auto_embed_playback');
+            $options_player = get_option('dm_ce_options_auto_embed_player');
+        } else {
+            $options_content = get_option('dm_ce_options_manual_embed_content');
+            $options_playback = get_option('dm_ce_options_manual_embed_playback');
+            $options_player = get_option('dm_ce_options_manual_embed_player');
+        }
 
 
-        // Mandatory options
-        if (isset($options_mandatory['player_id'])) $player_string .= ' playerId="' . $options_mandatory['player_id'] . '"';
-        if (isset($options_mandatory['sort_by'])) $player_string .= ' sort="' . $options_mandatory['sort_by'] . '"';
+        // playback options
+        if (isset($options_playback['player_id'])) {
+            $player_string .= ' playerId="' . $options_playback['player_id'] . '"';
+        } else {
+            // Default player id no auto play, no PiP from Yudhi's Channel
+            $player_string .= ' playerId="x2yci"';
+        }
 
         // Content options
-        if (isset($options_content['owners'])) $player_string .= ' owners="' . $options_content['owners'] . '"';
-        if (isset($options_content['category'])) $player_string .= ' category="' . $options_content['category'] . '"';
-        if (isset($options_content['exclude_ids'])) $player_string .= ' excludeIds="' . $options_content['exclude_ids'] . '"';
-        if (isset($options_content['playlist'])) $player_string .= ' searchInPlaylist="' . $options_content['playlist'] . '"';
-        if (isset($options_content['language'])) $player_string .= ' language="' . $options_content['language'] . '"';
-        if (isset($options_content['range_day'])) $player_string .= ' rangeDay="' . $options_content['range_day'] . '"';
+        if (isset( $options_auto_content['auto_embed'] ) && $options_auto_content['auto_embed'] == true) {
+            if (isset($options_content['owners'])) $player_string .= ' owners="' . $options_content['owners'] . '"';
+            if (isset($options_content['sort_by'])) $player_string .= ' sort="' . $options_content['sort_by'] . '"';
+            if (isset($options_content['category'])) $player_string .= ' category="' . $options_content['category'] . '"';
+            if (isset($options_content['exclude_ids'])) $player_string .= ' excludeIds="' . $options_content['exclude_ids'] . '"';
+            if (isset($options_content['playlist'])) $player_string .= ' searchInPlaylist="' . $options_content['playlist'] . '"';
+            if (isset($options_content['language'])) $player_string .= ' language="' . $options_content['language'] . '"';
+            if (isset($options_content['range_day'])) $player_string .= ' rangeDay="' . $options_content['range_day'] . '"';
+        }
 
         // Player options
         if (isset($options_player['syndication'])) $player_string .= ' syndication="' . $options_player['syndication'] . '"';
@@ -109,7 +125,7 @@ class Load_Scripts {
         $player_string .= '></div></div>';
 
         return [
-            'auto' => isset($options_content['auto_embed']) ?? $options_content['auto_embed'],
+            'auto' => isset($options_auto_content['auto_embed']) ?? $options_auto_content['auto_embed'],
             'pos' => isset($options_player['auto_player_pos']) ? $options_player['auto_player_pos'] : 'bottom',
             'string' => $player_string
         ];
@@ -203,7 +219,7 @@ class Load_Scripts {
 
             // `$player_post` has a mixed value string and number, so need to filter based on both
             if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' && !empty($player_pos[0]) ) {
-                $new_content = '';
+                $new_content = 'pos';
 
                 if ($player_pos[0] == 0) {
                     $new_content .= $player_holder['string'];

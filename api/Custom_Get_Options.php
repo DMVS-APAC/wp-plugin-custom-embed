@@ -28,7 +28,7 @@ class Custom_Get_Options extends WP_REST_Controller {
         /*
          * Get custom options from database
          */
-        register_rest_route( $namespace, '/get-custom-options/(?P<tab>[a-zA-Z0-9-]+)', [
+        register_rest_route( $namespace, '/get-custom-options/(?P<tab>[a-zA-Z0-9-_]+)', [
             [
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => [ $this, 'get_custom_option' ],
@@ -156,7 +156,6 @@ class Custom_Get_Options extends WP_REST_Controller {
      * @return WP_Error|bool
      */
     public function permissions_check( $request ) {
-//        return true; //<--use to make readable by all
         return current_user_can( 'edit_posts' );
     }
 }
