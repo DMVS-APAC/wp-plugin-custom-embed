@@ -2,7 +2,7 @@
 /**
  * A player settings section tab
  *
- * @since 1.0.0
+ * @since 1.1.0-6
  */
 
 $player_pos = [
@@ -13,7 +13,7 @@ $player_pos = [
 
 ?>
 
-<form action="<?php echo get_admin_url() . 'admin.php?page=dm-general-settings&tab=player&action=save_data'; ?>" method="post">
+<form action="<?php echo get_admin_url() . 'admin.php?page=dm-automated-embed-settings&tab=player&action=save_data'; ?>" method="post">
 
     <?php wp_nonce_field("dm_save_data", "dm_save_data", true);?>
 
@@ -26,14 +26,14 @@ $player_pos = [
             <td>
                 <select name="auto_player_pos" id="auto-player-pos" class="regular-text">
                     <?php
-                        for($i = 0; $i < sizeof($player_pos); $i++) {
-                            echo '<option value="' . $player_pos[$i] . '" ';
-                                if ( isset($options['auto_player_pos']) && $options['auto_player_pos'] === $player_pos[$i]
-                                || !isset($options['auto_player_pos']) && 'bottom' === $player_pos[$i] ) {
-                                    echo 'selected ';
-                                }
-                            echo '>' . $player_pos[$i] . '</option>';
+                    for($i = 0; $i < sizeof($player_pos); $i++) {
+                        echo '<option value="' . $player_pos[$i] . '" ';
+                        if ( isset($options['auto_player_pos']) && $options['auto_player_pos'] === $player_pos[$i]
+                            || !isset($options['auto_player_pos']) && 'bottom' === $player_pos[$i] ) {
+                            echo 'selected ';
                         }
+                        echo '>' . $player_pos[$i] . '</option>';
+                    }
                     ?>
                 </select>
             </td>
@@ -41,7 +41,7 @@ $player_pos = [
 
         <tr>
             <th scope="row"><label for="syndication"><?php echo __('Syndication ID'); ?> <span class="detail-info">?<span
-                                class="tooltip">Six digits syndication key <a href="https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter">https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter</a></span></span></label></th>
+                            class="tooltip">Six digits syndication key <a href="https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter">https://faq.dailymotion.com/hc/en-us/articles/360018938360-Track-Revenue-With-the-Syndication-Parameter</a></span></span></label></th>
             <td>
                 <input name="syndication" type="text" id="syndication" class="regular-text"
                        value="<?php echo ( isset($options['syndication']) ) ? $options['syndication'] : ''; ?>">
