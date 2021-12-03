@@ -45,7 +45,7 @@ $sorts = [
 ?>
 
 <div class="dm__box-wrapper">
-    <p>Only use this section if you need to search and recommend public content from a specific pool of channels; it can be a mix of channels you own and 3rd parties. If you leave the channel field blank, we will recommend global content</p>
+    <p>Adding channel names below will limit video search results in the WordPress post interface to these channel catalogues.</p>
 </div>
 
 <form action="<?php echo get_admin_url() . 'admin.php?page=dm-manual-embed-settings&tab=content&action=save_data'; ?>" method="post">
