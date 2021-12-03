@@ -16,7 +16,7 @@
         <tbody>
 
         <tr>
-            <th scope="row"><label for="player-id"><?php echo __('Automated Embed Player ID'); ?></label></th>
+            <th scope="row"><label for="player-id"><?php echo __('Automated Embed Player ID'); ?> <span class="detail-info">?<span class="tooltip">to create or modify a player template, refer to this page <a href="https://www.dailymotion.com/partner/embed/players">in your dailymotion partner HQ</a></span></span></label></th>
             <td>
                 <select name="player_id" id="player-id" class="regular-text">
                     <option value="">--</option>

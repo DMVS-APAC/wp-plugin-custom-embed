@@ -35,7 +35,7 @@ class DM_Admin {
             'dm-automated-embed-settings',
             __('Manual Embed'),
             __('Manual Embed'),
-            'publish_pages',
+            'edit_posts',
             'dm-manual-embed-settings',
             array($this, 'load_manual_embed_page')
         );

@@ -1,5 +1,15 @@
 # Changelog
 
+###[1.1.0] (2021-12-03)
+
+This release introduces the following changes:
+
+1. Support for classic-editor using shortcodes generator.
+2. Support for multiple embeds on classic-editor.
+3. A new menu to update database from version 1.0.4 to 1.1.0.
+4. Fixed the icon not showing in the left sidebar.
+5. Separation general settings to automated embed and manual embed settings.
+
 ###[1.0.2] (2021-08-24)
 
 This release fixed a bug that appears when debug mode is active and added a new feature for toggling automatic embed.

@@ -219,7 +219,7 @@ class Load_Scripts {
 
             // `$player_post` has a mixed value string and number, so need to filter based on both
             if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' && !empty($player_pos[0]) ) {
-                $new_content = 'pos';
+                $new_content = '';
 
                 if ($player_pos[0] == 0) {
                     $new_content .= $player_holder['string'];
