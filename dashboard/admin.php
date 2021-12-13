@@ -90,12 +90,16 @@ class DM_Admin {
      */
     public function load_automated_embed_page() {
         $prefix = 'auto_embed_';
-        $action = $_GET['action'] ?? '';
-        $tab = $_GET['tab'] ?? 'playback';
+        $action = isset($_GET['action']) ? self::sanitize_this('action', 'GET') : ''; // phpcs:ignore WordPress.Security.NonceVerification
+        $tab = isset($_GET['tab']) ? self::sanitize_this('tab', 'GET') : 'playback'; // phpcs:ignore WordPress.Security.NonceVerification
 
         switch($action):
             case "save_data":
-                self::store_general_settings($_POST, $prefix . $tab);
+                $save_data = self::sanitize_this('dm_save_data');
+                if ( isset($save_data) && wp_verify_nonce($save_data, 'dm_save_data') ) {
+                    self::store_general_settings($_POST, $prefix . $tab);
+                }
+
                 break;
         endswitch;
 
@@ -110,12 +114,15 @@ class DM_Admin {
 
     public function load_manual_embed_page() {
         $prefix = 'manual_embed_';
-        $action = $_GET['action'] ?? '';
-        $tab = $_GET['tab'] ?? 'playback';
+        $action = self::sanitize_this('action', 'GET'); // phpcs:ignore WordPress.Security.NonceVerification
+        $tab = isset($_GET['tab']) ? self::sanitize_this('tab', 'GET') : 'playback'; // phpcs:ignore WordPress.Security.NonceVerification
 
         switch($action):
             case "save_data":
-                self::store_general_settings($_POST, $prefix . $tab);
+                $save_data = self::sanitize_this('dm_save_data');
+                if ( wp_verify_nonce($save_data, 'dm_save_data') )
+                    self::store_general_settings($_POST, $prefix . $tab);
+
                 break;
         endswitch;
 
@@ -129,7 +136,7 @@ class DM_Admin {
     }
 
     public function load_connect_page() {
-        $action = $_GET['action'] ?? '';
+        $action = self::sanitize_this('action', 'GET'); // phpcs:ignore WordPress.Security.NonceVerification
 
         $options = get_option('dm_ce_credentials');
 
@@ -137,11 +144,12 @@ class DM_Admin {
     }
 
     public function load_credentials_page() {
-        $action = $_GET['action'] ?? '';
+        $action = self::sanitize_this('action', 'GET'); // phpcs:ignore WordPress.Security.NonceVerification
 
         switch($action):
             case "save_data":
-                self::store_credentials($_POST);
+                // The sanitize will be processed in the store_credentials function
+                self::store_credentials($_POST); // phpcs:ignore WordPress.Security.NonceVerification
                 break;
         endswitch;
 
@@ -155,100 +163,110 @@ class DM_Admin {
     }
 
     private function store_general_settings($params, $tab) {
-        if (!empty($params) && wp_verify_nonce($params['dm_save_data'], 'dm_save_data') ) {
+        if ( !empty($params) ) {
 
             $dm_ce_data = [];
 
             // Playback options
             if (!empty($params['player_id']) && $params['player_id'] !== null)
-                $dm_ce_data += ['player_id' =>  $params['player_id']];
+                $dm_ce_data += ['player_id' =>  self::sanitize_this('player_id')];
 
             // Content options
             if (!empty($params['auto_embed']) && $params['auto_embed'] !== null)
-                $dm_ce_data += ['auto_embed' => $params['auto_embed']];
+                $dm_ce_data += ['auto_embed' => self::sanitize_this('auto_embed')];
 
             if (!empty($params['sort_by']) && $params['sort_by'] !== null)
-                $dm_ce_data += ['sort_by' => $params['sort_by']];
+                $dm_ce_data += ['sort_by' => self::sanitize_this('sort_by')];
 
             if (!empty($params['channel_name']) && $params['channel_name'] !== null)
-                $dm_ce_data += ['owners' => $params['channel_name']];
+                $dm_ce_data += ['owners' => self::sanitize_this('channel_name')];
 
             if (!empty($params['category']) && $params['category'] !== null)
-                $dm_ce_data += ['category' => $params['category']];
+                $dm_ce_data += ['category' => self::sanitize_this('category')];
 
             if (!empty($params['exclude_ids']) && $params['exclude_ids'] !== null)
-                $dm_ce_data += ['exclude_ids' => $params['exclude_ids']];
+                $dm_ce_data += ['exclude_ids' => self::sanitize_this('exclude_ids')];
 
             if (!empty($params['playlist']) && $params['playlist'] !== null)
-                $dm_ce_data += ['playlist' => $params['playlist']];
+                $dm_ce_data += ['playlist' => self::sanitize_this('playlist')];
 
             if (!empty($params['playlist_id']) && $params['playlist_id'] !== null)
-                $dm_ce_data += ['playlist_id' => $params['playlist_id']];
+                $dm_ce_data += ['playlist_id' => self::sanitize_this('playlist_id')];
 
             if (!empty($params['disable_queue']) && $params['disable_queue'] !== null)
-                $dm_ce_data += ['disable_queue' => $params['disable_queue']];
+                $dm_ce_data += ['disable_queue' => self::sanitize_this('disable_queue')];
 
             if (!empty($params['disable_auto_next']) && $params['disable_auto_next'] !== null)
-                $dm_ce_data += ['disable_auto_next' => $params['disable_auto_next']];
+                $dm_ce_data += ['disable_auto_next' => self::sanitize_this('disable_auto_next')];
 
             if (!empty($params['language']) && $params['language'] !== null)
-                $dm_ce_data += ['language' => $params['language']];
+                $dm_ce_data += ['language' => self::sanitize_this('language')];
 
             if (!empty($params['range_day']) && $params['range_day'] !== null)
-                $dm_ce_data += ['range_day' => $params['range_day']];
+                $dm_ce_data += ['range_day' => self::sanitize_this('range_day')];
 
 
             // Player options
             if (!empty($params['auto_player_pos']) && $params['auto_player_pos'] !== null)
-                $dm_ce_data += ['auto_player_pos' => $params['auto_player_pos']];
+                $dm_ce_data += ['auto_player_pos' => self::sanitize_this('auto_player_pos')];
 
             if (!empty($params['syndication']) && $params['syndication'] !== null)
-                $dm_ce_data += ['syndication' => $params['syndication']];
+                $dm_ce_data += ['syndication' => self::sanitize_this('syndication')];
 
             // This param in the database still using adsParams but in the frontend it's using customParams
             if (!empty($params['ads_params']) && $params['ads_params'] !== null)
-                $dm_ce_data += ['ads_params' => $params['ads_params']];
+                $dm_ce_data += ['ads_params' => self::sanitize_this('ads_params')];
 
             if (!empty($params['pre_video_title']) && $params['pre_video_title'] !== null)
-                $dm_ce_data += ['pre_video_title' => $params['pre_video_title']];
+                $dm_ce_data += ['pre_video_title' => self::sanitize_this('pre_video_title')];
 
             if (!empty($params['show_video_title']) && $params['show_video_title'] !== null)
-                $dm_ce_data += ['show_video_title' => $params['show_video_title']];
+                $dm_ce_data += ['show_video_title' => self::sanitize_this('show_video_title')];
 
             if (!empty($params['show_info_card']) && $params['show_info_card'] !== null)
-                $dm_ce_data += ['show_info_card' => $params['show_info_card']];
+                $dm_ce_data += ['show_info_card' => self::sanitize_this('show_info_card')];
 
             if (!empty($params['show_carousel_playlist']) && $params['show_carousel_playlist'] !== null)
-                $dm_ce_data += ['show_carousel_playlist' => $params['show_carousel_playlist']];
+                $dm_ce_data += ['show_carousel_playlist' => self::sanitize_this('show_carousel_playlist')];
 
             if (!empty($params['mute']) && $params['mute'] !== null)
-                $dm_ce_data += ['mute' => $params['mute']];
+                $dm_ce_data += ['mute' => self::sanitize_this('mute')];
 
             // Save the option to database
             update_option('dm_ce_options_' . $tab, $dm_ce_data);
 
             echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
-                    <p><strong>' . __('Settings saved') . '</strong></p>
+                    <p><strong>' . esc_html( __('Settings saved', 'dm_embed_plugin') ) . '</strong></p>
                     </div>';
         }
     }
 
-    private function store_credentials($params) {
-        if (!empty($params) && wp_verify_nonce($params['dm_save_data'], 'dm_save_data') ) {
+    private function store_credentials($params)
+    {
+        if (!empty($params) && wp_verify_nonce(self::sanitize_this('dm_save_data'), 'dm_save_data')) {
 
             $dm_ce_data = [];
 
             if (!empty($params['api_key']) && $params['api_key'] !== null)
-                $dm_ce_data += ['api_key' => $params['api_key']];
+                $dm_ce_data += ['api_key' => self::sanitize_this('api_key')];
 
             if (!empty($params['api_secret']) && $params['api_secret'] !== null)
-                $dm_ce_data += ['api_secret' => $params['api_secret']];
+                $dm_ce_data += ['api_secret' => self::sanitize_this('api_secret')];
 
             update_option('dm_ce_credentials', $dm_ce_data);
 
             echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
-                    <p><strong>' . __('Settings saved') . '</strong></p>
+                    <p><strong>' . esc_html( __('Settings saved', 'dm_embed_plugin') ) . '</strong></p>
                     </div>';
+        }
+    }
+
+    private function sanitize_this($param, $type = 'POST') {
+        // Nonce Verification happened on store_general_options() and store_credentials()
+        if ($type === 'POST') {
+            return isset($_POST[$param]) ? sanitize_text_field( wp_unslash( $_POST[$param] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification
+        } else {
+            return isset($_GET[$param]) ? sanitize_text_field( wp_unslash( $_GET[$param] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification
         }
     }
 
