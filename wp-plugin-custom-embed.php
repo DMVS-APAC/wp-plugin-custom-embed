@@ -12,16 +12,16 @@
  * @version 1.1.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH') ) {
     exit; // Exit if accessed directly.
 }
 
 require 'vendor/autoload.php';
 
-define( 'DM_CE__VERSION', '1.1.0');
-define( 'DM__FILE__', __FILE__ );
-define( 'DM__PLUGIN_BASE', plugin_basename( DM__FILE__ ) );
-define( 'DM__PATH', plugin_dir_path( DM__FILE__ ) );
+define('DM_CE__VERSION', '1.1.0');
+define('DM__FILE__', __FILE__);
+define('DM__PLUGIN_BASE', plugin_basename(DM__FILE__));
+define('DM__PATH', plugin_dir_path(DM__FILE__));
 
 
 /**
@@ -33,7 +33,7 @@ $update_checker = Puc_v4_Factory::buildUpdateChecker(
     'dm-embed-settings'
 );
 
-if (defined( 'DM_BETA' ) && DM_BETA === true) {
+if (defined('DM_BETA') && DM_BETA === true) {
     $update_checker->setBranch('beta');
 } else {
     $update_checker->getVcsApi()->enableReleaseAssets();
@@ -50,9 +50,10 @@ require DM__PATH . 'onboarding/activation.php';
  * Load only if the classic editor is active
  */
 add_action('admin_init', 'check_editor');
-function check_editor() {
+function check_editor()
+{
     if (is_plugin_active('classic-editor/classic-editor.php')) {
-        require DM__PATH . 'classic-editor/search-video.php';
+        include DM__PATH . 'classic-editor/search-video.php';
     }
 }
 
@@ -65,7 +66,8 @@ require DM__PATH . 'shortcodes/dm-player-shortcode.php';
  * Load global library needed by the plugin on the admin dashboard
  */
 add_action('admin_enqueue_scripts', 'admin_styles');
-function admin_styles() {
+function admin_styles()
+{
     wp_enqueue_style(
         'dm-editor-stylesheet',
         plugin_dir_url(DM__FILE__) . 'assets/editor.css',
@@ -80,7 +82,8 @@ function admin_styles() {
  * and front end side. If we're not do this, the WP will see
  * this as an error if the `debug` mode is active.
  */
-function global_script() {
+function global_script()
+{
     wp_enqueue_script(
         'dm-sdk',
         'https://api.dmcdn.net/all.js',

@@ -193,30 +193,6 @@ class Load_Scripts {
                 $body = $this->cleanup_html($body);
             }
 
-
-//            // Put the player to the right position defined
-//            if ( isset($player_pos) && in_array($player_pos[0], $this->player_pos_enum) ) {
-//                //TODO: refactor this function
-//                $new_content = '';
-//                switch ($player_pos[0]):
-//                    case 'top':
-//                        $new_content = $player_holder['string'] . $content;
-//                        break;
-//                    case 'middle':
-//                        $middle_pos = round(sizeof($body) / 2);
-//                        for ($i = 0; $i < sizeof($body); $i++) {
-//
-//                            $new_content .= $dom->saveHTML($body[$i]);
-//
-//                            if ($i == $middle_pos - 1) {
-//                                $new_content .= $player_holder['string'];
-//                            }
-//                        }
-//                        break;
-//                    default:
-//                        $new_content = $content . $player_holder['string'];
-//                endswitch;
-
             // `$player_post` has a mixed value string and number, so need to filter based on both
             if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' && !empty($player_pos[0]) ) {
                 $new_content = '';
