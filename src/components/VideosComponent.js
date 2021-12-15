@@ -100,7 +100,7 @@ export default class VideosComponent extends Component {
         const isOwners = typeof content.owners !== 'undefined'
 
         if (this.#connectionStatus && this.props.globalVideo !== true && !isOwners) {
-            url = 'user/' + dmUser + '/videos'
+            url = 'user/' + dmUser.channel + '/videos'
         } else if (isOwners && this.props.globalVideo !== true) {
             params.owners = content.owners
             url = 'videos'

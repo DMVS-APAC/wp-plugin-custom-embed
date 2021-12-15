@@ -93,7 +93,7 @@ export default class PlaylistComponent extends Component {
         }
 
         if (this.#connectionStatus && this.props.globalVideo !== true ) {
-            params.owner = dmUser
+            params.owner = dmUser.channel
         } else if ( !this.#connectionStatus && content !== false ) {
             const owner = content.owners.split(',')
             params.owner = owner[0]

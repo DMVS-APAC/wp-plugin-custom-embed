@@ -142,29 +142,40 @@
 
                 DM.login(res => {
                     if (res.session) {
+
+                        /**
+                         * Nested api call to get the channel info
+                         */
                         DM.api('/me', {
                             fields: ['id', 'screenname', 'avatar_120_url', 'username']
                         }, userInfo => {
-                            // Save the DM user logged in
-                            fetch( apiUrl + 'dm/v1/userinfo', {
-                                method: 'POST',
-                                credentials: 'same-origin',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-WP-Nonce': wpNonce
-                                },
-                                body: JSON.stringify(userInfo.username)
-                            })
-                            .then( res => res.json())
-                            .then( data => {
-                                // nothing to do on this section
-                                // console.log(data) // for debugging
-                            })
-                            .catch( err => {
-                                // console.log(err)
+
+                            DM.api('/user/' + userInfo.id + '/organization_memberships', {
+                                fields: ['default_user_channel']
+                            }, userChannel => {
+                                userInfo.channel = userChannel.list[0].default_user_channel
+
+                                // Save the DM user logged in
+                                fetch( apiUrl + 'dm/v1/userinfo', {
+                                    method: 'POST',
+                                    credentials: 'same-origin',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-WP-Nonce': wpNonce
+                                    },
+                                    body: JSON.stringify(userInfo)
+                                })
+                                    .then( res => res.json())
+                                    .then( data => {
+                                        // nothing to do on this section
+                                    })
+                                    .catch( err => {
+                                        // console.log(err)
+                                    })
+
+                                showLogout(userInfo)
                             })
 
-                            showLogout(userInfo)
                         })
                     }
 
