@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '8c394570aeefc85e80a58a6aebacb93ecca8c064',
+    'reference' => 'db7187e3c491b62acd779885ca4d9dae432836e0',
     'name' => 'dmvs-apac/wp-dm-custom-embed',
   ),
   'versions' => 
@@ -41,7 +41,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '8c394570aeefc85e80a58a6aebacb93ecca8c064',
+      'reference' => 'db7187e3c491b62acd779885ca4d9dae432836e0',
     ),
     'yahnis-elsts/plugin-update-checker' => 
     array (
