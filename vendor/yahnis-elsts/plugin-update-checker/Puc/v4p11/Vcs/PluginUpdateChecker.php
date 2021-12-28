@@ -46,6 +46,8 @@ if ( !class_exists('Puc_v4p11_Vcs_PluginUpdateChecker') ):
 			$info->slug = $this->slug;
 
 			$this->setInfoFromHeader($this->package->getPluginHeader(), $info);
+			$this->setIconsFromLocalAssets($info);
+			$this->setBannersFromLocalAssets($info);
 
 			//Pick a branch or tag.
 			$updateSource = $api->chooseReference($this->branch);
@@ -181,6 +183,79 @@ if ( !class_exists('Puc_v4p11_Vcs_PluginUpdateChecker') ):
 			if ( isset($readme['upgrade_notice'], $readme['upgrade_notice'][$pluginInfo->version]) ) {
 				$pluginInfo->upgrade_notice = $readme['upgrade_notice'][$pluginInfo->version];
 			}
+		}
+
+		/**
+		 * Add icons from the currently installed version to a Plugin Info object.
+		 *
+		 * The icons should be in a subdirectory named "assets". Supported image formats
+		 * and file names are described here:
+		 * @link https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/#plugin-icons
+		 *
+		 * @param Puc_v4p11_Plugin_Info $pluginInfo
+		 */
+		protected function setIconsFromLocalAssets($pluginInfo) {
+			$icons = $this->getLocalAssetUrls(array(
+				'icon.svg'         => 'svg',
+				'icon-256x256.png' => '2x',
+				'icon-256x256.jpg' => '2x',
+				'icon-128x128.png' => '1x',
+				'icon-128x128.jpg' => '1x',
+			));
+
+			if ( !empty($icons) ) {
+				//The "default" key seems to be used only as last-resort fallback in WP core (5.8/5.9),
+				//but we'll set it anyway in case some code somewhere needs it.
+				reset($icons);
+				$firstKey = key($icons);
+				$icons['default'] = $icons[$firstKey];
+
+				$pluginInfo->icons = $icons;
+			}
+		}
+
+		/**
+		 * Add banners from the currently installed version to a Plugin Info object.
+		 *
+		 * The banners should be in a subdirectory named "assets". Supported image formats
+		 * and file names are described here:
+		 * @link https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/#plugin-headers
+		 *
+		 * @param Puc_v4p11_Plugin_Info $pluginInfo
+		 */
+		protected function setBannersFromLocalAssets($pluginInfo) {
+			$banners = $this->getLocalAssetUrls(array(
+				'banner-772x250.png' => 'high',
+				'banner-772x250.jpg' => 'high',
+				'banner-1544x500.png' => 'low',
+				'banner-1544x500.jpg' => 'low',
+			));
+
+			if ( !empty($banners) ) {
+				$pluginInfo->banners = $banners;
+			}
+		}
+
+		/**
+		 * @param array<string, string> $filesToKeys
+		 * @return array<string, string>
+		 */
+		protected function getLocalAssetUrls($filesToKeys) {
+			$assetDirectory = $this->package->getAbsoluteDirectoryPath() . DIRECTORY_SEPARATOR . 'assets';
+			if ( !is_dir($assetDirectory) ) {
+				return array();
+			}
+			$assetBaseUrl = trailingslashit(plugins_url('', $assetDirectory . '/imaginary.file'));
+
+			$foundAssets = array();
+			foreach ($filesToKeys as $fileName => $key) {
+				$fullBannerPath = $assetDirectory . DIRECTORY_SEPARATOR . $fileName;
+				if ( !isset($icons[$key]) && is_file($fullBannerPath) ) {
+					$foundAssets[$key] = $assetBaseUrl . $fileName;
+				}
+			}
+
+			return $foundAssets;
 		}
 
 		public function setBranch($branch) {

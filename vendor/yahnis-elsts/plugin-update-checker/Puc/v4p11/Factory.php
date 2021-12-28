@@ -99,15 +99,21 @@ if ( !class_exists('Puc_v4p11_Factory', false) ):
 
 			$checkerClass = self::getCompatibleClassVersion($checkerClass);
 			if ( $checkerClass === null ) {
-				trigger_error(
-					sprintf(
-						'PUC %s does not support updates for %ss %s',
-						htmlentities(self::$latestCompatibleVersion),
-						strtolower($type),
-						$service ? ('hosted on ' . htmlentities($service)) : 'using JSON metadata'
-					),
-					E_USER_ERROR
-				);
+
+				// this is only for debugging purposes, in production it should never happen
+				// @codingStandardsIgnoreStart
+				if ( WP_DEBUG === true) {
+					trigger_error(
+						sprintf(
+							'PUC %s does not support updates for %ss %s',
+							htmlentities(self::$latestCompatibleVersion),
+							strtolower($type),
+							$service ? ('hosted on ' . htmlentities($service)) : 'using JSON metadata'
+						),
+						E_USER_ERROR
+					);
+				}
+				// @codingStandardsIgnoreEnd
 				return null;
 			}
 
@@ -123,11 +129,16 @@ if ( !class_exists('Puc_v4p11_Factory', false) ):
 				//VCS checker + an API client.
 				$apiClass = self::getCompatibleClassVersion($apiClass);
 				if ( $apiClass === null ) {
-					trigger_error(sprintf(
-						'PUC %s does not support %s',
-						htmlentities(self::$latestCompatibleVersion),
-						htmlentities($service)
-					), E_USER_ERROR);
+					// this is only for debugging purposes, in production it should never happen
+					// @codingStandardsIgnoreStart
+					if ( WP_DEBUG === true) {
+						trigger_error(sprintf(
+							'PUC %s does not support %s',
+							htmlentities(self::$latestCompatibleVersion),
+							htmlentities($service)
+						), E_USER_ERROR);
+					}
+					// @codingStandardsIgnoreEnd
 					return null;
 				}
 
@@ -256,8 +267,8 @@ if ( !class_exists('Puc_v4p11_Factory', false) ):
 			$service = null;
 
 			//Which hosting service does the URL point to?
-			$host = parse_url($metadataUrl, PHP_URL_HOST);
-			$path = parse_url($metadataUrl, PHP_URL_PATH);
+			$host = wp_parse_url($metadataUrl, PHP_URL_HOST);
+			$path = wp_parse_url($metadataUrl, PHP_URL_PATH);
 
 			//Check if the path looks like "/user-name/repository".
 			//For GitLab.com it can also be "/user/group1/group2/.../repository".

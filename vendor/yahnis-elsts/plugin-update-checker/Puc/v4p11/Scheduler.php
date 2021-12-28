@@ -47,13 +47,13 @@ if ( !class_exists('Puc_v4p11_Scheduler', false) ):
 				} else {
 					//Use a custom cron schedule.
 					$scheduleName = 'every' . $this->checkPeriod . 'hours';
-					add_filter('cron_schedules', array($this, '_addCustomSchedule'));
+					add_filter('cron_schedules', array($this, '_addCustomSchedule')); // phpcs:ignore WordPress.WP.CronInterval -- Verified every 12 hours.
 				}
 
 				if ( !wp_next_scheduled($this->cronHook) && !defined('WP_INSTALLING') ) {
 					//Randomly offset the schedule to help prevent update server traffic spikes. Without this
 					//most checks may happen during times of day when people are most likely to install new plugins.
-					$firstCheckTime = time() - rand(0, max($this->checkPeriod * 3600 - 15 * 60, 1));
+					$firstCheckTime = time() - wp_rand(0, max($this->checkPeriod * 3600 - 15 * 60, 1));
 					$firstCheckTime = apply_filters(
 						$this->updateChecker->getUniqueName('first_check_time'),
 						$firstCheckTime
@@ -69,7 +69,7 @@ if ( !class_exists('Puc_v4p11_Scheduler', false) ):
 				//Like WordPress itself, we check more often on certain pages.
 				/** @see wp_update_plugins */
 				add_action('load-update-core.php', array($this, 'maybeCheckForUpdates'));
-				//"load-update.php" and "load-plugins.php" or "load-themes.php".
+				//This will load files "load-update.php" and "load-plugins.php" or "load-themes.php".
 				$this->hourlyCheckHooks = array_merge($this->hourlyCheckHooks, $hourlyHooks);
 				foreach($this->hourlyCheckHooks as $hook) {
 					add_action($hook, array($this, 'maybeCheckForUpdates'));
