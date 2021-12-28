@@ -36,7 +36,7 @@ function dm_admin_notices() {
     $notices = get_option('dm_deferred_admin_notices');
     if ($notices) {
         foreach ($notices as $notice) {
-            echo esc_html("<div class='updated'><p>$notice</p></div>" );
+            echo "<div class='updated'><p>$notice</p></div>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
         delete_option('dm_deferred_admin_notices');
     }
