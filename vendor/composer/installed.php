@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'db7187e3c491b62acd779885ca4d9dae432836e0',
+    'reference' => '9172d9fb1f8cebc4e714f78a709865b7479a86ee',
     'name' => 'dmvs-apac/wp-dm-custom-embed',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'db7187e3c491b62acd779885ca4d9dae432836e0',
+      'reference' => '9172d9fb1f8cebc4e714f78a709865b7479a86ee',
     ),
     'yahnis-elsts/plugin-update-checker' => 
     array (

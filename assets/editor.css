@@ -226,11 +226,12 @@
 }
 
 .popup__content-finder {
-    width: 100%;
+    width: 1200px;
 }
 
-.popup__content-finder .dm__search-results {
-
+.popup__content-finder .components-panel__body.is-opened {
+    border: 0;
+    padding: 0 16px;
 }
 
 .popup__content-finder .dm__content-list .dm__search-results {
