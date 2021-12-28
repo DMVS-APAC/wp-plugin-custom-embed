@@ -105,8 +105,7 @@ class Load_Scripts {
         // the `$player_pos` is the indicator if the player is embedded in the page or not
         if ( !empty($video) &&
             sizeof($player_pos) !== 0 &&
-            $player_pos[0] !== '-1' &&
-            !empty($player_pos[0])
+            $player_pos[0] !== '-1'
         ) {
 
             if (isset($video->name)) {
@@ -129,19 +128,6 @@ class Load_Scripts {
             'pos' => isset($options_player['auto_player_pos']) ? $options_player['auto_player_pos'] : 'bottom',
             'string' => $player_string
         ];
-    }
-
-    /**
-     * To count the number of players in the page
-     *
-     * FIXME: This function is not used for a while until we have another unique case
-     *
-     * @param $matches
-     * @return string
-     */
-    function shortcode_counter($matches) {
-        static $i = 1;
-        return '[dm-player number="' . $i++ .'" ';
     }
 
     /**
@@ -176,10 +162,6 @@ class Load_Scripts {
 
             $player_holder = $this->generate_player_holder($post_id, $player_pos);
 
-            // FIXME: We don't use this for a while
-            // To check and adding `number` string to the shortcode to handle multiple players
-//            $content = preg_replace_callback('/\[dm-player/', [$this, 'shortcode_counter'], $content);
-
             if (!empty($content)) {
                 $dom = new DOMDocument;
                 // This is to avoid error on HTML5 tag detected like `<figure>`, `<figcaption>`. DOMDocument still based on HTML4 though
@@ -193,8 +175,7 @@ class Load_Scripts {
                 $body = $this->cleanup_html($body);
             }
 
-            // `$player_post` has a mixed value string and number, so need to filter based on both
-            if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' && !empty($player_pos[0]) ) {
+            if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' ) {
                 $new_content = '';
 
                 if ($player_pos[0] == 0) {

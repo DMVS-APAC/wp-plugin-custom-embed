@@ -80,7 +80,7 @@
                     const playerIdSelector = document.querySelector('#player-id')
 
                     if (response.session) {
-                        DM.api('/user/<?php echo $dmUser; ?>/players', {
+                        DM.api('/user/<?php echo $dmUser['channel']; ?>/players', {
                             fields: ['id', 'label']
                         }, players => {
 

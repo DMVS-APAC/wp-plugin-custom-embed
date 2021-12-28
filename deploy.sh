@@ -2,7 +2,7 @@
 set -e
 
 if [ $1 == "sniff" ]; then
-  vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor */*/*.php
+  vendor/bin/phpcs --standard=WordPress-VIP-Go -sp --basepath=. --ignore=vendor */*.php
   exit 1
 
 elif [ $1 == "sniff-vendor" ]; then
