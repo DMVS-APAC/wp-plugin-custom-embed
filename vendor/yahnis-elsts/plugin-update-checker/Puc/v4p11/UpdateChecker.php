@@ -5,7 +5,7 @@ if ( !class_exists('Puc_v4p11_UpdateChecker', false) ):
 	abstract class Puc_v4p11_UpdateChecker {
 		protected $filterSuffix = '';
 		protected $updateTransient = '';
-		protected $translationType = ''; //"plugin" or "theme".
+		protected $translationType = ''; //possibility value "plugin" or "theme".
 
 		/**
 		 * Set to TRUE to enable error reporting. Errors are raised using trigger_error()
@@ -206,7 +206,7 @@ if ( !class_exists('Puc_v4p11_UpdateChecker', false) ):
 		 */
 		public function allowMetadataHost($allow, $host) {
 			if ( $this->cachedMetadataHost === 0 ) {
-				$this->cachedMetadataHost = parse_url($this->metadataUrl, PHP_URL_HOST);
+				$this->cachedMetadataHost = wp_parse_url($this->metadataUrl, PHP_URL_HOST);
 			}
 
 			if ( is_string($this->cachedMetadataHost) && (strtolower($host) === strtolower($this->cachedMetadataHost)) ) {
@@ -427,7 +427,10 @@ if ( !class_exists('Puc_v4p11_UpdateChecker', false) ):
 		 */
 		public function triggerError($message, $errorType) {
 			if ( $this->isDebugModeEnabled() ) {
-				trigger_error($message, $errorType);
+				if ( WP_DEBUG === true) {
+					// @codingStandardsIgnoreLine
+					trigger_error($message, $errorType);
+				}
 			}
 		}
 
@@ -654,7 +657,6 @@ if ( !class_exists('Puc_v4p11_UpdateChecker', false) ):
 
 			//Various options for the wp_remote_get() call. Plugins can filter these, too.
 			$options = array(
-				'timeout' => 10, //seconds
 				'headers' => array(
 					'Accept' => 'application/json',
 				),
@@ -667,7 +669,8 @@ if ( !class_exists('Puc_v4p11_UpdateChecker', false) ):
 				$url = add_query_arg($queryArgs, $url);
 			}
 
-			$result = wp_remote_get($url, $options);
+			// https://docs.wpvip.com/technical-references/code-quality-and-best-practices/retrieving-remote-data/
+			$result = vip_safe_wp_remote_get($url, '', 5, 3, 20, $options);
 
 			$result = apply_filters($this->getUniqueName('request_metadata_http_result'), $result, $url, $options);
 			
