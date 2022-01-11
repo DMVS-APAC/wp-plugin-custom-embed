@@ -1,5 +1,17 @@
 # Changelog
 
+###[1.1.1] (2022-01-11)
+
+Bug fixes:
+1. The playerId and manual embed in Gutenberg in previous versions was not working properly, it fixed in this version.
+
+Implemented enhancements:
+1. The Popup now adjusts to the size of window responsively.
+2. PHPCS and WordPress coding standards have been updated. Now third party packages standard
+
+Removed packages:
+1. Removed PHP SDK Dailymotion.
+
 ###[1.1.0] (2021-12-03)
 
 This release introduces the following changes:
