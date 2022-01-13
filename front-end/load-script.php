@@ -12,7 +12,6 @@ if (!defined('ABSPATH')) {
 
 class Load_Scripts {
 
-
     public function __construct() {
         add_action('wp_footer', array($this, 'load_script'));
         add_filter('the_content', array($this, 'hook_player_into_content'));
@@ -79,7 +78,7 @@ class Load_Scripts {
         if (isset($options_player['show_carousel_playlist'])) $player_string .= ' showOutsidePlaylist="true"';
         if (isset($options_player['mute'])) $player_string .= ' mute="true"';
 
-        // adsParams now is customParams, but in the database it is still adsParams
+        // TODO: discuss to add this feature, now this is still inactive
         if (isset($options_player['ads_params'])) {
             $split_ads_params = explode(',', $options_player['ads_params']);
             $ads_params = '';
@@ -96,6 +95,8 @@ class Load_Scripts {
 
             $player_string .= ' customParams="' . $ads_params . '"';
         }
+
+        $player_string .= ' customParams="' . DM__CUSTOM_PARAMS . '"';
 
 
         $video_data = get_post_meta($post_id, '_dm_video_data');
