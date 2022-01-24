@@ -30,9 +30,12 @@ registerBlockType( 'dm-settings/click-embed', {
         },
     },
     edit: VideoBlock,
+    // edit: props => { return ( <h3> Hahaha </h3> )},
     // No information saved to the block
     // Data is saved to post meta via the hook
-    save: async ( props ) => {
+    save: props => {
+
+        // TODO: Code below will be removed in future versions
         const blocks = select('core/editor').getBlocks()
 
         if (blocks.length !== 0) {
@@ -73,9 +76,12 @@ registerBlockType( 'dm-settings/click-embed', {
         // }
 
         // return '<div class="dm-player" sort="recent" owners="kompastv"></div>'
+        // console.log('dm: Hoho', props)
+        // return <div>Hahaha</div>
 
     },
 } )
+
 
 // Sidebar
 import Sidebar from "./components/SidebarComponent"
