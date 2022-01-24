@@ -36,7 +36,7 @@ function dm_player_shortcode($atts, $content) {
     if (isset($options_player['show_carousel_playlist'])) $params .= ' showOutsidePlaylist="' . $options_player['show_carousel_playlist'] . '"';
     if (isset($options_player['mute'])) $params .= ' mute="' . $options_player['mute'] . '"';
 
-    // adsParams now is customParams, but in the database it is still adsParams
+    // TODO: discuss to add this feature, now this is still inactive
     if (isset($options_player['ads_params'])) {
         $split_ads_params = explode(',', $options_player['ads_params']);
         $ads_params = '';
@@ -53,6 +53,8 @@ function dm_player_shortcode($atts, $content) {
 
         $params .= ' customParams="' . $ads_params . '"';
     }
+
+    $params .= ' customParams="' . DM__CUSTOM_PARAMS . '"';
 
     return '<div class="dm-player" ' . $params . ' style="margin-bottom: 1.75em;"></div>';
 }

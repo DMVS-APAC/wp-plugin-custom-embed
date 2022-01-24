@@ -3,3 +3,11 @@ node_modules
 .phpdoc
 docs
 build/*.js.map
+
+# vendor
+vendor
+
+# Keep some vendor files for production
+!vendor/composer
+!vendor/autoload.php
+!vendor/yahnis-elsts
