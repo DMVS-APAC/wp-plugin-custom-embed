@@ -96,7 +96,7 @@ class Load_Scripts {
             $player_string .= ' customParams="' . $ads_params . '"';
         }
 
-        $player_string .= ' customParams="' . DM__CUSTOM_PARAMS . '"';
+        $player_string .= ' customParams="' . DM__PUBTOOL . '"';
 
 
         $video_data = get_post_meta($post_id, '_dm_video_data');

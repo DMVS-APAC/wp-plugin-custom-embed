@@ -1,6 +1,11 @@
-import { dispatch, select } from "@wordpress/data"
+import { select, dispatch } from "@wordpress/data"
 import { Component } from "@wordpress/element"
 import { fetchApi } from "../libs/apiCall"
+import { STORE_KEY as STORE_VIDEO_STORE_KEY } from "../store/dmVideoStore"
+
+import { BlockControls } from '@wordpress/block-editor';
+import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import { edit } from '@wordpress/icons';
 
 /**
  * Video Block Component
@@ -20,10 +25,6 @@ import { fetchApi } from "../libs/apiCall"
  * clean.
  */
 export default class VideoBlockComponent extends Component {
-    /**
-     * Store previous player position
-     */
-    #prevPos
 
     /**
      * Dailymotion options
@@ -34,12 +35,6 @@ export default class VideoBlockComponent extends Component {
         super(props)
 
         this.subscribes()
-
-        this.state = {
-            videoId: '',
-            privateVideoId: '',
-            playlistId: ''
-        }
     }
 
     /**
@@ -49,63 +44,10 @@ export default class VideoBlockComponent extends Component {
      */
     subscribes() {
         document.addEventListener('dm-video-updated', e => {
-            this.setAttr()
+            const { isSelected } = this.props
+
+            if (isSelected) this.setAttr()
         })
-    }
-
-    /**
-     * Get a position of the block
-     *
-     * @return number
-     */
-    countBlocks() {
-        let counter
-
-        const blocks = select('core/editor').getBlocks()
-
-        if (blocks.length !== 0) {
-            for (let i = 0; i < blocks.length; i++) {
-                if (blocks[i].name === 'dm-settings/click-embed') {
-                    counter = i
-                }
-            }
-        }
-
-        return counter
-    }
-
-    /**
-     * Update the position of the player
-     */
-    updatePosition() {
-
-        const counter = this.countBlocks()
-
-        if (this.#prevPos !== counter) {
-            this.#prevPos = counter
-
-            dispatch('core/editor').editPost({
-                meta: {
-                    _dm_player_position: counter
-                }
-            })
-        }
-
-    }
-
-    /**
-     * Get video data from updated post attributes
-     *
-     * @returns {null|any}
-     */
-    getVideo() {
-        const videoData = select('core/editor').getEditedPostAttribute('meta')['_dm_video_data']
-
-        if (videoData !== '') {
-            return JSON.parse(videoData)
-        }
-
-        return null
     }
 
     /**
@@ -119,19 +61,20 @@ export default class VideoBlockComponent extends Component {
     /**
      * Set state video data and rerender the video
      */
-    setAttr() {
-        const video = this.getVideo()
+    async setAttr() {
+        const videoData = select(STORE_VIDEO_STORE_KEY).getVideoData()
 
-        if (video !== null) {
-            this.setState({
-                videoId: (video.private !== true) ? video.id : null,
-                privateVideoId: (video.private === true) ? video.private_id : null,
-                playlistId: (video.name !== undefined) ? video.id : null
+        if (videoData !== undefined) {
+            this.props.setAttributes({
+                videoData: videoData
             })
+        }
 
+        if (this.props.attributes.videoData.id !== '') {
             // Rerender the video player placeholder
             window.dmce.rebuild()
         }
+
     }
 
     async componentDidMount() {
@@ -140,35 +83,37 @@ export default class VideoBlockComponent extends Component {
         this.setAttr()
     }
 
-    /**
-     * If block destroyed, it will update the position
-     */
-    componentWillUnmount() {
-        dispatch('core/editor').editPost({
-            meta: {
-                _dm_player_position: -1
-            }
-        })
-    }
-
     generateVideoContainer(attrs) {
+        const videoData = this.props.attributes.videoData
 
         // `playerId` is using only for preview, it's Yudhi's `playerId`
-        if (this.state.playlistId !== null) {
-            return <div className="dm-player" playlistId={this.state.playlistId} playerId="x1ozy" {...attrs} />
+        if (videoData.name !== undefined && videoData.name !== '') {
+            return <div className="dm-player" playlistId={videoData.id} playerId="x1ozy" {...attrs} />
         }
 
-        if (this.state.privateVideoId !== null) {
-            return <div className="dm-player" privateVideoId={ this.state.privateVideoId } playerId="x1ozy" {...attrs} />
+        if (videoData.private_id !== "" && videoData.private_id !== null) {
+            return <div className="dm-player" privateVideoId={ videoData.private_id } playerId="x1ozy" {...attrs} />
         }
 
-        return <div className="dm-player" videoId={ this.state.videoId } playerId="x1ozy" {...attrs} />
+        return <div className="dm-player" videoId={ videoData.id } playerId="x1ozy" {...attrs} />
     }
 
     render() {
-        this.updatePosition()
+        const videoData = this.props.attributes.videoData
 
-        if (this.state.videoId === '' || this.state.videoId === undefined) {
+        if (this.props !== undefined) {
+            const { isSelected } = this.props
+
+            if (isSelected) {
+                dispatch(STORE_VIDEO_STORE_KEY).setVideo(this.props.attributes.videoData)
+
+                // Send custom event to catch on VideoBlockComponent to render a new video
+                const videoUpdated = new CustomEvent("dm-video-updated")
+                document.dispatchEvent(videoUpdated)
+            }
+        }
+
+        if (videoData.id === '') {
             return (
                 <div className="dm-player__editor">
                     <p>No video selected, please select by click button below</p>
@@ -195,9 +140,17 @@ export default class VideoBlockComponent extends Component {
 
         return (
             <div className="dm-player__holder">
-                <p className="dm-player__holder--title">
-                    <span className="dashicons dashicons-edit-large"/> Dailymotion Player
-                </p>
+                <BlockControls>
+                    <ToolbarGroup>
+                        <ToolbarButton
+                            icon={ edit }
+                            label="Edit"
+                            onClick={ this.openSidebar }
+                        />
+                    </ToolbarGroup>
+                </BlockControls>
+
+                <div className="dm-player__placeholder"></div>
 
                 { this.generateVideoContainer(attrs) }
             </div>

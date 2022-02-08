@@ -1,7 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks'
-import { select } from "@wordpress/data"
+import { select, dispatch } from "@wordpress/data"
 import { __ } from "@wordpress/i18n"
-import {fetchApi} from "./libs/apiCall"
 
 // Video block
 import VideoBlock from "./components/VideoBlockComponent"
@@ -14,8 +13,6 @@ registerBlockType( 'dm-settings/click-embed', {
         __('Dailymotion'),
         __('Embed')
     ],
-
-    // TODO: preapare the block for future use
     attributes: {
         videoData: {
             type: 'object',
@@ -25,60 +22,26 @@ registerBlockType( 'dm-settings/click-embed', {
                 private_id: "",
                 status: "",
                 thumbnail_240_url: "",
-                title: ""
+                title: "",
+                name: ""
             }
         },
     },
     edit: VideoBlock,
-    // edit: props => { return ( <h3> Hahaha </h3> )},
-    // No information saved to the block
-    // Data is saved to post meta via the hook
     save: props => {
+        const { videoData } = props.attributes
 
-        // TODO: Code below will be removed in future versions
-        const blocks = select('core/editor').getBlocks()
-
-        if (blocks.length !== 0) {
-            for (let i = 0; i < blocks.length; i++) {
-                if (blocks[i].name === 'dm-settings/click-embed') {
-
-                    dispatch('core/editor').editPost({
-                        meta: {
-                            _dm_player_position: i
-                        }
-                    })
-
-                }
-            }
+        console.log('dm: video data', videoData)
+        let attrsString = ''
+        if (videoData.name !== undefined && videoData.name !== '') {
+            attrsString += ' playlistid="' + videoData.id + '"'
+        } else if (videoData.private === true) {
+            attrsString += ' privatevideoid="' + videoData.private_id + '"'
+        } else {
+            attrsString += ' videoid="' + videoData.id + '"'
         }
 
-        return null
-
-        // TODO: will be migrated using code below
-        // const postId = select("core/editor").getCurrentPostId()
-        // let videoData = await fetchApi('/dm/v1/custom-post-meta/',
-        //     'POST',
-        //     { post_id: postId, meta_name: '_dm_video_data'}
-        // )
-        // let attrs = ''
-        //
-        // if (videoData !== '') {
-        //     videoData = JSON.parse(videoData)
-        //     console.log('dm: ', videoData)
-        //
-        //     if (videoData.private_id !== undefined) {
-        //         attrs = `privatevideoid="${videoData.private_id}"`
-        //     } else {
-        //         attrs = `videoid="${videoData.id}"`
-        //     }
-        //
-        //     return 'haha' //'[dm-player ' + attrs + ']'
-        // }
-
-        // return '<div class="dm-player" sort="recent" owners="kompastv"></div>'
-        // console.log('dm: Hoho', props)
-        // return <div>Hahaha</div>
-
+        return ( '[dm-player ' + attrsString + ']' )
     },
 } )
 
