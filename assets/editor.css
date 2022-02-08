@@ -116,11 +116,50 @@
     margin-top: var(--global--spacing-vertical);
     margin-bottom: var(--global--spacing-vertical);
 }
+.dm-player__placeholder {
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    background-color: #000;
+}
+.dm-player {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
     .editor-styles-wrapper .dm-player__holder .dm-player__holder--title {
         margin-top: 0;
         margin-bottom: 6px;
         font-size: .8em;
         line-height: 1.2em;
+    }
+
+    /*.dm-player__holder .dm-player {*/
+    /*    height: auto;*/
+    /*}*/
+    /*.dm-player__holder .dm-player:after{*/
+    /*    content: "";*/
+    /*    display: block;*/
+    /*    clear: both;*/
+    /*    width: 100%;*/
+    /*    height: 0;*/
+    /*    padding-bottom: 56.25%;*/
+    /*    background: #000;*/
+    /*}*/
+    /*.dm-player__holder .dm-player.dm-show-player:after {*/
+    /*    display: none;*/
+    /*}*/
+
+    /* covering the real player to prevent the player from being clickable */
+    .dm-player__holder:after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
 .dm-player__editor {

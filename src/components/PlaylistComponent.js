@@ -5,6 +5,7 @@ import { dispatch, select } from "@wordpress/data"
 import Pagination from "../libs/pagination"
 
 import { STORE_KEY as DM_SDK_STORE_KEY } from "../store/dmSdkStore";
+import { STORE_KEY as DM_VIDEO_STORE_KEY } from "../store/dmVideoStore";
 
 export default class PlaylistComponent extends Component {
 
@@ -54,11 +55,7 @@ export default class PlaylistComponent extends Component {
     async addToPost(video) {
 
         if (this.#editorMode === 'gutenberg') {
-            dispatch('core/editor').editPost({
-                meta: {
-                    _dm_video_data: JSON.stringify(video)
-                }
-            })
+            dispatch(DM_VIDEO_STORE_KEY).setVideo(video)
 
             // Send custom event to catch on VideoBlockComponent to render a new video
             const videoUpdated = new CustomEvent("dm-video-updated")
@@ -94,13 +91,13 @@ export default class PlaylistComponent extends Component {
 
         if (this.#connectionStatus && this.props.globalVideo !== true ) {
             params.owner = dmUser.channel
-        } else if ( !this.#connectionStatus && content !== false ) {
+        } else if ( !this.#connectionStatus && content.length !== 0 ) {
             const owner = content.owners.split(',')
             params.owner = owner[0]
         }
 
         return new Promise( resolve => {
-            DM.api(url, params, playlists => {
+            DM.api(url, 'get', params, playlists => {
                 this.setLoadingData(false)
                 resolve(playlists)
             })

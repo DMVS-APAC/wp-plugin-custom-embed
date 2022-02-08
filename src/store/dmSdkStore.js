@@ -2,8 +2,6 @@ import { createReduxStore, register} from "@wordpress/data"
 
 export const STORE_KEY = 'data/dm-sdk'
 
-// TODO: refactor the code to avoid spageti code. The way consume this store
-
 const DEFAULT_STATE = {
     connectionStatus: null
 }

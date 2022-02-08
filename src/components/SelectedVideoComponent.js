@@ -1,7 +1,9 @@
 import { PanelBody } from "@wordpress/components"
-import { select, subscribe } from "@wordpress/data"
+import { select } from "@wordpress/data"
 import { Component } from "@wordpress/element"
-import { fetchApi } from "../libs/apiCall"
+import { STORE_KEY as STORE_VIDEO_STORE_KEY } from "../store/dmVideoStore"
+import { sleep } from "../libs/waitFor"
+
 
 /**
  * SelectedVideoComponent
@@ -15,9 +17,13 @@ export default class SelectedVideoComponent extends Component {
      * @type {{thumbnail_240_url: string, id: string, title?: string, name?: string}}
      */
     #videoDefault = {
-        title: '',
-        thumbnail_240_url: '',
-        id: ''
+        id: "",
+        private: false,
+        private_id: "",
+        status: "",
+        thumbnail_240_url: "",
+        title: "",
+        name: "",
     }
 
     /**
@@ -60,31 +66,18 @@ export default class SelectedVideoComponent extends Component {
      *
      * @returns {{thumbnail_240_url: string, id: string, title: string}}
      */
-    async getContent() {
-        if (this.#editorMode === 'gutenberg') {
-            return select('core/editor').getEditedPostAttribute('meta')['_dm_video_data']
-        } else {
-            const videoData = await fetchApi('/dm/v1/custom-post-meta/',
-                'POST',
-                { post_id: postId, meta_name: '_dm_video_data'}
-            )
-
-            let jsonObject = JSON.parse(videoData)
-            const videoDataInput = document.getElementById('dm_video_data')
-            videoDataInput.setAttribute('value', JSON.stringify(jsonObject))
-
-            return videoData
-        }
+    getContent() {
+        return select(STORE_VIDEO_STORE_KEY).getVideoData()
     }
 
     /**
      * Set video data to the local state
      */
-    async setVideo() {
-        const video = await this.getContent()
+    setVideo() {
+        const video = this.getContent()
 
         this.setState({
-            videoData: ( video === "" ) ? this.#videoDefault : JSON.parse(video),
+            videoData: ( video === undefined ) ? this.#videoDefault : video,
         })
     }
 
@@ -92,18 +85,9 @@ export default class SelectedVideoComponent extends Component {
      * Subscribe to all methods available to update the state globally
      */
     subscribes() {
-
-        if (this.#editorMode === 'gutenberg') {
-            subscribe(e => {
-                this.setVideo()
-            })
-        } else {
-            document.addEventListener('dm-video-updated', e => {
-                this.setState({
-                    videoData: e.detail.videoData
-                })
-            })
-        }
+        document.addEventListener('dm-video-updated', e => {
+            this.setVideo()
+        })
     }
 
     showImage() {

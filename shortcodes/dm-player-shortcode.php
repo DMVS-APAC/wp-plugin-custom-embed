@@ -54,7 +54,7 @@ function dm_player_shortcode($atts, $content) {
         $params .= ' customParams="' . $ads_params . '"';
     }
 
-    $params .= ' customParams="' . DM__CUSTOM_PARAMS . '"';
+    $params .= ' dmPubtool="' . DM__PUBTOOL . '"';
 
     return '<div class="dm-player" ' . $params . ' style="margin-bottom: 1.75em;"></div>';
 }

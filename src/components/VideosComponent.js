@@ -4,6 +4,7 @@ import { fetchApi } from "../libs/apiCall"
 import { dispatch, select } from "@wordpress/data"
 import Pagination from "../libs/pagination"
 import { STORE_KEY as DM_SDK_STORE_KEY } from "../store/dmSdkStore"
+import { STORE_KEY as DM_VIDEO_STORE_KEY } from "../store/dmVideoStore"
 
 
 /**
@@ -109,7 +110,7 @@ export default class VideosComponent extends Component {
         }
 
         return new Promise(async resolve => {
-            DM.api(url, params, (videos) => {
+            DM.api(url,'get', params, (videos) => {
                 this.setLoadingData(false)
                 resolve(videos)
             })
@@ -140,7 +141,7 @@ export default class VideosComponent extends Component {
      * addToPost
      *
      * This function will dispatch the data to `core/editor` to save
-     * later on when the user save the post. It also send a custom
+     * later on when the user save the post. It also sends a custom
      * event for `VideoBlockComponent` to listen that the video is
      * updated.
      *
@@ -148,11 +149,7 @@ export default class VideosComponent extends Component {
      */
     async addToPost(video) {
         if (this.#editorMode === 'gutenberg') {
-            dispatch('core/editor').editPost({
-                meta: {
-                    _dm_video_data: JSON.stringify(video)
-                }
-            })
+            dispatch(DM_VIDEO_STORE_KEY).setVideo(video)
 
             // Send custom event to catch on VideoBlockComponent to render a new video
             const videoUpdated = new CustomEvent("dm-video-updated")
@@ -174,7 +171,6 @@ export default class VideosComponent extends Component {
     async componentDidMount() {
         this.#connectionStatus = select(DM_SDK_STORE_KEY).getConnectionStatus()['connectionStatus']
         const videos = await this.fetchVideo()
-
 
         this.setVideos(videos)
     }

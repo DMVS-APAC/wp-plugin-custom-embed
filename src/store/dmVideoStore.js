@@ -1,7 +1,15 @@
 import { createReduxStore, register } from '@wordpress/data'
 
+export const STORE_KEY = 'data/dm-video'
+
 const DEFAULT_STATE = {
-    videoData: {}
+    id: "",
+    private: false,
+    private_id: "",
+    status: "",
+    thumbnail_240_url: "",
+    title: "",
+    name: ""
 }
 
 const actions = {
@@ -10,26 +18,15 @@ const actions = {
             type: 'SET_VIDEO',
             videoData
         }
-    },
-
-    getVideo() {
-        return {
-            type: 'GET_VIDEO'
-        }
     }
 }
 
-const dmVideoStore = createReduxStore( 'dm-video', {
+const STORE_CONFIG = {
     reducer(state = DEFAULT_STATE, action) {
         switch (action.type) {
             case 'SET_VIDEO':
                 return {
-                    ...state,
                     videoData: action.videoData
-                }
-            case 'GET_VIDEO':
-                return {
-                    ...state
                 }
             default:
                 return state
@@ -38,11 +35,13 @@ const dmVideoStore = createReduxStore( 'dm-video', {
 
     actions,
 
-    selectors: {},
+    selectors: {
+        getVideoData(state) {
+            return state.videoData
+        }
+    },
+}
 
-    controls: {},
-
-    resolvers: {}
-})
+const dmVideoStore = createReduxStore( STORE_KEY, STORE_CONFIG)
 
 register(dmVideoStore)
