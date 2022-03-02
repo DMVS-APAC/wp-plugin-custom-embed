@@ -1,5 +1,14 @@
 # Changelog
 
+###[1.2.0] (2022-02-03)
+
+Bug fixes:
+1. Old post meta removal when the user updating the content. If user is not update the post meta, the old post meta will not be removed.
+
+Implemented enhancements:
+1. Multiple video for manual embed on Gutenberg.
+2. Anonymous tracking to track usage of the plugin.
+
 ###[1.1.1] (2022-01-11)
 
 Bug fixes:

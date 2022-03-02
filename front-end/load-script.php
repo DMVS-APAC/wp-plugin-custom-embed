@@ -23,7 +23,7 @@ class Load_Scripts {
      */
     public function load_script() {
         if (is_single() || is_page()) {
-            wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), '2.0.0-beta.40', 'true');
+            wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), DM_CE__VERSION, 'true');
         }
     }
 
