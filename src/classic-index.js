@@ -1,6 +1,5 @@
 import { render, useState, createElement } from '@wordpress/element'
 import ContentFinder from "./components/ContentFinderComponent"
-import SelectedVideo from './components/SelectedVideoComponent'
 import DmSdk from "./libs/dmSdk"
 import { Button, Modal } from '@wordpress/components'
 import '@wordpress/components/build-style/style.css'

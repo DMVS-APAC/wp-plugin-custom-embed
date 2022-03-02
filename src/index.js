@@ -1,6 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks'
-import { select, dispatch } from "@wordpress/data"
 import { __ } from "@wordpress/i18n"
+import { dispatch, select } from '@wordpress/data'
 
 // Video block
 import VideoBlock from "./components/VideoBlockComponent"
@@ -29,9 +29,38 @@ registerBlockType( 'dm-settings/click-embed', {
     },
     edit: VideoBlock,
     save: props => {
+
+        /**
+         * Remove existing video data from the save block
+         *
+         * This is the old post metadata. We don't need it anymore.
+         * With the new way to save the block, we don't need to save
+         * the video data to the post metadata.
+         *
+         * We don't do migration the data. Because it's complicated.
+         * We just support the old version of the block, but when user
+         * try to update their post, it will also update the block.
+         *
+         * TODO: create scenario to test old version of the block to update with new version
+         *
+         * The fields we need to test:
+         * - `_dm_player_position`
+         * - `_dm_video_data`
+         *
+         */
+        const position = select('core/editor').getEditedPostAttribute('meta')['_dm_player_position']
+
+        if (position >= 0) {
+            dispatch('core/editor').editPost({
+                meta: {
+                    _dm_player_position: null,
+                    _dm_video_data: null
+                }
+            })
+        }
+
         const { videoData } = props.attributes
 
-        console.log('dm: video data', videoData)
         let attrsString = ''
         if (videoData.name !== undefined && videoData.name !== '') {
             attrsString += ' playlistid="' + videoData.id + '"'

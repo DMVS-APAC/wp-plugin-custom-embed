@@ -30,10 +30,10 @@ function dm_player_shortcode($atts, $content) {
 
     // Player settings
     if (isset($options_player['syndication'])) $params .= ' syndication="' . $options_player['syndication'] . '"';
-    if (isset($options_player['pre_video_title'])) $params .= ' preVideoTitle="' . $options_player['show_video_title'] . '"';
+    if (isset($options_player['pre_video_title'])) $params .= ' preVideoTitle="' . $options_player['pre_video_title'] . '"';
     if (isset($options_player['show_info_card'])) $params .= ' showInfocard="' . $options_player['show_info_card'] . '"';
     if (isset($options_player['show_video_title'])) $params .= ' showVideoTitle="' . $options_player['show_video_title'] . '"';
-    if (isset($options_player['show_carousel_playlist'])) $params .= ' showOutsidePlaylist="' . $options_player['show_carousel_playlist'] . '"';
+    if (isset($options_player['show_carousel_playlist'])) $params .= ' showOutsidePlaylist="true"';
     if (isset($options_player['mute'])) $params .= ' mute="' . $options_player['mute'] . '"';
 
     // TODO: discuss to add this feature, now this is still inactive
