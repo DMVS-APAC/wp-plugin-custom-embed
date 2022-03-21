@@ -38,7 +38,7 @@ class DM_Block {
             'dm-ce',
             'https://srvr.dmvs-apac.com/v2/dm-ce.min.js',
             [],
-            '2.0.0-15',
+            DM_CE__VERSION,
             true
         );
 
@@ -48,6 +48,8 @@ class DM_Block {
 
     /**
      * Register meta for use in gutenberg as custom meta
+     *
+     * TODO: remove this in the future on a major version update
      */
     public function dm_register_meta() {
         register_meta('post', '_dm_video_data', array(

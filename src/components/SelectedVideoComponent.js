@@ -2,7 +2,6 @@ import { PanelBody } from "@wordpress/components"
 import { select } from "@wordpress/data"
 import { Component } from "@wordpress/element"
 import { STORE_KEY as STORE_VIDEO_STORE_KEY } from "../store/dmVideoStore"
-import { sleep } from "../libs/waitFor"
 
 
 /**
@@ -86,6 +85,10 @@ export default class SelectedVideoComponent extends Component {
      */
     subscribes() {
         document.addEventListener('dm-video-updated', e => {
+            this.setVideo()
+        })
+
+        document.addEventListener('dm-video-active', e => {
             this.setVideo()
         })
     }

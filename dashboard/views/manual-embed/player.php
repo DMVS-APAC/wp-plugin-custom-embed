@@ -76,19 +76,20 @@ $player_pos = [
             </td>
         </tr>
 
+        <!--
         <tr>
-            <th scope="row"><?php echo __('Show Carousel Playlist'); ?> <span class="detail-info">?<span class="tooltip">this feature will deactivate the queue within the player and instead display video recommendations outside the main frame (on the right or below the player)</span></span></th>
+            <th scope="row"><?php // echo __('Show Carousel Playlist'); ?> <span class="detail-info">?<span class="tooltip">this feature will deactivate the queue within the player and instead display video recommendations outside the main frame (on the right or below the player)</span></span></th>
             <td>
                 <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Show carousel playlist'); ?></span></legend>
+                    <legend class="screen-reader-text"><span><?php // echo __('Show carousel playlist'); ?></span></legend>
                     <label for="show-carousel-playlist">
                         <input name="show_carousel_playlist" type="checkbox" id="show-carousel-playlist"
                                value="1"
-                            <?php echo ( isset($options['show_carousel_playlist']) ) ? 'checked' : '' ?>>
+                            <?php // echo ( isset($options['show_carousel_playlist']) ) ? 'checked' : '' ?>>
                     </label>
                 </fieldset>
             </td>
-        </tr>
+        </tr> -->
 
         <tr>
             <th scope="row"><?php echo __('Mute'); ?></th>
