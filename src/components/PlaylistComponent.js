@@ -3,10 +3,15 @@ import { Component } from "@wordpress/element"
 import { fetchApi } from "../libs/apiCall"
 import { dispatch, select } from "@wordpress/data"
 import Pagination from "../libs/pagination"
+import { STORE_KEY as DM_SDK_STORE_KEY } from "../store/dmSdkStore"
+import { STORE_KEY as DM_VIDEO_STORE_KEY } from "../store/dmVideoStore"
+import { CreateCustomEvent } from "../libs/customEvent"
 
-import { STORE_KEY as DM_SDK_STORE_KEY } from "../store/dmSdkStore";
-import { STORE_KEY as DM_VIDEO_STORE_KEY } from "../store/dmVideoStore";
-
+/**
+ * Playlist Component
+ *
+ * This component will generate a playlist search results
+ */
 export default class PlaylistComponent extends Component {
 
     /**
@@ -58,8 +63,9 @@ export default class PlaylistComponent extends Component {
             dispatch(DM_VIDEO_STORE_KEY).setVideo(video)
 
             // Send custom event to catch on VideoBlockComponent to render a new video
-            const videoUpdated = new CustomEvent("dm-video-updated")
-            document.dispatchEvent(videoUpdated)
+            // const videoUpdated = new CustomEvent("dm-video-updated")
+            // document.dispatchEvent(videoUpdated)
+            CreateCustomEvent('dm-video-updated', 'dm-video-updated')
         } else {
             let attrsString = ''
             attrsString += ' playlistid="' + video.id + '"'
