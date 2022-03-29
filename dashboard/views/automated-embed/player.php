@@ -10,6 +10,12 @@ $player_pos = [
     'middle',
     'bottom'
 ];
+$info_card = [
+    '',
+    'true',
+    'semi',
+    'snippet'
+]
 
 ?>
 
