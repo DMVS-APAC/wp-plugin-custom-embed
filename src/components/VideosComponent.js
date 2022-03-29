@@ -153,8 +153,6 @@ export default class VideosComponent extends Component {
             dispatch(DM_VIDEO_STORE_KEY).setVideo(video)
 
             // Send custom event to catch on VideoBlockComponent to render a new video
-            // const videoUpdated = new CustomEvent("dm-video-updated")
-            // document.dispatchEvent(videoUpdated)
             CreateCustomEvent('dm-video-updated', 'dm-video-component')
         } else {
             let attrsString = ''

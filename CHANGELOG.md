@@ -1,5 +1,11 @@
 # Changelog
 
+###[1.2.1] (2022-03-29)
+
+Bug fixes:
+1. Can't save a post after latest update on Gutenberg
+2. Layout stacking on Gutenberg (player with components like title or infocard)
+
 ###[1.2.0] (2022-02-03)
 
 Bug fixes:
