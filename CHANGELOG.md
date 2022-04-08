@@ -1,5 +1,11 @@
 # Changelog
 
+###[1.2.2] (2022-04-08)
+
+Bug Fixes:
+1. Add additional config to get private content
+2. Additional filter to avoid auto-embed for front-page and home-page
+
 ###[1.2.1] (2022-03-29)
 
 Bug fixes:
