@@ -114,7 +114,7 @@ export default class VideosComponent extends Component {
             DM.api(url,'get', params, (videos) => {
                 this.setLoadingData(false)
                 resolve(videos)
-            })
+            }, true)
         }).catch(error => {
             console.log(error)
         })

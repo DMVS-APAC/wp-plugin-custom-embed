@@ -1,5 +1,11 @@
 # Changelog
 
+###[1.2.2] (2022-04-08)
+
+Bug Fixes:
+1. editor and admins can now see private and draft videos
+2. If you have only access to a specific channel (or set of channels) on dailymotion, this is reflected in your WordPress video search and you’re only shown videos (draft, public, private) you would have access to on the platform
+
 ###[1.2.1] (2022-03-29)
 
 Bug fixes:

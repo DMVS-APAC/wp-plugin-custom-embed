@@ -104,7 +104,7 @@ export default class PlaylistComponent extends Component {
             DM.api(url, 'get', params, playlists => {
                 this.setLoadingData(false)
                 resolve(playlists)
-            })
+            }, true)
         }).catch( err => {
             console.log(err)
         })

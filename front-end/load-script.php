@@ -156,7 +156,7 @@ class Load_Scripts {
      * @return mixed|string
      */
     public function hook_player_into_content($content) {
-        if (is_single() || is_page()) {
+        if (is_single() || is_page() && !is_home() && !is_front_page()) {
 
             $post_id = get_the_ID();
             $player_pos = get_post_meta($post_id, '_dm_player_position');
