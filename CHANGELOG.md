@@ -1,6 +1,6 @@
 # Changelog
 
-###[.2.3] (2020-04-13)
+###[1.2.3] (2020-04-13)
 
 Bug fixes:
 1. Fixed missing path when using `composer` on some environments.
