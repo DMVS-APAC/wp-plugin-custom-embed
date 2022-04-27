@@ -166,26 +166,26 @@ export default class VideoBlockComponent extends Component {
      * @returns {JSX.Element}
      */
     generatePlaceholder() {
-        let style = {}
-        if ( this.state.dmPlayerAttributes ) {
-            if (this.state.dmPlayerAttributes.pre_video_title !== undefined && this.state.dmPlayerAttributes.pre_video_title !== '')
-                style = { '--dm-player-ratio': '16/10.6', '--dm-fallback-ratio': '65.25%'}
-
-            if (this.state.dmPlayerAttributes.show_info_card === '1')
-                style = { '--dm-player-ratio': '16/10.5', '--dm-fallback-ratio': '65.25%'}
-
-            if (this.state.dmPlayerAttributes.show_video_title === '1')
-                style = { '--dm-player-ratio': '16/10.5', '--dm-fallback-ratio': '65.25%'}
-
-            if (this.state.dmPlayerAttributes.show_carousel_playlist === '1')
-                style = {}
-        }
+        // let style = {}
+        // if ( this.state.dmPlayerAttributes ) {
+        //     if (this.state.dmPlayerAttributes.pre_video_title !== undefined && this.state.dmPlayerAttributes.pre_video_title !== '')
+        //         style = { '--dm-player-ratio': '16/10.6', '--dm-fallback-ratio': '65.25%'}
+        //
+        //     if (this.state.dmPlayerAttributes.show_info_card === '1')
+        //         style = { '--dm-player-ratio': '16/10.5', '--dm-fallback-ratio': '65.25%'}
+        //
+        //     if (this.state.dmPlayerAttributes.show_video_title === '1')
+        //         style = { '--dm-player-ratio': '16/10.5', '--dm-fallback-ratio': '65.25%'}
+        //
+        //     if (this.state.dmPlayerAttributes.show_carousel_playlist === '1')
+        //         style = {}
+        // }
 
         if (this.state.playerLoading === false) {
-            return <div className="dm-player__placeholder" style={ style } />
+            return <div className="dm-player__placeholder" />
         }
 
-        return <div className="dm-player__placeholder  loading" style={ style } />
+        return <div className="dm-player__placeholder  loading" />
     }
 
     onSelected() {

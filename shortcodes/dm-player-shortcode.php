@@ -20,21 +20,17 @@ function dm_player_shortcode($atts, $content) {
 
     // Player ID for multiple player
     if (isset($options_playback['player_id']))
-        $params .= ' playerId="' . $options_playback['player_id'] . '"';
+        $player_id = $options_playback['player_id'];
     else
-        $params .= ' playerId="x2yci"';
+        $player_id = "x2yci";
 
-    if ($atts['privatevideoid'] !== '') $params .= ' privateVideoId="' . $atts['privatevideoid'] . '"';
-    if ($atts['videoid'] !== '' && $atts['privatevideoid'] === '') $params .= ' videoId="' . $atts['videoid'] . '"';
-    if ($atts['playlistid']) $params .= ' playlistId="' . $atts['playlistid'] . '"';
+
+    $video_id = $atts['privatevideoid'] ?: $atts['videoid'];
+    $playlist_id = $atts['playlistid'];
 
     // Player settings
-    if (isset($options_player['syndication'])) $params .= ' syndication="' . $options_player['syndication'] . '"';
-    if (isset($options_player['pre_video_title'])) $params .= ' preVideoTitle="' . $options_player['pre_video_title'] . '"';
-    if (isset($options_player['show_info_card'])) $params .= ' showInfocard="' . $options_player['show_info_card'] . '"';
-    if (isset($options_player['show_video_title'])) $params .= ' showVideoTitle="' . $options_player['show_video_title'] . '"';
-    if (isset($options_player['show_carousel_playlist'])) $params .= ' showOutsidePlaylist="true"';
-    if (isset($options_player['mute'])) $params .= ' mute="' . $options_player['mute'] . '"';
+    if (isset($options_player['syndication'])) $params .= 'syndicationKey=' . $options_player['syndication'];
+    if (isset($options_player['mute'])) $params .= '&mute=' . $options_player['mute'];
 
     // TODO: discuss to add this feature, now this is still inactive
     if (isset($options_player['ads_params'])) {
@@ -51,11 +47,12 @@ function dm_player_shortcode($atts, $content) {
             }
         }
 
-        $params .= ' customParams="' . $ads_params . '"';
+        $params .= '&customConfig[customParams]=' . $ads_params;
     }
 
-    $params .= ' dmPubtool="' . DM__PUBTOOL . '"';
+    $params .= '&dmPubtool=' . DM__PUBTOOL;
+    $content = $playlist_id ? 'data-playlist="' . $playlist_id . '"' : 'data-video="' . $video_id . '"';
 
-    return '<div class="dm-player" ' . $params . ' style="margin-bottom: 1.75em;"></div>';
+    return '<div class="dm-wrapper" style="margin-bottom: 1.75em;"><script src="https://geo.dailymotion.com/player/' . $player_id . '.js" ' . $content . ' data-params="' . $params . '"></script></div>';
 }
 
