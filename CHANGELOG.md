@@ -1,5 +1,10 @@
 # Changelog
 
+###[1.3.0] (2020-05-04)
+
+Implemented enhancements:
+1. Changed the manual embed player to be native Dailymotion player embed.
+
 ###[1.2.3] (2020-04-13)
 
 Bug fixes:

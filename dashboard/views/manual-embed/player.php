@@ -5,12 +5,6 @@
  * @since 1.1.0-6
  */
 
-$player_pos = [
-    'top',
-    'middle',
-    'bottom'
-];
-
 ?>
 
 <form action="<?php echo get_admin_url() . 'admin.php?page=dm-manual-embed-settings&tab=player&action=save_data'; ?>" method="post">
@@ -39,42 +33,42 @@ $player_pos = [
             </td>
         </tr>
 
-        <tr>
-            <th scope="row"><label for="pre-video-title"><?php echo __('Pre video title'); ?> <span class="detail-info">?<span class="tooltip">A custom section title above the video player embed.</span></span></label></th>
-            <td>
-                <input name="pre_video_title" type="text" id="pre-video-title" class="regular-text"
-                       value="<?php echo ( isset($options['pre_video_title']) ) ? $options['pre_video_title'] : '' ?>">
-                <p class="description" id="syndication">E.g., "See also: Recommended videos"</p>
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <th scope="row"><label for="pre-video-title">--><?php //echo __('Pre video title'); ?><!-- <span class="detail-info">?<span class="tooltip">A custom section title above the video player embed.</span></span></label></th>-->
+<!--            <td>-->
+<!--                <input name="pre_video_title" type="text" id="pre-video-title" class="regular-text"-->
+<!--                       value="<?php //echo ( isset($options['pre_video_title']) ) ? $options['pre_video_title'] : '' ?>">-->
+<!--                <p class="description" id="syndication">E.g., "See also: Recommended videos"</p>-->
+<!--            </td>-->
+<!--        </tr>-->
 
-        <tr>
-            <th scope="row"><?php echo __('Show Video Title'); ?> <span class="detail-info">?<span class="tooltip">Decide if you want to show the video title below the video. This is not compatible with the Info Card option.</span></span></th>
-            <td>
-                <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Show video title'); ?></span></legend>
-                    <label for="show-video-title">
-                        <input name="show_video_title" type="checkbox" id="show-video-title"
-                               value="1"
-                            <?php echo ( isset($options['show_video_title']) ) ? 'checked' : '' ?>>
-                    </label>
-                </fieldset>
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <th scope="row"><?php //echo __('Show Video Title'); ?> <span class="detail-info">?<span class="tooltip">Decide if you want to show the video title below the video. This is not compatible with the Info Card option.</span></span></th>-->
+<!--            <td>-->
+<!--                <fieldset>-->
+<!--                    <legend class="screen-reader-text"><span><?php //echo __('Show video title'); ?></span></legend>-->
+<!--                    <label for="show-video-title">-->
+<!--                        <input name="show_video_title" type="checkbox" id="show-video-title"-->
+<!--                               value="1"-->
+<!--                            <?php //echo ( isset($options['show_video_title']) ) ? 'checked' : '' ?>>-->
+<!--                    </label>-->
+<!--                </fieldset>-->
+<!--            </td>-->
+<!--        </tr>-->
 
-        <tr>
-            <th scope="row"><?php echo __('Show Info Card'); ?> <span class="detail-info">?<span class="tooltip">this will show the title, description snippet and brand logo of the video below it</span></span></th>
-            <td>
-                <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Show video infocard'); ?></span></legend>
-                    <label for="show-info-card">
-                        <input name="show_info_card" type="checkbox" id="show-info-card"
-                               value="1"
-                            <?php echo ( isset($options['show_info_card']) ) ? 'checked' : '' ?>>
-                    </label>
-                </fieldset>
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <th scope="row">--><?php //echo __('Show Info Card'); ?><!-- <span class="detail-info">?<span class="tooltip">this will show the title, description snippet and brand logo of the video below it</span></span></th>-->
+<!--            <td>-->
+<!--                <fieldset>-->
+<!--                    <legend class="screen-reader-text"><span>--><?php //echo __('Show video infocard'); ?><!--</span></legend>-->
+<!--                    <label for="show-info-card">-->
+<!--                        <input name="show_info_card" type="checkbox" id="show-info-card"-->
+<!--                               value="1"-->
+<!--                            <?php //echo ( isset($options['show_info_card']) ) ? 'checked' : '' ?>>-->
+<!--                    </label>-->
+<!--                </fieldset>-->
+<!--            </td>-->
+<!--        </tr>-->
 
         <!--
         <tr>
