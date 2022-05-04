@@ -53,6 +53,6 @@ function dm_player_shortcode($atts, $content) {
     $params .= '&dmPubtool=' . DM__PUBTOOL;
     $content = $playlist_id ? 'data-playlist="' . $playlist_id . '"' : 'data-video="' . $video_id . '"';
 
-    return '<div class="dm-wrapper" style="margin-bottom: 1.75em;"><script src="https://geo.dailymotion.com/player/' . $player_id . '.js" ' . $content . ' data-params="' . $params . '"></script></div>';
+    return '<div class="dm-wrapper" style="margin-bottom: 1.75em;"><script src="https://geo.dailymotion.com/player/' . $player_id . '.js" ' . $content . ' data-params="' . $params . '" referrerpolicy="no-referrer-when-downgrade"></script></div>';
 }
 
