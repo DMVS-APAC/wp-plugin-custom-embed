@@ -7,7 +7,7 @@
 
 ?>
 
-<form action="<?php echo get_admin_url() . 'admin.php?page=dm-automated-embed-settings&action=save_data'; ?>" method="post">
+<form action="<?php echo get_admin_url() . 'admin.php?page=dm-automated-embed-settings&action=save_data'; ?>" method="post" id="automated-embed-form">
 
     <?php wp_nonce_field("dm_save_data", "dm_save_data", true); ?>
 

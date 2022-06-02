@@ -55,27 +55,13 @@ $sorts = [
     </ol>
 </div>
 
-<form action="<?php echo get_admin_url() . 'admin.php?page=dm-automated-embed-settings&tab=content&action=save_data'; ?>" method="post">
+<form action="<?php echo get_admin_url() . 'admin.php?page=dm-automated-embed-settings&tab=content&action=save_data'; ?>" method="post" id="automated-embed-form">
 
     <?php wp_nonce_field("dm_save_data", "dm_save_data", true); ?>
 
     <table class="form-table" role="presentation">
 
         <tbody>
-        <tr>
-            <th scope="row"><?php echo __('Automatic Embed'); ?> <span class="detail-info">?<span class="tooltip">By <strong>default</strong>, automatic custom embed is disabled. Toggle this on to apply the custom embed to all your posts automatically; the script will fetch and embed a video based on the filters you defined in the plugin settings.</span></span></th>
-            <td>
-                <fieldset>
-                    <legend class="screen-reader-text"><span><?php echo __('Automatic Embed'); ?></span></legend>
-                    <label for="auto_embed">
-                        <input name="auto_embed" type="checkbox" id="auto_embed"
-                               value="1"
-                            <?php echo ( isset($options['auto_embed']) ) ? 'checked' : '' ?>>
-                    </label>
-                </fieldset>
-                <p class="description">Toggle on/off to enable/disable automatic custom embeds</p>
-            </td>
-        </tr>
 
         <tr>
             <th scope="row"><label for="sort-by"><?php echo __('Sort by'); ?> <span class="detail-info">?<span class="tooltip">This will rank the video search results by the preferred sorting method. Pick <strong>relevance</strong> for contextual embed or <strong>recent</strong> to get the latest video for instance.</span></span></label></th>

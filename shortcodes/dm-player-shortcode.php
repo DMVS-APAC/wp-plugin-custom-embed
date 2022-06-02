@@ -20,9 +20,9 @@ function dm_player_shortcode($atts, $content) {
 
     // Player ID for multiple player
     if (isset($options_playback['player_id']))
-        $player_id = $options_playback['player_id'];
+        $player_url = 'https://geo.dailymotion.com/player/' . $options_playback['player_id'] . '.js';
     else
-        $player_id = "x2yci";
+        $player_url = 'https://geo.dailymotion.com/player.js';
 
 
     $video_id = $atts['privatevideoid'] ?: $atts['videoid'];
@@ -53,6 +53,6 @@ function dm_player_shortcode($atts, $content) {
     $params .= '&dmPubtool=' . DM__PUBTOOL;
     $content = $playlist_id ? 'data-playlist="' . $playlist_id . '"' : 'data-video="' . $video_id . '"';
 
-    return '<div class="dm-wrapper" style="margin-bottom: 1.75em;"><script src="https://geo.dailymotion.com/player/' . $player_id . '.js" ' . $content . ' data-params="' . $params . '" referrerpolicy="no-referrer-when-downgrade"></script></div>';
+    return '<div class="dm-wrapper" style="margin-bottom: 1.75em;"><script src="' . $player_url . '" ' . $content . ' data-params="' . $params . '" referrerpolicy="no-referrer-when-downgrade"></script></div>';
 }
 

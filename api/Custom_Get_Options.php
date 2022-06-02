@@ -20,6 +20,7 @@ class Custom_Get_Options extends WP_REST_Controller {
      * 2. `get-api-key` - read only
      * 3. `userinfo` - read and update
      * 4. `custom-post-meta` - read only
+     * 5. `update-auto-embed` - update
      */
     public function register_routes() {
         $version = '1';
@@ -71,6 +72,18 @@ class Custom_Get_Options extends WP_REST_Controller {
             [
                 'methods'               => WP_REST_Server::EDITABLE,
                 'callback'              => [ $this, 'get_custom_post_meta'],
+                'permission_callback'   => [ $this, 'permissions_check'],
+                'args'                  => $this->get_endpoint_args_for_item_schema(true),
+            ]
+        ]);
+
+        /**
+         * Update auto embed
+         */
+        register_rest_route($namespace, '/update-auto-embed/', [
+            [
+                'methods'               => WP_REST_Server::EDITABLE,
+                'callback'              => [ $this, 'update_auto_embed'],
                 'permission_callback'   => [ $this, 'permissions_check'],
                 'args'                  => $this->get_endpoint_args_for_item_schema(true),
             ]
@@ -135,6 +148,17 @@ class Custom_Get_Options extends WP_REST_Controller {
         $dmUser = $request->get_json_params();
 
         update_option('dm_ce_user_' . $current_user->data->user_login, $dmUser);
+
+        return new WP_REST_Response( true, 200);
+    }
+
+    /**
+     * @param WP_REST_Request $request Full data about the request.
+     * @return WP_REST_Response
+     */
+    public function update_auto_embed( $request ) {
+        $auto_embed = $request->get_json_params();
+        update_option('dm_ce_options_auto_embed', $auto_embed);
 
         return new WP_REST_Response( true, 200);
     }
