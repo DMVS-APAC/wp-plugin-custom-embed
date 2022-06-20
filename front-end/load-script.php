@@ -19,11 +19,11 @@ class Load_Scripts {
 
     /**
      * Load script needed by front end to show the player
-     * It only showing on post type
+     * It's only showing on post type
      */
     public function load_script() {
         if (is_single() || is_page()) {
-            wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), DM_CE__VERSION, 'true');
+            wp_enqueue_script('dm-ce', DM__PLAYER_URL, array(), DM_CE__VERSION, 'true');
         }
     }
 
@@ -51,6 +51,7 @@ class Load_Scripts {
             $options_player = get_option('dm_ce_options_manual_embed_player');
         }
 
+        $player_string .= ' data-player="' . $auto_embed . ' haha" ';
 
         // playback options
         if (isset($options_playback['player_id'])) {
@@ -154,7 +155,9 @@ class Load_Scripts {
      * @return mixed|string
      */
     public function hook_player_into_content($content) {
-        if (is_single() || is_page() && !is_home() && !is_front_page()) {
+        $auto_embed = get_option('dm_ce_options_auto_embed');
+
+        if ($auto_embed == 1 && ( is_single() || is_page() && !is_home() && !is_front_page()) ) {
 
             $post_id = get_the_ID();
             $player_pos = get_post_meta($post_id, '_dm_player_position');
