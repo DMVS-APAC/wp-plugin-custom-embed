@@ -173,7 +173,9 @@ class Load_Scripts {
                 //  The empty string is messed up the `childNodes` so can't count it properly. Unfortunately,
                 //  the `shortcode` identified the same as an empty string type, `#text`.
                 $body = $dom->getElementsByTagName('body')->item(0)->childNodes;
-                $body = $this->cleanup_html($body);
+                if($body) {
+                    $body = $this->cleanup_html($body);
+                }
             }
 
             if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' ) {
