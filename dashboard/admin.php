@@ -175,6 +175,9 @@ class DM_Admin {
             if (!empty($params['auto_embed']) && $params['auto_embed'] !== null)
                 $dm_ce_data += ['auto_embed' => self::sanitize_this('auto_embed')];
 
+            if (!empty($params['replace_old_embed']) && $params['replace_old_embed'] !== null)
+                $dm_ce_data += ['replace_old_embed' => self::sanitize_this('replace_old_embed')];
+
             if (!empty($params['sort_by']) && $params['sort_by'] !== null)
                 $dm_ce_data += ['sort_by' => self::sanitize_this('sort_by')];
 
@@ -273,4 +276,3 @@ class DM_Admin {
 }
 
 $dm_admin = new DM_Admin();
-
