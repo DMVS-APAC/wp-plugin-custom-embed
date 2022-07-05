@@ -1,6 +1,6 @@
 # Changelog
 
-###[1.3.1] (2022-07-05)
+###[1.4.0] (2022-07-05)
 
 Implemented enhancements:
 1. Added toggle button for automated embedding of the video.

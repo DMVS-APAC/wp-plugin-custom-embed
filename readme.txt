@@ -1,7 +1,7 @@
 === Plugin Name ===
 Tags: video player
 Requires at least: 5.7
-Tested up to: 5.9
+Tested up to: 6.0
 Stable tag: 5.7
 Requires PHP: 7.1.0
 License: GPLv2 or later
