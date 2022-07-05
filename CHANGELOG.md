@@ -1,16 +1,19 @@
 # Changelog
 
-###[1.3.1] ()
+###[1.3.1] (2022-07-05)
 
 Implemented enhancements:
 1. Added toggle button for automated embedding of the video.
 
-###[1.3.0] (2020-05-04)
+Bug fixes:
+1. Handle hooks if there is a childNodes.
+
+###[1.3.0] (2022-05-04)
 
 Implemented enhancements:
 1. Changed the manual embed player to be native Dailymotion player embed.
 
-###[1.2.3] (2020-04-13)
+###[1.2.3] (2022-04-13)
 
 Bug fixes:
 1. Fixed missing path when using `composer` on some environments.
