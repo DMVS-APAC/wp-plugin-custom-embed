@@ -177,7 +177,9 @@ class Load_Scripts {
 
                 // This solution for automated embed still has a bug, for now, it's disabled
                 // the trade off is the player will not be inserted correctly in some cases.
-//                $body = $this->cleanup_html($body);
+//                if($body) {
+//                    $body = $this->cleanup_html($body);
+//                }
             }
 
             if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' ) {
