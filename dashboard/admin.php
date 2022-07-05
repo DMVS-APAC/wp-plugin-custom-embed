@@ -1,278 +1,312 @@
 <?php
+/**
+ * Load_Scripts
+ *
+ * This class is handle all things to show the player to the front end.
+ * Technically, it is hook the player inside the content via `add_filter`.
+ */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
 
-class DM_Admin {
+class Load_Scripts
+{
 
-    public function __construct() {
-        add_action('admin_menu', array($this, 'register_menu'));
-        add_action('wp_dashboard_setup', array($this, 'register_widget'));
-    }
-
-    public function register_menu() {
-
-        // For root menu
-        add_menu_page(
-            __('Dailymotion HQ'),
-            __('Dailymotion HQ'),
-            'publish_pages',
-            'dm-automated-embed-settings',
-            '',
-            plugin_dir_url( __DIR__ ) . 'assets/dailymotion-icon.svg'
-        );
-
-        // For submenu
-        add_submenu_page(
-            'dm-automated-embed-settings',
-            __('Automated Embed'),
-            __('Automated Embed'),
-            'publish_pages',
-            'dm-automated-embed-settings',
-            array($this, 'load_automated_embed_page')
-        );
-
-        add_submenu_page(
-            'dm-automated-embed-settings',
-            __('Manual Embed'),
-            __('Manual Embed'),
-            'edit_posts',
-            'dm-manual-embed-settings',
-            array($this, 'load_manual_embed_page')
-        );
-
-
-        add_submenu_page(
-            'dm-automated-embed-settings',
-            __('Connect to Dailymotion'),
-            __('<span aria-label="Connect to Dailymotion">Connect</span>'),
-            'edit_posts',
-            'dm-connect',
-            array($this, 'load_connect_page')
-        );
-
-        add_submenu_page(
-            'dm-automated-embed-settings',
-            __('Credentials'),
-            __('<span aria-label="Dailymotion Credentials">Credentials</span>'),
-            'publish_pages',
-            'dm-credentials',
-            array($this, 'load_credentials_page')
-        );
-
-        add_submenu_page(
-            'dm-automated-embed-settings',
-            __('Migration'),
-            __('Migration'),
-            'publish_pages',
-            'dm-migration',
-            array($this, 'load_migration_page')
-        );
-    }
-
-    public function register_widget() {
-        wp_add_dashboard_widget(
-            'dm-login-status',
-            __('Dailymotion connection status'),
-            array($this, 'load_dashboard_widget'),
-            null,
-            null,
-            'side',
-            'high'
-        );
-    }
-
-    public function load_dashboard_widget() {
-        require DM__PATH . 'dashboard/views/dashboard-widget/dashboard-widget-box.php';
+    public function __construct()
+    {
+        add_action('wp_footer', array($this, 'load_script'));
+        add_filter('the_content', array($this, 'hook_player_into_content'));
+        add_filter('the_content', array($this, 'migrate_old_player_to_custom_embed'));
     }
 
     /**
-     * Load the automated embed settings page
+     * Load script needed by front end to show the player
+     * It only showing on post type
      */
-    public function load_automated_embed_page() {
-        $prefix = 'auto_embed_';
-        $action = isset($_GET['action']) ? self::sanitize_this('action', 'GET') : ''; // phpcs:ignore WordPress.Security.NonceVerification
-        $tab = isset($_GET['tab']) ? self::sanitize_this('tab', 'GET') : 'playback'; // phpcs:ignore WordPress.Security.NonceVerification
+    public function load_script()
+    {
+        if (is_single() || is_page()) {
+            wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), DM_CE__VERSION, 'true');
+        }
+    }
 
-        switch($action):
-            case "save_data":
-                $save_data = self::sanitize_this('dm_save_data');
-                if ( isset($save_data) && wp_verify_nonce($save_data, 'dm_save_data') ) {
-                    self::store_general_settings($_POST, $prefix . $tab);
+    /**
+     *
+     *
+     * @param $post_id int
+     * @param $player_pos int
+     * @return array it contains auto embed status, player position for auto embed, player string holder
+     */
+    private function generate_player_holder($post_id, $player_pos): array
+    {
+        $player_string = '<div class="dm-player__wrapper"><div class="dm-player"';
+
+        $options_auto_content = get_option('dm_ce_options_auto_embed_content');
+
+        if (isset($options_auto_content['auto_embed']) && $options_auto_content['auto_embed'] == true) {
+            $options_content  = $options_auto_content;
+            $options_playback = get_option('dm_ce_options_auto_embed_playback');
+            $options_player   = get_option('dm_ce_options_auto_embed_player');
+        } else {
+            $options_content  = get_option('dm_ce_options_manual_embed_content');
+            $options_playback = get_option('dm_ce_options_manual_embed_playback');
+            $options_player   = get_option('dm_ce_options_manual_embed_player');
+        }
+
+        // playback options
+        if (isset($options_playback['player_id'])) {
+            $player_string .= ' playerId="' . $options_playback['player_id'] . '"';
+        } else {
+            // Default player id no auto play, no PiP from Yudhi's Channel
+            $player_string .= ' playerId="x2yci"';
+        }
+
+        // Content options
+        if (isset($options_auto_content['auto_embed']) && $options_auto_content['auto_embed'] == true) {
+            if (isset($options_content['owners'])) {
+                $player_string .= ' owners="' . $options_content['owners'] . '"';
+            }
+
+            if (isset($options_content['sort_by'])) {
+                $player_string .= ' sort="' . $options_content['sort_by'] . '"';
+            }
+
+            if (isset($options_content['category'])) {
+                $player_string .= ' category="' . $options_content['category'] . '"';
+            }
+
+            if (isset($options_content['exclude_ids'])) {
+                $player_string .= ' excludeIds="' . $options_content['exclude_ids'] . '"';
+            }
+
+            if (isset($options_content['playlist'])) {
+                $player_string .= ' searchInPlaylist="' . $options_content['playlist'] . '"';
+            }
+
+            if (isset($options_content['language'])) {
+                $player_string .= ' language="' . $options_content['language'] . '"';
+            }
+
+            if (isset($options_content['range_day'])) {
+                $player_string .= ' rangeDay="' . $options_content['range_day'] . '"';
+            }
+
+        }
+
+        // Player options
+        if (isset($options_player['syndication'])) {
+            $player_string .= ' syndication="' . $options_player['syndication'] . '"';
+        }
+
+        if (isset($options_player['pre_video_title'])) {
+            $player_string .= ' preVideoTitle="' . $options_player['pre_video_title'] . '"';
+        }
+
+        if (isset($options_player['show_video_title'])) {
+            $player_string .= ' showVideoTitle="' . $options_player['show_video_title'] . '"';
+        }
+
+        if (isset($options_player['show_info_card'])) {
+            $player_string .= ' showInfoCard="' . $options_player['show_info_card'] . '"';
+        }
+
+        if (isset($options_player['show_carousel_playlist'])) {
+            $player_string .= ' showOutsidePlaylist="true"';
+        }
+
+        if (isset($options_player['mute'])) {
+            $player_string .= ' mute="true"';
+        }
+
+        // TODO: discuss to add this feature, now this is still inactive
+        if (isset($options_player['ads_params'])) {
+            $split_ads_params = explode(',', $options_player['ads_params']);
+            $ads_params       = '';
+
+            for ($i = 0; $i < count($split_ads_params); $i++) {
+                if ($i === 1) {
+                    $ads_params .= '/var' . $i . '=' . $split_ads_params[$i];
+                } else if ($i > 1) {
+                    $ads_params .= '&var' . $i . '=' . $split_ads_params[$i];
+                } else {
+                    $ads_params .= $split_ads_params[$i];
+                }
+            }
+
+            $player_string .= ' customParams="' . $ads_params . '"';
+        }
+
+        $player_string .= ' customParams="' . DM__PUBTOOL . '"';
+
+        $video_data = get_post_meta($post_id, '_dm_video_data');
+        $video      = isset($video_data[0]) ? json_decode($video_data[0]) : null;
+
+        // If video data is not empty, it will load video from database
+        // the `$player_pos` is the indicator if the player is embedded in the page or not
+        if (!empty($video) &&
+            sizeof($player_pos) !== 0 &&
+            $player_pos[0] !== '-1'
+        ) {
+
+            if (isset($video->name)) {
+                $player_string .= ' playlistId="' . $video->id . '"';
+            } else if (isset($video->private_id)) {
+                $player_string .= ' privateVideoId="' . $video->private_id . '"';
+            } else {
+                $player_string .= ' videoId="' . $video->id . '"';
+            }
+        } else if (isset($options_content['video_id'])) {
+            $player_string .= ' videoId="' . $options_content['video_id'] . '"';
+        } else if (isset($options_content['playlist_id'])) {
+            $player_string .= ' playlistId="' . $options_content['playlist_id'] . '"';
+        }
+
+        $player_string .= '></div></div>';
+
+        return [
+            'auto'   => isset($options_auto_content['auto_embed']) ?? $options_auto_content['auto_embed'],
+            'pos'    => isset($options_player['auto_player_pos']) ? $options_player['auto_player_pos'] : 'bottom',
+            'string' => $player_string,
+        ];
+    }
+
+    /**
+     * Clean the html tag node from generated empty string typed `#text`
+     *
+     * @param mixed $html tags generated nodes
+     * @return array a list of html tags
+     */
+    private function cleanup_html($html): array
+    {
+        for ($i = 0; $i < $html->length; $i++) {
+            if ($html[$i]->nodeName !== '#text') {
+                $html_temp[] = $html[$i];
+            }
+        }
+
+        return $html_temp;
+    }
+
+    /**
+     * Hook player into post content
+     *
+     * It's re-tailor the post content to insert the player inside it.
+     *
+     * @param $content
+     * @return mixed|string
+     */
+    public function hook_player_into_content($content)
+    {
+        if (is_single() || is_page() && !is_home() && !is_front_page()) {
+
+            $post_id    = get_the_ID();
+            $player_pos = get_post_meta($post_id, '_dm_player_position');
+
+            $player_holder = $this->generate_player_holder($post_id, $player_pos);
+
+            if (!empty($content)) {
+                $dom = new DOMDocument;
+                // This is to avoid error on HTML5 tag detected like `<figure>`, `<figcaption>`. DOMDocument still based on HTML4 though
+                libxml_use_internal_errors(true);
+                $dom->loadHTML($content);
+
+                // TODO we still have problem with this `getElementsByTagName`, the result is included empty string.
+                //  The empty string is messed up the `childNodes` so can't count it properly. Unfortunately,
+                //  the `shortcode` identified the same as an empty string type, `#text`.
+                $body = $dom->getElementsByTagName('body')->item(0)->childNodes;
+                if ($body) {
+                    $body = $this->cleanup_html($body);
+                }
+            }
+
+            if (sizeof($player_pos) !== 0 && $player_pos[0] !== '-1') {
+                $new_content = '';
+
+                if ($player_pos[0] == 0) {
+                    $new_content .= $player_holder['string'];
                 }
 
+                if (!empty($content)) {
+                    for ($i = 0; $i < sizeof($body); $i++) {
+
+                        $new_content .= $dom->saveHTML($body[$i]);
+
+                        if ($i == $player_pos[0] - 1) {
+                            $new_content .= $player_holder['string'];
+                        }
+                    }
+                }
+
+            } else if (isset($player_holder['auto']) && $player_holder['auto'] === true) {
+                $new_content = '';
+                switch ($player_holder['pos']):
+            case 'top':
+                $new_content = $player_holder['string'] . $content;
                 break;
-        endswitch;
+            case 'middle':
+                $middle_pos = round(sizeof($body) / 2);
+                for ($i = 0; $i < sizeof($body); $i++) {
 
-        $currentUser = wp_get_current_user();
+                        $new_content .= $dom->saveHTML($body[$i]);
 
-        $options = get_option('dm_ce_options_' . $prefix . $tab);
-        $credentials = get_option('dm_ce_credentials');
-        $dmUser = get_option('dm_ce_user_' . $currentUser->data->user_login);
-
-        require DM__PATH . 'dashboard/views/automated-embed/page.php';
-    }
-
-    public function load_manual_embed_page() {
-        $prefix = 'manual_embed_';
-        $action = self::sanitize_this('action', 'GET'); // phpcs:ignore WordPress.Security.NonceVerification
-        $tab = isset($_GET['tab']) ? self::sanitize_this('tab', 'GET') : 'playback'; // phpcs:ignore WordPress.Security.NonceVerification
-
-        switch($action):
-            case "save_data":
-                $save_data = self::sanitize_this('dm_save_data');
-                if ( wp_verify_nonce($save_data, 'dm_save_data') )
-                    self::store_general_settings($_POST, $prefix . $tab);
-
+                        if ($i == $middle_pos - 1) {
+                            $new_content .= $player_holder['string'];
+                        }
+                }
                 break;
-        endswitch;
+            default:
+                $new_content = $content . $player_holder['string'];
+                endswitch;
 
-        $currentUser = wp_get_current_user();
+            } else {
+                $new_content = $content;
+            }
 
-        $options = get_option('dm_ce_options_' . $prefix . $tab);
-        $credentials = get_option('dm_ce_credentials');
-        $dmUser = get_option('dm_ce_user_' . $currentUser->data->user_login);
+            return $new_content;
 
-        require DM__PATH . 'dashboard/views/manual-embed/page.php';
+        } // if the post and the page
+
+        return $content;
     }
 
-    public function load_connect_page() {
-        $action = self::sanitize_this('action', 'GET'); // phpcs:ignore WordPress.Security.NonceVerification
-
-        $options = get_option('dm_ce_credentials');
-
-        require DM__PATH . 'dashboard/views/connect/connect_page.php';
-    }
-
-    public function load_credentials_page() {
-        $action = self::sanitize_this('action', 'GET'); // phpcs:ignore WordPress.Security.NonceVerification
-
-        switch($action):
-            case "save_data":
-                // The sanitize will be processed in the store_credentials function
-                self::store_credentials($_POST); // phpcs:ignore WordPress.Security.NonceVerification
-                break;
-        endswitch;
-
-        $options = get_option('dm_ce_credentials');
-
-        require DM__PATH . 'dashboard/views/credentials/credentials_page.php';
-    }
-
-    public function load_migration_page() {
-        require DM__PATH . 'dashboard/views/migration/page.php';
-    }
-
-    private function store_general_settings($params, $tab) {
-        if ( !empty($params) ) {
-
-            $dm_ce_data = [];
-
-            // Playback options
-            if (!empty($params['player_id']) && $params['player_id'] !== null)
-                $dm_ce_data += ['player_id' =>  self::sanitize_this('player_id')];
-
-            // Content options
-            if (!empty($params['auto_embed']) && $params['auto_embed'] !== null)
-                $dm_ce_data += ['auto_embed' => self::sanitize_this('auto_embed')];
-
-            if (!empty($params['replace_old_embed']) && $params['replace_old_embed'] !== null)
-                $dm_ce_data += ['replace_old_embed' => self::sanitize_this('replace_old_embed')];
-
-            if (!empty($params['sort_by']) && $params['sort_by'] !== null)
-                $dm_ce_data += ['sort_by' => self::sanitize_this('sort_by')];
-
-            if (!empty($params['channel_name']) && $params['channel_name'] !== null)
-                $dm_ce_data += ['owners' => self::sanitize_this('channel_name')];
-
-            if (!empty($params['category']) && $params['category'] !== null)
-                $dm_ce_data += ['category' => self::sanitize_this('category')];
-
-            if (!empty($params['exclude_ids']) && $params['exclude_ids'] !== null)
-                $dm_ce_data += ['exclude_ids' => self::sanitize_this('exclude_ids')];
-
-            if (!empty($params['playlist']) && $params['playlist'] !== null)
-                $dm_ce_data += ['playlist' => self::sanitize_this('playlist')];
-
-            if (!empty($params['playlist_id']) && $params['playlist_id'] !== null)
-                $dm_ce_data += ['playlist_id' => self::sanitize_this('playlist_id')];
-
-            if (!empty($params['disable_queue']) && $params['disable_queue'] !== null)
-                $dm_ce_data += ['disable_queue' => self::sanitize_this('disable_queue')];
-
-            if (!empty($params['disable_auto_next']) && $params['disable_auto_next'] !== null)
-                $dm_ce_data += ['disable_auto_next' => self::sanitize_this('disable_auto_next')];
-
-            if (!empty($params['language']) && $params['language'] !== null)
-                $dm_ce_data += ['language' => self::sanitize_this('language')];
-
-            if (!empty($params['range_day']) && $params['range_day'] !== null)
-                $dm_ce_data += ['range_day' => self::sanitize_this('range_day')];
-
-
-            // Player options
-            if (!empty($params['auto_player_pos']) && $params['auto_player_pos'] !== null)
-                $dm_ce_data += ['auto_player_pos' => self::sanitize_this('auto_player_pos')];
-
-            if (!empty($params['syndication']) && $params['syndication'] !== null)
-                $dm_ce_data += ['syndication' => self::sanitize_this('syndication')];
-
-            // This param in the database still using adsParams but in the frontend it's using customParams
-            if (!empty($params['ads_params']) && $params['ads_params'] !== null)
-                $dm_ce_data += ['ads_params' => self::sanitize_this('ads_params')];
-
-            if (!empty($params['pre_video_title']) && $params['pre_video_title'] !== null)
-                $dm_ce_data += ['pre_video_title' => self::sanitize_this('pre_video_title')];
-
-            if (!empty($params['show_video_title']) && $params['show_video_title'] !== null)
-                $dm_ce_data += ['show_video_title' => self::sanitize_this('show_video_title')];
-
-            if (!empty($params['show_info_card']) && $params['show_info_card'] !== null)
-                $dm_ce_data += ['show_info_card' => self::sanitize_this('show_info_card')];
-
-            if (!empty($params['show_carousel_playlist']) && $params['show_carousel_playlist'] !== null)
-                $dm_ce_data += ['show_carousel_playlist' => self::sanitize_this('show_carousel_playlist')];
-
-            if (!empty($params['mute']) && $params['mute'] !== null)
-                $dm_ce_data += ['mute' => self::sanitize_this('mute')];
-
-            // Save the option to database
-            update_option('dm_ce_options_' . $tab, $dm_ce_data);
-
-            echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
-                    <p><strong>' . esc_html( __('Settings saved', 'dm_embed_plugin') ) . '</strong></p>
-                    </div>';
-        }
-    }
-
-    private function store_credentials($params)
+    public function migrate_old_player_to_custom_embed($content)
     {
-        if (!empty($params) && wp_verify_nonce(self::sanitize_this('dm_save_data'), 'dm_save_data')) {
+        $regexGetIframe = '(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))';
+        $regexIframeSrc = '<iframe[^>]+src=(?:\"|\')\K(.[^">]+?)(?=\"|\')';
 
-            $dm_ce_data = [];
+        if (is_single() || is_page() && !is_home() && !is_front_page()) {
+            /**
+             * get settings from DB
+             */
+            $options_auto_content = get_option('dm_ce_options_auto_embed_content');
+            if (!isset($options_auto_content['replace_old_embed'])) {
+                return $content;
+            }
 
-            if (!empty($params['api_key']) && $params['api_key'] !== null)
-                $dm_ce_data += ['api_key' => self::sanitize_this('api_key')];
+            /**
+             * get all iframes
+             */
+            preg_match_all("/$regexGetIframe/", $content, $allIframes);
 
-            if (!empty($params['api_secret']) && $params['api_secret'] !== null)
-                $dm_ce_data += ['api_secret' => self::sanitize_this('api_secret')];
+            foreach ($allIframes[0] as $iframe) {
+                preg_match("/$regexIframeSrc/", $iframe, $result);
+                $videoUrl = $result[0];
 
-            update_option('dm_ce_credentials', $dm_ce_data);
+                /**
+                 * replace all dailymotion iframe
+                 */
+                if ($videoUrl && str_contains($videoUrl, 'dailymotion.com')) {
+                    $videoId = end(explode('/', parse_url($videoUrl, PHP_URL_PATH)));
+                    $content = str_replace($iframe, '[dm-player videoid="' . $videoId . '"]', $content);
+                }
+            }
+            return $content;
+        } // if the post and the page
 
-            echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
-                    <p><strong>' . esc_html( __('Settings saved', 'dm_embed_plugin') ) . '</strong></p>
-                    </div>';
-        }
-    }
-
-    private function sanitize_this($param, $type = 'POST') {
-        // Nonce Verification happened on store_general_options() and store_credentials()
-        if ($type === 'POST') {
-            return isset($_POST[$param]) ? sanitize_text_field( wp_unslash( $_POST[$param] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification
-        } else {
-            return isset($_GET[$param]) ? sanitize_text_field( wp_unslash( $_GET[$param] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification
-        }
+        return $content;
     }
 
 }
 
-$dm_admin = new DM_Admin();
+$load_script = new Load_Scripts();
