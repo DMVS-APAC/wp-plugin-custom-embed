@@ -52,7 +52,6 @@
         })
 
         DM.getLoginStatus(function (response) {
-            console.log(response)
             if (response.session) {
                 DM.api('/me', {
                     fields: ['id', 'screenname', 'username']

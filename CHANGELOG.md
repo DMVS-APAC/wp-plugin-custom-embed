@@ -1,5 +1,10 @@
 # Changelog
 
+###[1.3.1] ()
+
+Implemented enhancements:
+1. Added toggle button for automated embedding of the video.
+
 ###[1.3.0] (2020-05-04)
 
 Implemented enhancements:

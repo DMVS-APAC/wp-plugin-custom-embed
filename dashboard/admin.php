@@ -16,23 +16,14 @@ class DM_Admin {
             __('Dailymotion HQ'),
             __('Dailymotion HQ'),
             'publish_pages',
-            'dm-automated-embed-settings',
+            'dm-manual-embed-settings',
             '',
             plugin_dir_url( __DIR__ ) . 'assets/dailymotion-icon.svg'
         );
 
         // For submenu
         add_submenu_page(
-            'dm-automated-embed-settings',
-            __('Automated Embed'),
-            __('Automated Embed'),
-            'publish_pages',
-            'dm-automated-embed-settings',
-            array($this, 'load_automated_embed_page')
-        );
-
-        add_submenu_page(
-            'dm-automated-embed-settings',
+            'dm-manual-embed-settings',
             __('Manual Embed'),
             __('Manual Embed'),
             'edit_posts',
@@ -40,9 +31,18 @@ class DM_Admin {
             array($this, 'load_manual_embed_page')
         );
 
+        add_submenu_page(
+            'dm-manual-embed-settings',
+            __('Automated Embed'),
+            __('Automated Embed'),
+            'publish_pages',
+            'dm-automated-embed-settings',
+            array($this, 'load_automated_embed_page')
+        );
+
 
         add_submenu_page(
-            'dm-automated-embed-settings',
+            'dm-manual-embed-settings',
             __('Connect to Dailymotion'),
             __('<span aria-label="Connect to Dailymotion">Connect</span>'),
             'edit_posts',
@@ -51,7 +51,7 @@ class DM_Admin {
         );
 
         add_submenu_page(
-            'dm-automated-embed-settings',
+            'dm-manual-embed-settings',
             __('Credentials'),
             __('<span aria-label="Dailymotion Credentials">Credentials</span>'),
             'publish_pages',
@@ -60,7 +60,7 @@ class DM_Admin {
         );
 
         add_submenu_page(
-            'dm-automated-embed-settings',
+            'dm-manual-embed-settings',
             __('Migration'),
             __('Migration'),
             'publish_pages',
@@ -106,6 +106,7 @@ class DM_Admin {
         $currentUser = wp_get_current_user();
 
         $options = get_option('dm_ce_options_' . $prefix . $tab);
+        $auto_embed = get_option('dm_ce_options_auto_embed');
         $credentials = get_option('dm_ce_credentials');
         $dmUser = get_option('dm_ce_user_' . $currentUser->data->user_login);
 
@@ -172,9 +173,6 @@ class DM_Admin {
                 $dm_ce_data += ['player_id' =>  self::sanitize_this('player_id')];
 
             // Content options
-            if (!empty($params['auto_embed']) && $params['auto_embed'] !== null)
-                $dm_ce_data += ['auto_embed' => self::sanitize_this('auto_embed')];
-
             if (!empty($params['sort_by']) && $params['sort_by'] !== null)
                 $dm_ce_data += ['sort_by' => self::sanitize_this('sort_by')];
 

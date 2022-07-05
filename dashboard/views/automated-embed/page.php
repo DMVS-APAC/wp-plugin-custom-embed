@@ -6,7 +6,13 @@
 
 ?>
 
-<div class="wrap">
+<style>
+    .hide-content .nav-tab-wrapper, .hide-content #automated-embed-form, .hide-content .dm__box-wrapper {
+        display: none;
+    }
+</style>
+
+<div class="wrap <?php echo ( $auto_embed == '' && $auto_embed == 0 ) ? 'hide-content' : '' ?>">
 
     <?php require DM__PATH . 'dashboard/views/automated-embed/header.php'; ?>
 

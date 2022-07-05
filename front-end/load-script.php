@@ -19,11 +19,11 @@ class Load_Scripts {
 
     /**
      * Load script needed by front end to show the player
-     * It only showing on post type
+     * It's only showing on post type
      */
     public function load_script() {
         if (is_single() || is_page()) {
-            wp_enqueue_script('dm-ce', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js', array(), DM_CE__VERSION, 'true');
+            wp_enqueue_script('dm-ce', DM__PLAYER_URL, array(), DM_CE__VERSION, 'true');
         }
     }
 
@@ -39,8 +39,9 @@ class Load_Scripts {
 
 
         $options_auto_content = get_option('dm_ce_options_auto_embed_content');
+        $auto_embed = get_option('dm_ce_options_auto_embed');
 
-        if (isset( $options_auto_content['auto_embed'] ) && $options_auto_content['auto_embed'] == true) {
+        if (isset( $auto_embed ) && $auto_embed == true) {
             $options_content = $options_auto_content;
             $options_playback = get_option('dm_ce_options_auto_embed_playback');
             $options_player = get_option('dm_ce_options_auto_embed_player');
@@ -50,17 +51,15 @@ class Load_Scripts {
             $options_player = get_option('dm_ce_options_manual_embed_player');
         }
 
+        $player_string .= ' data-player="' . $auto_embed . ' haha" ';
 
         // playback options
         if (isset($options_playback['player_id'])) {
             $player_string .= ' playerId="' . $options_playback['player_id'] . '"';
-        } else {
-            // Default player id no auto play, no PiP from Yudhi's Channel
-            $player_string .= ' playerId="x2yci"';
         }
 
         // Content options
-        if (isset( $options_auto_content['auto_embed'] ) && $options_auto_content['auto_embed'] == true) {
+        if (isset( $auto_embed ) && $auto_embed == true) {
             if (isset($options_content['owners'])) $player_string .= ' owners="' . $options_content['owners'] . '"';
             if (isset($options_content['sort_by'])) $player_string .= ' sort="' . $options_content['sort_by'] . '"';
             if (isset($options_content['category'])) $player_string .= ' category="' . $options_content['category'] . '"';
@@ -125,7 +124,7 @@ class Load_Scripts {
         $player_string .= '></div></div>';
 
         return [
-            'auto' => isset($options_auto_content['auto_embed']) ?? $options_auto_content['auto_embed'],
+            'auto' => isset($auto_embed) ?? $auto_embed,
             'pos' => isset($options_player['auto_player_pos']) ? $options_player['auto_player_pos'] : 'bottom',
             'string' => $player_string
         ];
@@ -156,7 +155,9 @@ class Load_Scripts {
      * @return mixed|string
      */
     public function hook_player_into_content($content) {
-        if (is_single() || is_page() && !is_home() && !is_front_page()) {
+        $auto_embed = get_option('dm_ce_options_auto_embed');
+
+        if ($auto_embed == 1 && ( is_single() || is_page() && !is_home() && !is_front_page()) ) {
 
             $post_id = get_the_ID();
             $player_pos = get_post_meta($post_id, '_dm_player_position');
@@ -173,9 +174,12 @@ class Load_Scripts {
                 //  The empty string is messed up the `childNodes` so can't count it properly. Unfortunately,
                 //  the `shortcode` identified the same as an empty string type, `#text`.
                 $body = $dom->getElementsByTagName('body')->item(0)->childNodes;
-                if($body) {
-                    $body = $this->cleanup_html($body);
-                }
+
+                // This solution for automated embed still has a bug, for now, it's disabled
+                // the trade off is the player will not be inserted correctly in some cases.
+//                if($body) {
+//                    $body = $this->cleanup_html($body);
+//                }
             }
 
             if ( sizeof($player_pos) !== 0 && $player_pos[0] !== '-1' ) {
