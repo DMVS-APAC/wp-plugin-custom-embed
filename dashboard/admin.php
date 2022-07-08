@@ -160,6 +160,20 @@ class DM_Admin {
     }
 
     public function load_migration_page() {
+        $tab = isset($_GET['tab']) ? self::sanitize_this('tab', 'GET') : ''; //
+        $prefix = '';
+        $action = self::sanitize_this('action', 'GET'); // phpcs:ignore WordPress.Security.NonceVerification
+        
+        switch($action):
+            case "save_data":
+                $save_data = self::sanitize_this('dm_save_data');
+                if ( wp_verify_nonce($save_data, 'dm_save_data') )
+                self::store_general_settings($_POST, $prefix . $tab);
+                
+                break;
+            endswitch;
+            
+        $options = get_option('dm_ce_options_' . $prefix . $tab);
         require DM__PATH . 'dashboard/views/migration/page.php';
     }
 
@@ -175,6 +189,10 @@ class DM_Admin {
             // Content options
             if (!empty($params['sort_by']) && $params['sort_by'] !== null)
                 $dm_ce_data += ['sort_by' => self::sanitize_this('sort_by')];
+
+
+            if (!empty($params['convert_old_player']) && $params['convert_old_player'] !== null)
+                $dm_ce_data += ['convert_old_player' => self::sanitize_this('convert_old_player')];            
 
             if (!empty($params['channel_name']) && $params['channel_name'] !== null)
                 $dm_ce_data += ['owners' => self::sanitize_this('channel_name')];
