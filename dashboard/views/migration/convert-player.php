@@ -8,9 +8,10 @@
         <tbody>
             <tr>
                 <th scope="row"><?php echo __('Convert Old Iframes'); ?> <span class="detail-info">?<span
-                            class="tooltip">By activating this option, all Dailymotion iframe players inside your
-                            content will
-                            be converted to new Dailymotion Player</span></span></th>
+                            class="tooltip">Old iframes will be replaced by their new version. Learn more about
+                            integration methods in <a title="Developer docs"
+                                href="https://developers.dailymotion.com/player/#Integration-methods">our developer
+                                doc.</a></span></span></th>
                 <td>
                     <fieldset>
                         <legend class="screen-reader-text"><span><?php echo __('Conver Old Player'); ?></span></legend>
@@ -19,7 +20,8 @@
                                 <?php echo (isset($options['convert_old_player'])) ? 'checked' : '' ?>>
                         </label>
                     </fieldset>
-                    <p class="description">Toggle on/off to enable/disable auto convert old player</p>
+                    <p class="description">Toggle on/off to automatically update all old dailymotion video iframes into
+                        their latest version.</p>
                 </td>
             </tr>
 
