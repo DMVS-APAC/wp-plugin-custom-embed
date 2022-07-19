@@ -260,7 +260,8 @@ class Load_Scripts {
                 * replace all dailymotion iframe
                 */
                 if($videoUrl && str_contains($videoUrl, 'dailymotion.com')) {
-                    $videoId = end(explode('/', parse_url($videoUrl, PHP_URL_PATH)));
+                    $splitVideoPath = explode('/', parse_url($videoUrl, PHP_URL_PATH));
+                    $videoId = end($splitVideoPath);
                     $content = str_replace($iframe, '[dm-player videoid="'.$videoId.'"]', $content);
                 }
             }
