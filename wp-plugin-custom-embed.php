@@ -9,7 +9,7 @@
  * Plugin URI: https://github.com/DMVS-APAC/wp-plugin-custom-embed
  * Download
  *
- * @version 1.4.0
+ * @@@version 1.4.0
  */
 
 if (! defined('ABSPATH') ) {
