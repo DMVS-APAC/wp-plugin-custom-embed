@@ -1,6 +1,6 @@
 {
   "name": "wp-dm-custom-embed",
-  "version": "1.4.1",
+  "version": "1.4.3",
   "description": "This is a plugin for WordPress to embed video from Dailymotion.",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,8 @@
     "test:e2e": "wp-scripts test-e2e",
     "test:unit": "wp-scripts test-unit-js",
     "release": "standard-version",
-    "update-version": "npm run release && node ./scripts/update-version.js && npm run build:all"
+    "update-version": "node ./scripts/update-version.js",
+    "create-tag": "sh ./scripts/release.sh $npm_package_version"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,13 @@
     "url": "https://github.com/DMVS-APAC/wp-plugin-custom-embed/issues"
   },
   "homepage": "https://github.com/DMVS-APAC/wp-plugin-custom-embed#readme",
+  "standard-version": {
+    "skip": {
+      "tag": true,
+      "commit": true,
+      "changelog": true
+    }
+  },
   "devDependencies": {
     "@babel/plugin-proposal-private-methods": "^7.13.0",
     "@wordpress/api-fetch": "^3.22.0",
