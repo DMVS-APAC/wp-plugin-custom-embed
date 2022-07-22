@@ -1,5 +1,11 @@
 # Changelog
 
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [1.5.1](https://github.com/DMVS-APAC/wp-plugin-custom-embed/compare/v1.4.0...v1.5.1) (2022-07-22)
+
+# Changelog
+
 ###[1.4.0] (2022-07-05)
 
 Implemented enhancements:
