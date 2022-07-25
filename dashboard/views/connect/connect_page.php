@@ -22,7 +22,6 @@
         <?php endif; ?>
     </div>
 
-
     <?php if ( !empty($options['api_key']) ): ?>
         <template id="login">
             <p><?php echo __('Sign in with your Dailymotion account'); ?></p>
@@ -39,7 +38,7 @@
         <script type="text/javascript">
             const apiKey = "<?php echo $options['api_key']; ?>"
             const apiSecret = "<?php echo $options['api_secret']; ?>"
-            const redirectUri = "<?php echo get_dashboard_url(); ?>/admin.php?page=dm-connect"
+            const redirectUri = "<?php echo get_dashboard_url(); ?>admin.php?page=dm-connect"
             const apiUrl = "<?php echo rest_url(); ?>"
             const wpNonce = "<?php echo wp_create_nonce('wp_rest'); ?>"
 
