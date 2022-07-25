@@ -15,6 +15,7 @@ class Load_Scripts {
     public function __construct() {
         add_action('wp_footer', array($this, 'load_script'));
         add_filter('the_content', array($this, 'hook_player_into_content'));
+        add_filter('the_content', array($this, 'migrate_old_player_to_custom_embed'));
     }
 
     /**
@@ -228,6 +229,43 @@ class Load_Scripts {
             return $new_content;
 
 
+        } // if the post and the page
+
+        return $content;
+    }
+
+    public function migrate_old_player_to_custom_embed($content) {
+        $regexGetIframe = '(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))';
+        $regexIframeSrc = '<iframe[^>]+src=(?:\"|\')\K(.[^">]+?)(?=\"|\')';
+        
+        if (is_single() || is_page() && !is_home() && !is_front_page()) {
+            /**
+             * get settings from DB
+             */
+            $options_general = get_option('dm_ce_options_convert-player');
+            if(!isset( $options_general['convert_old_player'] )) {
+                return $content;
+            }
+
+            /**
+             * get all iframes
+             */
+            preg_match_all("/$regexGetIframe/", $content, $allIframes);
+
+            foreach ($allIframes[0] as $iframe) {
+                preg_match("/$regexIframeSrc/", $iframe, $result);
+                $videoUrl = $result[0];
+                
+                /**
+                * replace all dailymotion iframe
+                */
+                if($videoUrl && str_contains($videoUrl, 'dailymotion.com')) {
+                    $splitVideoPath = explode('/', parse_url($videoUrl, PHP_URL_PATH));
+                    $videoId = end($splitVideoPath);
+                    $content = str_replace($iframe, '[dm-player videoid="'.$videoId.'"]', $content);
+                }
+            }
+            return $content;
         } // if the post and the page
 
         return $content;
