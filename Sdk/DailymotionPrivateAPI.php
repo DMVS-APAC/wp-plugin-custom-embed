@@ -6,6 +6,8 @@
  *
  */
 
+namespace Dm\Sdk;
+
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
 
 class DailymotionPrivateAPI {
@@ -13,23 +15,23 @@ class DailymotionPrivateAPI {
     private $urlBase;
 
     public function __construct() {
-
         $this->urlBase = 'https://partner.api.dailymotion.com/';
     }
 
-    private function generateToken($clientId, $clientSecret) {
+    public function generateToken($clientId, $clientSecret) {
         $body = array(
             'grant_type' => 'client_credentials',
             'scope' => 'read_videos read_players read_playlists',
             'client_id' => $clientId,
-            'client_secret' => $clientSecret
+            'client_secret' => wp_unslash($clientSecret)
         );
 
         $curl = curl_init();
+        $string = http_build_query($body);
 
         curl_setopt($curl, CURLOPT_URL, $this->urlBase . 'oauth/v1/token');
         curl_setopt($curl, CURLOPT_POST, TRUE);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($body));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $string);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
 
@@ -39,11 +41,12 @@ class DailymotionPrivateAPI {
 
         $arrayToken = json_decode($token, true);
 
-//        if
-//        $_SESSION['dm_token'] =
-
-        return $token;
-
+        if ( array_key_exists('access_token', $arrayToken) ) {
+            $_SESSION['dmtoken'] = $arrayToken['access_token'];
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
