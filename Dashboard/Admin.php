@@ -1,8 +1,12 @@
 <?php
 
+namespace Dm\Dashboard;
+
+use Dm\Dashboard\Views\NewCredentials\NewCredentials;
+
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
 
-class DM_Admin {
+class Admin {
 
     public function __construct() {
         add_action('admin_menu', array($this, 'register_menu'));
@@ -40,7 +44,7 @@ class DM_Admin {
             array($this, 'load_automated_embed_page')
         );
 
-
+        // First step, this will stay here for next version. But it will be removed on the next 2 version
         add_submenu_page(
             'dm-manual-embed-settings',
             __('Connect to Dailymotion'),
@@ -58,6 +62,8 @@ class DM_Admin {
             'dm-credentials',
             array($this, 'load_credentials_page')
         );
+
+        new NewCredentials();
 
         add_submenu_page(
             'dm-manual-embed-settings',
@@ -82,7 +88,7 @@ class DM_Admin {
     }
 
     public function load_dashboard_widget() {
-        require DM__PATH . 'dashboard/views/dashboard-widget/dashboard-widget-box.php';
+        require DM__PATH . 'Dashboard/Views/dashboard-widget/dashboard-widget-box.php';
     }
 
     /**
@@ -110,7 +116,7 @@ class DM_Admin {
         $credentials = get_option('dm_ce_credentials');
         $dmUser = get_option('dm_ce_user_' . $currentUser->data->user_login);
 
-        require DM__PATH . 'dashboard/views/automated-embed/page.php';
+        require DM__PATH . 'Dashboard/Views/automated-embed/page.php';
     }
 
     public function load_manual_embed_page() {
@@ -133,7 +139,7 @@ class DM_Admin {
         $credentials = get_option('dm_ce_credentials');
         $dmUser = get_option('dm_ce_user_' . $currentUser->data->user_login);
 
-        require DM__PATH . 'dashboard/views/manual-embed/page.php';
+        require DM__PATH . 'Dashboard/Views/manual-embed/page.php';
     }
 
     public function load_connect_page() {
@@ -141,7 +147,7 @@ class DM_Admin {
 
         $options = get_option('dm_ce_credentials');
 
-        require DM__PATH . 'dashboard/views/connect/connect_page.php';
+        require DM__PATH . 'Dashboard/Views/connect/connect_page.php';
     }
 
     public function load_credentials_page() {
@@ -149,14 +155,14 @@ class DM_Admin {
 
         switch($action):
             case "save_data":
-                // The sanitize will be processed in the store_credentials function
+                // The sanitize process will be processed in the store_credentials function
                 self::store_credentials($_POST); // phpcs:ignore WordPress.Security.NonceVerification
                 break;
         endswitch;
 
         $options = get_option('dm_ce_credentials');
 
-        require DM__PATH . 'dashboard/views/credentials/credentials_page.php';
+        require DM__PATH . 'Dashboard/Views/credentials/credentials_page.php';
     }
 
     public function load_migration_page() {
@@ -174,7 +180,7 @@ class DM_Admin {
             endswitch;
             
         $options = get_option('dm_ce_options_' . $prefix . $tab);
-        require DM__PATH . 'dashboard/views/migration/page.php';
+        require DM__PATH . 'Dashboard/Views/migration/page.php';
     }
 
     private function store_general_settings($params, $tab) {
@@ -189,7 +195,6 @@ class DM_Admin {
             // Content options
             if (!empty($params['sort_by']) && $params['sort_by'] !== null)
                 $dm_ce_data += ['sort_by' => self::sanitize_this('sort_by')];
-
 
             if (!empty($params['convert_old_player']) && $params['convert_old_player'] !== null)
                 $dm_ce_data += ['convert_old_player' => self::sanitize_this('convert_old_player')];            
@@ -257,8 +262,7 @@ class DM_Admin {
         }
     }
 
-    private function store_credentials($params)
-    {
+    private function store_credentials($params) {
         if (!empty($params) && wp_verify_nonce(self::sanitize_this('dm_save_data'), 'dm_save_data')) {
 
             $dm_ce_data = [];
@@ -288,5 +292,5 @@ class DM_Admin {
 
 }
 
-$dm_admin = new DM_Admin();
+//$dm_admin = new Admin();
 

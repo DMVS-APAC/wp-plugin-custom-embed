@@ -26,6 +26,11 @@
             }
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Dm\\": ""
+        }
+    },
     "require": {
         "yahnis-elsts/plugin-update-checker": "^4.11"
     },

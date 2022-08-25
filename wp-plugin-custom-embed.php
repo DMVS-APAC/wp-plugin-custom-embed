@@ -22,6 +22,7 @@ define('DM__PLUGIN_BASE', plugin_basename(DM__FILE__));
 define('DM__PATH', plugin_dir_path(DM__FILE__));
 define('DM__PUBTOOL', 'customembed-wp');
 define('DM__PLAYER_URL', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js');
+define('DM__ENCRYPT_KEY', getenv('ENCRYPT_KEY') ? getenv('ENCRYPT_KEY') : 'dailymotion');
 
 require DM__PATH . 'vendor/autoload.php';
 
@@ -40,7 +41,8 @@ if (defined('DM_BETA') && DM_BETA === true) {
     $update_checker->getVcsApi()->enableReleaseAssets();
 }
 
-require DM__PATH . 'dashboard/admin.php';
+new Dm\Libs\Sessions;
+new Dm\Dashboard\Admin;
 require DM__PATH . 'api/Custom_Get_Options.php';
 require DM__PATH . 'api/Migration_Database.php';
 require DM__PATH . 'custom-block/dm-block.php';
