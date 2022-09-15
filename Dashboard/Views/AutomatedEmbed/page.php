@@ -14,16 +14,16 @@
 
 <div class="wrap <?php echo ( $auto_embed == '' && $auto_embed == 0 ) ? 'hide-content' : '' ?>">
 
-    <?php require DM__PATH . 'Dashboard/Views/automated-embed/header.php'; ?>
+    <?php require DM__PATH . 'Dashboard/Views/AutomatedEmbed/header.php'; ?>
 
     <?php
 
     if ($tab === 'playback') {
-        require DM__PATH . 'Dashboard/Views/automated-embed/playback.php';
+        require DM__PATH . 'Dashboard/Views/AutomatedEmbed/playback.php';
     } else if($tab === 'content') {
-        require DM__PATH . 'Dashboard/Views/automated-embed/content.php';
+        require DM__PATH . 'Dashboard/Views/AutomatedEmbed/content.php';
     } else if ($tab === 'player') {
-        require DM__PATH . 'Dashboard/Views/automated-embed/player.php';
+        require DM__PATH . 'Dashboard/Views/AutomatedEmbed/player.php';
     }
 
     ?>

@@ -14,7 +14,7 @@
     "lint:md:js": "wp-scripts lint-md-js",
     "lint:pkg-json": "wp-scripts lint-pkg-json",
     "packages-update": "wp-scripts packages-update",
-    "start": "wp-scripts start ./src/index.js ./src/classic-index.js",
+    "start": "wp-scripts start ./src/index.js ./src/classic-index.js ./Styles/index.scss",
     "test:e2e": "wp-scripts test-e2e",
     "test:unit": "wp-scripts test-unit-js",
     "release": "standard-version",

@@ -1,0 +1,28 @@
+
+.dm__box {
+  background: #fff;
+  box-shadow: var(--dm--box-shadow);
+  border-radius: 1px;
+  overflow: hidden;
+  padding: var(--dm--box-padding);
+  max-width: 504px;
+}
+
+.admin_page_dm-migration-new-api {
+  #wpwrap {
+    top: 0;
+  }
+
+  #adminmenumain, #wpfooter, #wpadminbar {
+    display: none;
+  }
+
+  #wpcontent {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .wrap {
+    margin: 0 !important;
+  }
+}

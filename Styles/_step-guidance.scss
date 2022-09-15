@@ -1,0 +1,12 @@
+.dm__step-guidance {
+  background: var(--wp-admin-theme-color);
+  color: var(--dm--text-in-theme-color);
+  margin-left: -22px;
+  margin-top: -10px;
+  width: 100%;
+  padding: 14px 22px;
+
+  a {
+    color: inherit;
+  }
+}

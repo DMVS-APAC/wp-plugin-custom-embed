@@ -6,6 +6,12 @@
 
 <div class="wrap">
 
+    <?php if (!empty($migrationStep) && $migrationStep == 2): ?>
+        <div class="dm__step-guidance">
+            Well done, you can <a href="<?php echo get_bloginfo('wpurl'); ?>/wp-admin/admin.php?page=dm-manual-embed-settings"><?php echo __('continue'); ?></a> to the next step or just <a href="<?php echo get_bloginfo('wpurl'); ?>/wp-admin/admin.php?page=dm-new-credentials&step=-1">skip</a> if you don't need a guidance.
+        </div>
+    <?php endif; ?>
+
     <h1 class="wp-heading-inline">
         <?php echo __('Credentials'); ?>
     </h1>
@@ -32,8 +38,8 @@ If you do not have access to the API key creation page, ask the owner of your or
             <tr>
                 <th scope="row"><label for="api-secret"><?php echo __('API Secret'); ?></label></th>
                 <td>
-                    <input name="api_secret" type="text" id="api-secret" class="regular-text"
-                           value="" placeholder="…">
+                    <input name="api_secret" type="password" id="api-secret" class="regular-text"
+                           value="">
                     <p>Leave empty if you don't want to update this.</p>
                 </td>
             </tr>
@@ -49,7 +55,7 @@ If you do not have access to the API key creation page, ask the owner of your or
         </table>
 
         <p class="submit">
-            <input type="submit" name="submit" id="submit" class="button button-primary" value="Save">
+            <button type="submit" name="submit" id="submit" class="button button-primary"><?php echo __('Save'); ?></button>
         </p>
 
     </form>

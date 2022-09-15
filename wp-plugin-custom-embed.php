@@ -24,6 +24,14 @@ define('DM__PUBTOOL', 'customembed-wp');
 define('DM__PLAYER_URL', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js');
 define('DM__ENCRYPT_KEY', getenv('ENCRYPT_KEY') ? getenv('ENCRYPT_KEY') : 'dailymotion');
 
+if ( !defined('DM_AUTH_KEY') ) {
+    define('DM_AUTH_KEY', AUTH_KEY);
+}
+
+if ( !defined('DM_NONCE_KEY') ) {
+    define('DM_NONCE_KEY', NONCE_KEY);
+}
+
 require DM__PATH . 'vendor/autoload.php';
 
 /**
