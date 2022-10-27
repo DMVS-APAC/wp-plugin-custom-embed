@@ -37,7 +37,7 @@ class AutomatedEmbed extends DashboardAbstract {
                 break;
         endswitch;
 
-        if ( !empty($step) && $step == -1) delete_option('dm_migration_step');
+        if ( !empty($step) && $step == -1) delete_option('dm_ce_migration_step');
 
         $currentUser = wp_get_current_user();
 
@@ -140,7 +140,7 @@ class AutomatedEmbed extends DashboardAbstract {
 
         if ($credentials) {
             $dmSdk = new DmSdk();
-            return $dmSdk->fetchData('/rest/user/' . $credentials['channel_id'] . '/players?limit=100&fields=id,label');
+            return $dmSdk->fetchData('/user/' . $credentials['channel_id'] . '/players?limit=100&fields=id,label');
         }
 
         return null;

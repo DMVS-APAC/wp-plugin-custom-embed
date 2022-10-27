@@ -19,7 +19,6 @@ class DM_Block {
 
     public function __construct() {
         add_action('enqueue_block_editor_assets', [$this, 'dm_wp_ce_enqueue_assets']);
-        add_action('init', [$this, 'dm_register_meta']);
     }
 
     /**
@@ -42,34 +41,6 @@ class DM_Block {
             true
         );
 
-
-
-    }
-
-    /**
-     * Register meta for use in gutenberg as custom meta
-     *
-     * TODO: remove this in the future on a major version update
-     */
-    public function dm_register_meta() {
-        register_meta('post', '_dm_video_data', array(
-            'show_in_rest' => true,
-            'type' => 'string',
-            'single' => true,
-            'sanitize_callback' => 'sanitize_text_field',
-            'auth_callback' => function() {
-                return current_user_can('edit_posts');
-            }
-        ));
-        register_meta('post', '_dm_player_position', array(
-            'show_in_rest' => true,
-            'type' => 'integer',
-            'single' => true,
-            'sanitize_callback' => 'sanitize_text_field',
-            'auth_callback' => function() {
-                return current_user_can('edit_posts');
-            }
-        ));
     }
 
 }

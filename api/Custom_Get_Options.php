@@ -120,7 +120,7 @@ class Custom_Get_Options extends WP_REST_Controller {
      * @param WP_REST_Request $request Full data about the request.
      * @return WP_Error|WP_REST_Response
      */
-    public function get_custom_option( $request ) {
+    public function get_custom_option( WP_REST_Request $request ) {
 
         $tab = $request->get_param('tab');
         $options = get_option('dm_ce_options_' . $tab);
@@ -132,7 +132,7 @@ class Custom_Get_Options extends WP_REST_Controller {
      * @param WP_REST_Request $request Full data about the request.
      * @return WP_REST_Response
      */
-    public function get_dm_user( $request ) {
+    public function get_dm_user(WP_REST_Request $request ): WP_REST_Response {
         $current_user = wp_get_current_user();
         $dmUser = get_option('dm_ce_user_' . $current_user->data->user_login);
 
@@ -143,7 +143,7 @@ class Custom_Get_Options extends WP_REST_Controller {
      * @param WP_REST_Request $request Full data about the request.
      * @return WP_REST_Response
      */
-    public function update_dm_user( $request ) {
+    public function update_dm_user(WP_REST_Request $request ): WP_REST_Response {
         $current_user = wp_get_current_user();
         $dmUser = $request->get_json_params();
 
@@ -156,7 +156,7 @@ class Custom_Get_Options extends WP_REST_Controller {
      * @param WP_REST_Request $request Full data about the request.
      * @return WP_REST_Response
      */
-    public function update_auto_embed( $request ) {
+    public function update_auto_embed(WP_REST_Request $request ): WP_REST_Response {
         $auto_embed = $request->get_json_params();
         update_option('dm_ce_options_auto_embed', $auto_embed);
 
@@ -164,22 +164,11 @@ class Custom_Get_Options extends WP_REST_Controller {
     }
 
     /**
-     * Prepare the item for create or update operation
-     *
-     * @param WP_REST_Request $request Request object
-     * @return WP_Error|object $prepared_item
-     */
-    protected function prepare_item_for_database( $request ) {
-        return array();
-    }
-
-    /**
      * Check if a given request has access to get items
      *
-     * @param WP_REST_Request $request Full data about the request.
-     * @return WP_Error|bool
+     * @return bool
      */
-    public function permissions_check( $request ) {
+    public function permissions_check(): bool {
         return current_user_can( 'edit_posts' );
     }
 }

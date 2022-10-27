@@ -38,7 +38,7 @@ export default class DmSdk {
 
     async setupDm() {
         // Waiting for DM to be available first
-        await waitFor(() => typeof(DM) !== 'undefined', 100, 30000, "Timeout waiting for DM loaded, please refresh and make sure your internet is active")
+        await waitFor(() => typeof(DM) !== 'undefined', 100, 120000, "Timeout waiting for DM loaded, please refresh and make sure your internet is active")
 
         this.#overrideDmVars()
         await this.#initDm()

@@ -8,18 +8,14 @@ import Videos from "./VideosComponent"
 import Playlist from "./PlaylistComponent"
 
 import { STORE_KEY as DM_SDK_STORE_KEY } from "../store/dmSdkStore"
+import {fetchApi} from "../libs/apiCall";
 
 /**
  * A form to find a content from Dailymotion, part of Dailymotion sidebar.
- * In this form will only parse the data to processed on the child component
+ * In this form will only parse the data to be processed on the child component
  *
  */
 export default class ContentFinderComponent extends Component {
-
-    /**
-     * A variable to store a state
-     */
-    #connectionStatus = null
 
     constructor(props) {
         super(props)
@@ -30,6 +26,9 @@ export default class ContentFinderComponent extends Component {
             currentPage: 1,
             findGlobal: false,
             findPlaylist: false,
+            channelId: "",
+            allChannels: [],
+            contentChannel: ""
         }
 
         // This binding is necessary to make `this` work in the callback
@@ -37,24 +36,10 @@ export default class ContentFinderComponent extends Component {
         this.setKeywords = this.setKeywords.bind(this)
         this.setGlobalVideo = this.setGlobalVideo.bind(this)
         this.setFindPlaylist = this.setFindPlaylist.bind(this)
-    }
+        this.getAllChannels = this.getAllChannels.bind(this)
+        this.setChannelId = this.setChannelId.bind(this)
 
-    async setConnectionStatus(isConnected) {
-        let connectionStatus
-        if (isConnected) {
-            connectionStatus = <><span className="dm--connected"></span> {__("You're connected", "textdomain")}</>
-        } else {
-            connectionStatus = <><span className="dm--disconnected"></span> {__("You're not connected", "textdomain")}</>
-        }
-
-        this.setState({
-            connectionStatus: connectionStatus
-        })
-    }
-
-    componentDidMount() {
-        this.#connectionStatus = select(DM_SDK_STORE_KEY).getConnectionStatus()['connectionStatus']
-        this.setConnectionStatus(this.#connectionStatus)
+        this.getAllChannels()
     }
 
     async findVideo(e) {
@@ -79,20 +64,60 @@ export default class ContentFinderComponent extends Component {
         })
     }
 
+    setChannelId(e) {
+        this.setState({
+            channelId: e.target.value
+        })
+    }
+
+    async getAllChannels() {
+        this.setState({
+            allChannels: await fetchApi('/dm/v2/get-option/channel_list'),
+            contentChannel: await fetchApi('dm/v2/get-option/options_manual_embed_content')
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if ( this.state.channelId == "" && this.state.allChannels.length ) {
+            this.setState({
+                channelId: this.state.allChannels[0].id
+            })
+        }
+    }
+
+    renderChannels() {
+        const channels = []
+
+        if (this.state.allChannels.length < 1) return null
+
+        for (let i=0; i < this.state.allChannels.length; i++) {
+            channels.push(
+                <option value={this.state.allChannels[i].id}>{ this.state.allChannels[i].id + ' - ' + this.state.allChannels[i].screenname }</option>
+            )
+        }
+
+        return <>
+            <label for="channelId">{ __("Channel ID", "textdomain") }</label>
+            <select className="dm__input" id="channelId" name="channelId" value={this.state.channelId} onChange={this.setChannelId}>
+                { channels }
+            </select>
+        </>
+    }
+
     render() {
         return (
             <PanelBody>
                 <div className="dm__content-list">
-                    <p>{ this.state.connectionStatus }</p>
                     <form onSubmit={this.findVideo}>
                         <label htmlFor="keywords">{__("Find a video", "textdomain")}</label>
                         <input id="keywords"
                                onChange={this.setKeywords}
                                type="text"
                                name="keywords"
-                               className="dm__keywords-input"
+                               className="dm__input"
                         />
-                        <button type="submit" className="action button">Find</button>
+
+                        { this.renderChannels() }
 
                         <label htmlFor="global-video" className="checkbox-label">
                             <input type="checkbox"
@@ -111,12 +136,14 @@ export default class ContentFinderComponent extends Component {
                                    value="1"
                             /> {__("Find playlist", "textdomain")}
                         </label>
+
+                        <button type="submit" className="action button">Find</button>
                     </form>
 
 
                     { this.state.findPlaylist ?
-                        <Playlist keywords={this.state.keywords} globalVideo={this.state.findGlobal} perPage={this.props.resultsPerPage} /> :
-                        <Videos keywords={this.state.keywords} globalVideo={this.state.findGlobal} perPage={this.props.resultsPerPage} />
+                        <Playlist keywords={this.state.keywords} globalVideo={this.state.findGlobal} perPage={this.props.resultsPerPage} channelId={this.state.channelId} contentChannelId={this.state.contentChannel.owners} /> :
+                        <Videos keywords={this.state.keywords} globalVideo={this.state.findGlobal} perPage={this.props.resultsPerPage} channelId={this.state.channelId} contentChannelId={this.state.contentChannel.owners} />
                     }
 
                 </div>

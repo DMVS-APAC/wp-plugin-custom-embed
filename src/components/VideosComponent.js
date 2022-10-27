@@ -6,12 +6,20 @@ import Pagination from "../libs/pagination"
 import { STORE_KEY as DM_SDK_STORE_KEY } from "../store/dmSdkStore"
 import { STORE_KEY as DM_VIDEO_STORE_KEY } from "../store/dmVideoStore"
 import { CreateCustomEvent } from "../libs/customEvent"
+import apiFetch from "@wordpress/api-fetch";
 
 
 /**
  * VideosComponent
  *
  * This component will generate a search results
+ *
+ * Properties (parse via component attributes) available
+ * 1. `keywords`
+ * 2. `globalVideo`
+ * 3. `perPage`
+ * 4. `channelId`
+ * 5. `contentChannelId`
  *
  */
 export default class VideosComponent extends Component {
@@ -35,6 +43,7 @@ export default class VideosComponent extends Component {
             currentPage: 1,
             loadingData: true,
         }
+
 
         this.#editorMode = this.#checkEditorMode()
 
@@ -68,7 +77,7 @@ export default class VideosComponent extends Component {
      * 2. User not connected and channel name is not empty at least one channel name. It will from all channels defined.
      * 3. User connected and channel name is empty. It will get a connected channel name videos.
      * 4. User connected and channel name is not empty. It will override a channel name using connected channel name.
-     * 5. When `find global` ticked, it override all channel name defined.
+     * 5. When `find global` ticked, it overrides all channel name defined.
      *
      *
      *
@@ -80,44 +89,51 @@ export default class VideosComponent extends Component {
 
         this.setLoadingData(true)
 
-        const dmUser = await fetchApi('/dm/v1/userinfo')
-        const content = await fetchApi('/dm/v1/get-custom-options/manual_embed_content')
-
         const params = {
-            fields: 'id,title,thumbnail_240_url,status,private,private_id',
-            limit: this.props.perPage ? this.props.perPage : 10,
-            flags: 'no_live,exportable,verified',
-            page: page
+            data: {
+                fields: 'id,title,thumbnail_240_url,status,private,private_id',
+                limit: this.props.perPage ? this.props.perPage : 10,
+                flags: 'no_live,exportable,verified',
+                page: page
+            }
         }
 
         if (keywords) {
-            params.sort = 'relevance'
-            params.search = keywords
+            params.data.sort = 'relevance'
+            params.data.search = keywords
         } else {
-            params.sort = 'recent'
+            params.data.sort = 'recent'
         }
 
-        let url = ''
-
-        const isOwners = typeof content.owners !== 'undefined'
+        const isOwners = typeof this.props.contentChannelId !== 'undefined'
 
         if (this.#connectionStatus && this.props.globalVideo !== true && !isOwners) {
-            url = 'user/' + dmUser.channel + '/videos'
+            params.url = '/user/' + this.props.channelId + '/videos'
         } else if (isOwners && this.props.globalVideo !== true) {
-            params.owners = content.owners
-            url = 'videos'
+            params.owners = this.props.contentChannelId
+            params.url = '/videos'
         } else {
-            url = 'videos'
+            params.url = '/videos'
         }
 
-        return new Promise(async resolve => {
-            DM.api(url,'get', params, (videos) => {
-                this.setLoadingData(false)
-                resolve(videos)
-            }, true)
-        }).catch(error => {
-            console.log(error)
-        })
+        const videos = await fetchApi('/dm/v2/request-api', 'POST', params)
+        this.setLoadingData(false)
+
+        return videos
+
+        // new Promise(async resolve => {
+        //     // DM.api(url,'get', params, (videos) => {
+        //     //     this.setLoadingData(false)
+        //     //     resolve(videos)
+        //     // }, true)
+        //
+        //     // console.log(params)
+        //
+        //     // resolve(videos)
+        //     resolve({})
+        // }).catch(error => {
+        //     console.log('this is error: ', error)
+        // })
     }
 
     setVideos(videos) {
@@ -146,6 +162,8 @@ export default class VideosComponent extends Component {
      * event for `VideoBlockComponent` to listen that the video is
      * updated.
      *
+     * On classic editor, this function will add a shortcode
+     *
      * @param video
      */
     async addToPost(video) {
@@ -169,7 +187,6 @@ export default class VideosComponent extends Component {
     }
 
     async componentDidMount() {
-        this.#connectionStatus = select(DM_SDK_STORE_KEY).getConnectionStatus()['connectionStatus']
         const videos = await this.fetchVideo()
 
         this.setVideos(videos)
@@ -200,10 +217,10 @@ export default class VideosComponent extends Component {
         const videos = []
 
         if (this.state.videos.error !== undefined) {
-            return <li className="dm__show-message">API errors, please check your settings…</li>
+            return <li className="dm__show-message">{ __("API errors, please check your settings…", "textdomain") }</li>
         }
 
-        if (this.state.videos !== undefined && Object.entries(this.state.videos).length > 0 && this.state.videos.list.length > 0) {
+        if (Object.entries(this.state.videos).length > 0 && this.state.videos.list.length > 0) {
             const list = this.state.videos.list
 
             for (let i = 0; i < list.length; i++) {

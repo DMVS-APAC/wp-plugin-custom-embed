@@ -4,7 +4,7 @@
 /**
 The variables wrapper
 
-# Default theme color
+# Default theme color from WordPress
 
 :root {
   --wp-admin-theme-color: #007cba;
@@ -21,6 +21,7 @@ The variables wrapper
   --dm--box-padding: 16px 24px;
   --dm--text-in-theme-color: #fff;
   --dm--text-default-color: #3c434a;
+  --dm--input-distance-bottom: 4px;
 }
 
 .dm__box {
@@ -56,6 +57,31 @@ The variables wrapper
 }
 .dm__step-guidance a {
   color: inherit;
+}
+
+.dm__input {
+  width: 100%;
+  margin-bottom: var(--dm--input-distance-bottom);
+}
+
+.checkbox-label {
+  margin-right: 10px;
+  margin-bottom: var(--dm--input-distance-bottom);
+  display: inline-block;
+}
+
+.wp-core-ui .button-danger, .wp-core-ui .button-danger:focus {
+  background: #d63638;
+  color: #fff;
+  border-color: #d63638;
+}
+.wp-core-ui .button-danger:focus {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #2271b1;
+}
+.wp-core-ui .button-danger:hover {
+  background: #b42527;
+  color: #fff;
+  border-color: #b42527;
 }
 
 .box--center {

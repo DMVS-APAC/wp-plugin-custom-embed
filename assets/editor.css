@@ -8,22 +8,14 @@
 .dm__content-list .dm__search-results {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: repeat(5, 90px);
-    min-height: 450px;
+    grid-template-rows: repeat(5, 80px);
+    min-height: 406px;
 }
 
 
 
 .dm__show-message {
     grid-column: 1 / span 2;
-}
-
-.dm__keywords-input {
-    width: 196px;
-}
-
-.checkbox-label {
-    margin-right: 10px;
 }
 
 .content__item {
@@ -54,7 +46,7 @@
     padding: 0 5px;
     text-align: left;
     max-width: 100%;
-    width: 100%;
+    width: 90%;
 }
 
     .content__title {

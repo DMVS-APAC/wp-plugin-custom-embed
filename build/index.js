@@ -87,26 +87,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ ContentFinderComponent; }
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldGet */ "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldGet.js");
-/* harmony import */ var _babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldSet */ "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldSet.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _VideosComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./VideosComponent */ "./src/components/VideosComponent.js");
-/* harmony import */ var _PlaylistComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PlaylistComponent */ "./src/components/PlaylistComponent.js");
-/* harmony import */ var _store_dmSdkStore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../store/dmSdkStore */ "./src/store/dmSdkStore.js");
-
-
-
-
-function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
-
-function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _VideosComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./VideosComponent */ "./src/components/VideosComponent.js");
+/* harmony import */ var _PlaylistComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PlaylistComponent */ "./src/components/PlaylistComponent.js");
+/* harmony import */ var _store_dmSdkStore__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../store/dmSdkStore */ "./src/store/dmSdkStore.js");
+/* harmony import */ var _libs_apiCall__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../libs/apiCall */ "./src/libs/apiCall.js");
 
 
 
@@ -116,62 +108,34 @@ function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollect
 
 
 
+
 /**
  * A form to find a content from Dailymotion, part of Dailymotion sidebar.
- * In this form will only parse the data to processed on the child component
+ * In this form will only parse the data to be processed on the child component
  *
  */
 
-var _connectionStatus = /*#__PURE__*/new WeakMap();
-
-class ContentFinderComponent extends _wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Component {
-  /**
-   * A variable to store a state
-   */
+class ContentFinderComponent extends _wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor(props) {
     super(props);
-
-    _classPrivateFieldInitSpec(this, _connectionStatus, {
-      writable: true,
-      value: null
-    });
-
     this.state = {
       playlists: {},
       keywords: "",
       currentPage: 1,
       findGlobal: false,
-      findPlaylist: false
+      findPlaylist: false,
+      channelId: "",
+      allChannels: [],
+      contentChannel: ""
     }; // This binding is necessary to make `this` work in the callback
 
     this.findVideo = this.findVideo.bind(this);
     this.setKeywords = this.setKeywords.bind(this);
     this.setGlobalVideo = this.setGlobalVideo.bind(this);
     this.setFindPlaylist = this.setFindPlaylist.bind(this);
-  }
-
-  async setConnectionStatus(isConnected) {
-    let connectionStatus;
-
-    if (isConnected) {
-      connectionStatus = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("span", {
-        className: "dm--connected"
-      }), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("You're connected", "textdomain"));
-    } else {
-      connectionStatus = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("span", {
-        className: "dm--disconnected"
-      }), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("You're not connected", "textdomain"));
-    }
-
-    this.setState({
-      connectionStatus: connectionStatus
-    });
-  }
-
-  componentDidMount() {
-    (0,_babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_1__["default"])(this, _connectionStatus, (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)(_store_dmSdkStore__WEBPACK_IMPORTED_MODULE_8__.STORE_KEY).getConnectionStatus()['connectionStatus']);
-
-    this.setConnectionStatus((0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _connectionStatus));
+    this.getAllChannels = this.getAllChannels.bind(this);
+    this.setChannelId = this.setChannelId.bind(this);
+    this.getAllChannels();
   }
 
   async findVideo(e) {
@@ -196,48 +160,94 @@ class ContentFinderComponent extends _wordpress_element__WEBPACK_IMPORTED_MODULE
     });
   }
 
+  setChannelId(e) {
+    this.setState({
+      channelId: e.target.value
+    });
+  }
+
+  async getAllChannels() {
+    this.setState({
+      allChannels: await (0,_libs_apiCall__WEBPACK_IMPORTED_MODULE_7__.fetchApi)('/dm/v2/get-option/channel_list'),
+      contentChannel: await (0,_libs_apiCall__WEBPACK_IMPORTED_MODULE_7__.fetchApi)('dm/v2/get-option/options_manual_embed_content')
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.channelId == "" && this.state.allChannels.length) {
+      this.setState({
+        channelId: this.state.allChannels[0].id
+      });
+    }
+  }
+
+  renderChannels() {
+    const channels = [];
+    if (this.state.allChannels.length < 1) return null;
+
+    for (let i = 0; i < this.state.allChannels.length; i++) {
+      channels.push((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
+        value: this.state.allChannels[i].id
+      }, this.state.allChannels[i].id + ' - ' + this.state.allChannels[i].screenname));
+    }
+
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+      for: "channelId"
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Channel ID", "textdomain")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
+      className: "dm__input",
+      id: "channelId",
+      name: "channelId",
+      value: this.state.channelId,
+      onChange: this.setChannelId
+    }, channels));
+  }
+
   render() {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("div", {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "dm__content-list"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("p", null, this.state.connectionStatus), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("form", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
       onSubmit: this.findVideo
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("label", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
       htmlFor: "keywords"
-    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Find a video", "textdomain")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("input", {
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Find a video", "textdomain")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
       id: "keywords",
       onChange: this.setKeywords,
       type: "text",
       name: "keywords",
-      className: "dm__keywords-input"
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("button", {
-      type: "submit",
-      className: "action button"
-    }, "Find"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("label", {
+      className: "dm__input"
+    }), this.renderChannels(), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
       htmlFor: "global-video",
       className: "checkbox-label"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("input", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
       type: "checkbox",
       id: "global-video",
       onChange: this.setGlobalVideo,
       name: "globalVideo",
       value: "1"
-    }), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Find global", "textdomain")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("label", {
+    }), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Find global", "textdomain")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
       htmlFor: "find-playlist",
       className: "checkbox-label"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("input", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
       type: "checkbox",
       id: "find-playlist",
       onChange: this.setFindPlaylist,
       name: "findPlaylist",
       value: "1"
-    }), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Find playlist", "textdomain"))), this.state.findPlaylist ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)(_PlaylistComponent__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Find playlist", "textdomain")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+      type: "submit",
+      className: "action button"
+    }, "Find")), this.state.findPlaylist ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PlaylistComponent__WEBPACK_IMPORTED_MODULE_5__["default"], {
       keywords: this.state.keywords,
       globalVideo: this.state.findGlobal,
-      perPage: this.props.resultsPerPage
-    }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)(_VideosComponent__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      perPage: this.props.resultsPerPage,
+      channelId: this.state.channelId,
+      contentChannelId: this.state.contentChannel.owners
+    }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_VideosComponent__WEBPACK_IMPORTED_MODULE_4__["default"], {
       keywords: this.state.keywords,
       globalVideo: this.state.findGlobal,
-      perPage: this.props.resultsPerPage
+      perPage: this.props.resultsPerPage,
+      channelId: this.state.channelId,
+      contentChannelId: this.state.contentChannel.owners
     })));
   }
 
@@ -495,174 +505,6 @@ function _checkEditorMode2() {
 
 /***/ }),
 
-/***/ "./src/components/SelectedVideoComponent.js":
-/*!**************************************************!*\
-  !*** ./src/components/SelectedVideoComponent.js ***!
-  \**************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ SelectedVideoComponent; }
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldSet */ "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldSet.js");
-/* harmony import */ var _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldGet */ "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldGet.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _store_dmVideoStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/dmVideoStore */ "./src/store/dmVideoStore.js");
-
-
-
-
-function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration(obj, privateSet); privateSet.add(obj); }
-
-function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
-
-function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
-
-
-
-
-
-/**
- * SelectedVideoComponent
- *
- * Only show the result of video selected by user
- */
-
-var _videoDefault = /*#__PURE__*/new WeakMap();
-
-var _editorMode = /*#__PURE__*/new WeakMap();
-
-var _checkEditorMode = /*#__PURE__*/new WeakSet();
-
-class SelectedVideoComponent extends _wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Component {
-  /**
-   * Default value for video data
-   *
-   * @type {{thumbnail_240_url: string, id: string, title?: string, name?: string}}
-   */
-
-  /**
-   *
-   * @type {string}
-   */
-  constructor(props) {
-    super(props);
-
-    _classPrivateMethodInitSpec(this, _checkEditorMode);
-
-    _classPrivateFieldInitSpec(this, _videoDefault, {
-      writable: true,
-      value: {
-        id: "",
-        private: false,
-        private_id: "",
-        status: "",
-        thumbnail_240_url: "",
-        title: "",
-        name: ""
-      }
-    });
-
-    _classPrivateFieldInitSpec(this, _editorMode, {
-      writable: true,
-      value: ''
-    });
-
-    this.state = {
-      videoData: (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_1__["default"])(this, _videoDefault)
-    };
-
-    (0,_babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _editorMode, _classPrivateMethodGet(this, _checkEditorMode, _checkEditorMode2).call(this)); // Bind `this` to the method
-
-
-    this.getContent = this.getContent.bind(this);
-    this.showImage = this.showImage.bind(this);
-    this.subscribes();
-  }
-
-  componentDidMount() {
-    this.setVideo();
-  }
-  /**
-   * Get video data from state management
-   *
-   * @returns {{thumbnail_240_url: string, id: string, title: string}}
-   */
-
-
-  getContent() {
-    return (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_4__.select)(_store_dmVideoStore__WEBPACK_IMPORTED_MODULE_5__.STORE_KEY).getVideoData();
-  }
-  /**
-   * Set video data to the local state
-   */
-
-
-  setVideo() {
-    const video = this.getContent();
-    this.setState({
-      videoData: video === undefined ? (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_1__["default"])(this, _videoDefault) : video
-    });
-  }
-  /**
-   * Subscribe to all methods available to update the state globally
-   */
-
-
-  subscribes() {
-    document.addEventListener('dm-video-updated', e => {
-      this.setVideo();
-    });
-    document.addEventListener('dm-video-active', e => {
-      this.setVideo();
-    });
-  }
-
-  showImage() {
-    if (this.state.videoData.title !== '' || this.state.videoData.name !== '') {
-      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("div", {
-        className: "selected-video"
-      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("h3", null, "Selected video"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("figure", {
-        className: "content__image-wrapper"
-      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("div", {
-        className: "content__placement"
-      }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("img", {
-        src: this.state.videoData.thumbnail_240_url,
-        alt: this.state.videoData.title ? this.state.videoData.title : this.state.videoData.name,
-        className: "content__thumbnail"
-      }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("span", {
-        className: "content__title",
-        title: this.state.videoData.title ? this.state.videoData.title : this.state.videoData.name
-      }, this.state.videoData.title ? this.state.videoData.title : this.state.videoData.name));
-    }
-
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("p", null, "No video selected.");
-  }
-
-  render() {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, null, this.showImage);
-  }
-
-}
-
-function _checkEditorMode2() {
-  if (document.body.classList.contains('block-editor-page')) {
-    return 'gutenberg';
-  }
-
-  return 'classic-editor';
-}
-
-/***/ }),
-
 /***/ "./src/components/SidebarComponent.js":
 /*!********************************************!*\
   !*** ./src/components/SidebarComponent.js ***!
@@ -684,9 +526,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assets_dailymotionIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../assets/dailymotionIcon */ "./src/assets/dailymotionIcon.js");
 /* harmony import */ var _libs_dmSdk__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../libs/dmSdk */ "./src/libs/dmSdk.js");
 /* harmony import */ var _ContentFinderComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ContentFinderComponent */ "./src/components/ContentFinderComponent.js");
-/* harmony import */ var _SelectedVideoComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SelectedVideoComponent */ "./src/components/SelectedVideoComponent.js");
 
-// Wordpress packages
+// WordPress packages
 
 
 
@@ -695,13 +536,13 @@ __webpack_require__.r(__webpack_exports__);
 
  // Components
 
-
+ // import SelectedVideo from "./SelectedVideoComponent"
 
 /**
  * SidebarComponent
  *
  * This is a sidebar that will be appeared when user click an icon
- * or start choosing the video. It only register the component part,
+ * or start choosing the video. It only registers the component part,
  * not much logical function here.
  *
  * The register is waiting `DmSdk` to be ready first before rendering.
@@ -731,11 +572,11 @@ class SidebarComponent {
         return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_edit_post__WEBPACK_IMPORTED_MODULE_2__.PluginSidebarMoreMenuItem, {
           target: "dm-sidebar-settings",
           icon: (0,_assets_dailymotionIcon__WEBPACK_IMPORTED_MODULE_4__.dailymotionIcon)()
-        }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Dailymotion Sidebar Settings', 'textdomain')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_edit_post__WEBPACK_IMPORTED_MODULE_2__.PluginSidebar, {
+        }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Dailymotion', 'textdomain')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_edit_post__WEBPACK_IMPORTED_MODULE_2__.PluginSidebar, {
           name: "dm-sidebar-settings",
-          title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Dailymotion Sidebar Settings', 'textdomain'),
+          title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Dailymotion', 'textdomain'),
           icon: (0,_assets_dailymotionIcon__WEBPACK_IMPORTED_MODULE_4__.dailymotionIcon)()
-        }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SelectedVideoComponent__WEBPACK_IMPORTED_MODULE_7__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ContentFinderComponent__WEBPACK_IMPORTED_MODULE_6__["default"], null)));
+        }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ContentFinderComponent__WEBPACK_IMPORTED_MODULE_6__["default"], null)));
       }
     });
   }
@@ -1039,6 +880,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_dmSdkStore__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../store/dmSdkStore */ "./src/store/dmSdkStore.js");
 /* harmony import */ var _store_dmVideoStore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../store/dmVideoStore */ "./src/store/dmVideoStore.js");
 /* harmony import */ var _libs_customEvent__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../libs/customEvent */ "./src/libs/customEvent.js");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10__);
 
 
 
@@ -1059,10 +902,18 @@ function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(
 
 
 
+
 /**
  * VideosComponent
  *
  * This component will generate a search results
+ *
+ * Properties (parse via component attributes) available
+ * 1. `keywords`
+ * 2. `globalVideo`
+ * 3. `perPage`
+ * 4. `channelId`
+ * 5. `contentChannelId`
  *
  */
 
@@ -1127,7 +978,7 @@ class VideosComponent extends _wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Co
    * 2. User not connected and channel name is not empty at least one channel name. It will from all channels defined.
    * 3. User connected and channel name is empty. It will get a connected channel name videos.
    * 4. User connected and channel name is not empty. It will override a channel name using connected channel name.
-   * 5. When `find global` ticked, it override all channel name defined.
+   * 5. When `find global` ticked, it overrides all channel name defined.
    *
    *
    *
@@ -1139,42 +990,48 @@ class VideosComponent extends _wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Co
     let page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
     let keywords = arguments.length > 1 ? arguments[1] : undefined;
     this.setLoadingData(true);
-    const dmUser = await (0,_libs_apiCall__WEBPACK_IMPORTED_MODULE_4__.fetchApi)('/dm/v1/userinfo');
-    const content = await (0,_libs_apiCall__WEBPACK_IMPORTED_MODULE_4__.fetchApi)('/dm/v1/get-custom-options/manual_embed_content');
     const params = {
-      fields: 'id,title,thumbnail_240_url,status,private,private_id',
-      limit: this.props.perPage ? this.props.perPage : 10,
-      flags: 'no_live,exportable,verified',
-      page: page
+      data: {
+        fields: 'id,title,thumbnail_240_url,status,private,private_id',
+        limit: this.props.perPage ? this.props.perPage : 10,
+        flags: 'no_live,exportable,verified',
+        page: page
+      }
     };
 
     if (keywords) {
-      params.sort = 'relevance';
-      params.search = keywords;
+      params.data.sort = 'relevance';
+      params.data.search = keywords;
     } else {
-      params.sort = 'recent';
+      params.data.sort = 'recent';
     }
 
-    let url = '';
-    const isOwners = typeof content.owners !== 'undefined';
+    const isOwners = typeof this.props.contentChannelId !== 'undefined';
 
     if ((0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _connectionStatus) && this.props.globalVideo !== true && !isOwners) {
-      url = 'user/' + dmUser.channel + '/videos';
+      params.url = '/user/' + this.props.channelId + '/videos';
     } else if (isOwners && this.props.globalVideo !== true) {
-      params.owners = content.owners;
-      url = 'videos';
+      params.owners = this.props.contentChannelId;
+      params.url = '/videos';
     } else {
-      url = 'videos';
+      params.url = '/videos';
     }
 
-    return new Promise(async resolve => {
-      DM.api(url, 'get', params, videos => {
-        this.setLoadingData(false);
-        resolve(videos);
-      }, true);
-    }).catch(error => {
-      console.log(error);
-    });
+    const videos = await (0,_libs_apiCall__WEBPACK_IMPORTED_MODULE_4__.fetchApi)('/dm/v2/request-api', 'POST', params);
+    this.setLoadingData(false);
+    return videos; // new Promise(async resolve => {
+    //     // DM.api(url,'get', params, (videos) => {
+    //     //     this.setLoadingData(false)
+    //     //     resolve(videos)
+    //     // }, true)
+    //
+    //     // console.log(params)
+    //
+    //     // resolve(videos)
+    //     resolve({})
+    // }).catch(error => {
+    //     console.log('this is error: ', error)
+    // })
   }
 
   setVideos(videos) {
@@ -1203,6 +1060,8 @@ class VideosComponent extends _wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Co
    * event for `VideoBlockComponent` to listen that the video is
    * updated.
    *
+   * On classic editor, this function will add a shortcode
+   *
    * @param video
    */
 
@@ -1226,8 +1085,6 @@ class VideosComponent extends _wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Co
   }
 
   async componentDidMount() {
-    (0,_babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_1__["default"])(this, _connectionStatus, (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.select)(_store_dmSdkStore__WEBPACK_IMPORTED_MODULE_7__.STORE_KEY).getConnectionStatus()['connectionStatus']);
-
     const videos = await this.fetchVideo();
     this.setVideos(videos);
   }
@@ -1253,10 +1110,10 @@ class VideosComponent extends _wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Co
     if (this.state.videos.error !== undefined) {
       return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("li", {
         className: "dm__show-message"
-      }, "API errors, please check your settings\u2026");
+      }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("API errors, please check your settings…", "textdomain"));
     }
 
-    if (this.state.videos !== undefined && Object.entries(this.state.videos).length > 0 && this.state.videos.list.length > 0) {
+    if (Object.entries(this.state.videos).length > 0 && this.state.videos.list.length > 0) {
       const list = this.state.videos.list;
 
       for (let i = 0; i < list.length; i++) {
@@ -1348,6 +1205,13 @@ function fetchData(urlParams) {
   });
 }
 /**
+ * This is actually only an interface for `apiFetch` from WordPress packages.
+ * A promise based function to get data from internal WordPress API. So, the
+ * caller just receive the data only without doing any promise on their end.
+ *
+ *
+ * references:
+ * 1. [api-fetch](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-api-fetch/)
  *
  * @param {string} url
  * @param {string} method
@@ -1365,13 +1229,14 @@ function fetchApi(url) {
 
   if (typeof data !== 'undefined') {
     options.data = data;
-  }
+  } // return new Promise(resolve => {
 
-  return new Promise(resolve => {
-    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()(options).then(result => {
-      resolve(result);
-    });
-  });
+
+  return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()(options).then(result => {
+    return result;
+  }).catch(error => {
+    console.log(error);
+  }); // })
 }
 
 /***/ }),
@@ -1481,7 +1346,7 @@ class DmSdk {
 
   async setupDm() {
     // Waiting for DM to be available first
-    await (0,_waitFor__WEBPACK_IMPORTED_MODULE_0__.waitFor)(() => typeof DM !== 'undefined', 100, 30000, "Timeout waiting for DM loaded, please refresh and make sure your internet is active");
+    await (0,_waitFor__WEBPACK_IMPORTED_MODULE_0__.waitFor)(() => typeof DM !== 'undefined', 100, 120000, "Timeout waiting for DM loaded, please refresh and make sure your internet is active");
 
     _classPrivateMethodGet(this, _overrideDmVars, _overrideDmVars2).call(this);
 
@@ -2240,36 +2105,6 @@ document.addEventListener('dm-ready', async () => {
   },
   edit: _components_VideoBlockComponent__WEBPACK_IMPORTED_MODULE_4__["default"],
   save: props => {
-    /**
-     * Remove existing video data from the save block
-     *
-     * This is the old post metadata. We don't need it anymore.
-     * With the new way to save the block, we don't need to save
-     * the video data to the post metadata.
-     *
-     * We don't do migration the data. Because it's complicated.
-     * We just support the old version of the block, but when user
-     * try to update their post, it will also update the block.
-     *
-     * TODO: create scenario to test old version of the block to update with new version
-     *
-     * The fields we need to test:
-     * - `_dm_player_position`
-     * - `_dm_video_data` json string {"id":"x81ja79","title":"Mengenal Gempa Bumi: Penyebab dan Macam-macamnya","thumbnail_240_url":"https://s2.dmcdn.net/v/S_7jb1WhmnTmJ1CNG/x240"}
-     *
-     * What need to test is the new post, existing post without post meta, and existing post with post meta.
-     */
-    const meta = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.select)('core/editor').getEditedPostAttribute('meta');
-
-    if (meta._dm_video_data !== "") {
-      (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.dispatch)('core/editor').editPost({
-        meta: {
-          _dm_player_position: null,
-          _dm_video_data: null
-        }
-      });
-    }
-
     const {
       videoData
     } = props.attributes;

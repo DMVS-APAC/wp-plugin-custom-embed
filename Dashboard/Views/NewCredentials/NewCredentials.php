@@ -1,4 +1,12 @@
 <?php
+/**
+ * A new credentials page
+ *
+ * A replacement of old credentials page
+ *
+ *
+ * @since 2.0.0
+ */
 
 namespace Dm\Dashboard\Views\NewCredentials;
 
@@ -10,6 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
 
 class NewCredentials extends DashboardAbstract {
 
+    /**
+     * Register the menu to the dashboard menu
+     *
+     * @return void
+     */
     public function register_menu() {
         add_submenu_page(
             'dm-manual-embed-settings',
@@ -25,7 +38,7 @@ class NewCredentials extends DashboardAbstract {
     /**
      * This will show the page and update some data
      *
-     * • Updating `dm_migration_step` if available
+     * • Updating `dm_ce_migration_step` if available
      * • Store the data if the data submitted
      *
      * @return void
@@ -44,18 +57,18 @@ class NewCredentials extends DashboardAbstract {
         if ( !empty($step) ) {
             switch ($step):
                 case '1':
-                    update_option('dm_migration_step', $step);
+                    update_option('dm_ce_migration_step', $step);
                     break;
                 case '-1':
-                    delete_option('dm_migration_step');
+                    delete_option('dm_ce_migration_step');
                     break;
             endswitch;
         }
 
-        $migrationStep = get_option('dm_migration_step');
+        $migrationStep = get_option('dm_ce_migration_step');
         $options = get_option('dm_ce_new_credentials');
 
-        require DM__PATH . 'Dashboard/Views/NewCredentials/new_credentials_page.php';
+        require DM__PATH . 'Dashboard/Views/NewCredentials/page.php';
     }
 
     /**
@@ -65,90 +78,102 @@ class NewCredentials extends DashboardAbstract {
      * • Generate token for use later on
      * • Get channel list and store it in the options table named `dm_channel_list`
      * • Store the secret encrypted in the options table named `dm_ce_secret`
+     * • If `remove` exist it will remove all options in the database and the session
      *
-     * @param $params
+     * @param array $params
+     * @param string $tab
      * @return void
      */
     public function store_data(array $params, string $tab = '') {
-        if ( !empty($params) && wp_verify_nonce(self::sanitize_this('dm_save_data'), 'dm_save_data') ) {
 
-            // Migration steps update
-            $migrationStep = get_option('dm_migration_step');
+        if (!empty($params)) {
+            $dmSdk = new DmSdk();
 
-            if ( $migrationStep && $migrationStep == 1 ) {
-                update_option('dm_migration_step', 2);
-            }
+            if ( array_key_exists('remove', $params) ) {
+                delete_option('dm_ce_new_credentials');
+                delete_option('dm_ce_secret');
+                delete_option('dm_ce_channel_list');
+                $dmSdk->destroyToken();
+            } else if (wp_verify_nonce(self::sanitize_this('dm_save_data'), 'dm_save_data')) {
 
-            $dm_ce_data = [];
-            $token = false;
-            $noEmpty = true;
+                    // Migration steps update
+                    $migrationStep = get_option('dm_ce_migration_step');
 
-            if (!empty($params['api_key']) && $params['api_key'] !== null) {
-                $dm_ce_data += ['api_key' => self::sanitize_this('api_key')];
-            } else {
-                $noEmpty = false;
-            }
+                    if ($migrationStep && $migrationStep == 1) {
+                        update_option('dm_ce_migration_step', 2);
+                    }
 
-            if (!empty($params['channel_id']) && $params['channel_id'] !== null ) {
-                $dm_ce_data += ['channel_id' => self::sanitize_this('channel_id')];
-            } else {
-                $noEmpty = false;
-            }
+                    $dm_ce_data = [];
+                    $token = false;
+                    $noEmpty = true;
 
-            update_option('dm_ce_new_credentials', $dm_ce_data);
+                    if (!empty($params['api_key']) && $params['api_key'] !== null) {
+                        $dm_ce_data += ['api_key' => self::sanitize_this('api_key')];
+                    } else {
+                        $noEmpty = false;
+                    }
+
+                    if (!empty($params['channel_id']) && $params['channel_id'] !== null) {
+                        $dm_ce_data += ['channel_id' => self::sanitize_this('channel_id')];
+                    } else {
+                        $noEmpty = false;
+                    }
+
+                    update_option('dm_ce_new_credentials', $dm_ce_data);
 
 
-            if (!empty($params['api_secret']) && $params['api_secret'] !== null && $noEmpty) {
-                $dm_secret = Crypt::encryptString(wp_unslash($params['api_secret']));
-                update_option('dm_ce_secret', $dm_secret);
+                    if (!empty($params['api_secret']) && $params['api_secret'] !== null && $noEmpty) {
+                        $dm_secret = Crypt::encryptString(wp_unslash($params['api_secret']));
+                        update_option('dm_ce_secret', $dm_secret);
 
-                // Create token immediately after the data saved
-                $dmSdk = new DmSdk();
-                $token = $dmSdk->generateToken( $params['api_key'], wp_unslash($params['api_secret']) );
+                        // Generate token immediately after the data saved
+                        $token = $dmSdk->generateToken($params['api_key'], wp_unslash($params['api_secret']));
 
-                if ($token) {
-                    $this->getAllChannels($dmSdk);
+                        if ($token) {
+                            $this->getAllChannels($dmSdk);
 
-                    echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible">
+                            echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible">
                     <p><strong>' . esc_html(__('Settings saved', 'dm_embed_plugin')) . '</strong></p>
                     </div>';
-                } else {
-                    echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible">
+                        } else {
+                            echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible">
                     <p><strong>' . esc_html(__('API Key or API Secret is not valid', 'dm_embed_plugin')) . '</strong></p>
                     </div>';
-                }
-            }
+                        }
+                    }
 
-            if (!$token) {
-                echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible">
+                    if (!$token) {
+                        echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible">
                     <p><strong>' . esc_html(__('Settings saved', 'dm_embed_plugin')) . '</strong></p>
                     </div>';
-            }
+                    }
+
+                }
 
         }
     }
 
     /**
      * Get all children channel related to the parent channel
+     * It's also delete old options `dm_ce_credentials`.
      *
-     * @param $dmSdk
+     * @param $dmSdk DmSdk an instance of `DmSdk`
      * @return void
      */
     private function getAllChannels(DmSdk $dmSdk): void {
         $channelList = [];
-        $channelOwner = $dmSdk->fetchData('/rest/user/' . self::sanitize_this('channel_id') . '?fields=id,screenname');
+        $channelOwner = $dmSdk->fetchData('/user/' . self::sanitize_this('channel_id') . '?fields=id,screenname');
         $channelList[] = $channelOwner;
-        $children = $dmSdk->fetchData('/rest/user/' . self::sanitize_this('channel_id') . '/children');
+        $children = $dmSdk->fetchData('/user/' . self::sanitize_this('channel_id') . '/children');
 
         if ($children['total'] > 0)
             for ($i = 0; $i < $children['total']; $i++)
                 $channelList[] = $children['list'][$i];
 
-        update_option('dm_channel_list', $channelList);
+        update_option('dm_ce_channel_list', $channelList);
 
-        // TODO: will remove this on 2 next versions. The version should 1.7.0.
+        // TODO: will remove this on 2 next versions. The version should 2.1.0.
         delete_option('dm_ce_credentials');
-//        delete_option();
     }
 
 }

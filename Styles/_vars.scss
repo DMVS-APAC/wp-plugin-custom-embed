@@ -1,7 +1,7 @@
 /**
 The variables wrapper
 
-# Default theme color
+# Default theme color from WordPress
 
 :root {
   --wp-admin-theme-color: #007cba;
@@ -15,8 +15,13 @@ The variables wrapper
  */
 
 .dm__dashboard-page {
+
+  // Box style
   --dm--box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
   --dm--box-padding: 16px 24px;
   --dm--text-in-theme-color: #fff;
   --dm--text-default-color: #3c434a; // this is a default text color from WordPress
+
+  // Form Gutenberg style
+  --dm--input-distance-bottom: 4px;
 }

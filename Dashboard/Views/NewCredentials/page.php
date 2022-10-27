@@ -31,7 +31,7 @@
 If you do not have access to the API key creation page, ask the owner of your organization to create it for you.</span></span></label></th>
                 <td>
                     <input name="api_key" type="text" id="api-key" class="regular-text"
-                           value="<?php echo (!empty($options)) ? $options['api_key'] : '' ?>" required>
+                           value="<?php echo (!empty($options)) ? $options['api_key'] : '' ?>" required autocomplete="off">
                     <p>You can create new apiKey <a href="https://www.dailymotion.com/partner/api-keys/" target="_blank">here</a> at Dailymotion partner HQ</p>
                 </td>
             </tr>
@@ -39,7 +39,7 @@ If you do not have access to the API key creation page, ask the owner of your or
                 <th scope="row"><label for="api-secret"><?php echo __('API Secret'); ?></label></th>
                 <td>
                     <input name="api_secret" type="password" id="api-secret" class="regular-text"
-                           value="">
+                           value="" autocomplete="off">
                     <p>Leave empty if you don't want to update this.</p>
                 </td>
             </tr>
@@ -47,7 +47,7 @@ If you do not have access to the API key creation page, ask the owner of your or
                 <th scope="row"><label for="api-secret"><?php echo __('Channel ID'); ?></label></th>
                 <td>
                     <input name="channel_id" type="text" id="channel-id" class="regular-text"
-                           value="<?php echo (!empty($options)) ? $options['channel_id'] : '' ?>" required>
+                           value="<?php echo (!empty($options)) ? $options['channel_id'] : '' ?>" required autocomplete="off">
                 </td>
             </tr>
             </tbody>
@@ -56,6 +56,7 @@ If you do not have access to the API key creation page, ask the owner of your or
 
         <p class="submit">
             <button type="submit" name="submit" id="submit" class="button button-primary"><?php echo __('Save'); ?></button>
+            <button type="submit" name="remove" id="remove" class="button button-danger"><?php echo __('Remove Credentials'); ?></button>
         </p>
 
     </form>

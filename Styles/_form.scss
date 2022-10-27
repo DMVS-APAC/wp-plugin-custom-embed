@@ -1,0 +1,31 @@
+
+.dm__input {
+  width: 100%;
+  margin-bottom: var(--dm--input-distance-bottom);
+}
+
+.checkbox-label {
+  margin-right: 10px;
+  margin-bottom: var(--dm--input-distance-bottom);
+  display: inline-block;
+}
+
+.wp-core-ui {
+  .button-danger {
+    background: #d63638;
+    color: #fff;
+    border-color: #d63638;
+
+    &:focus {
+      @extend .button-danger;
+      box-shadow: 0 0 0 1px #fff,0 0 0 3px #2271b1;
+    }
+
+    &:hover {
+      background: darken(#d63638, 10%);
+      color: #fff;
+      border-color: darken(#d63638, 10%);
+    }
+  }
+}
+
