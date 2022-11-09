@@ -11,7 +11,8 @@ function dm_player_shortcode($atts, $content) {
         'privatevideoid' => '',
         'videoid' => '',
         'playlistid' => '',
-        'number' => 0
+        'number' => 0,
+        'acf_field' => '',
     ), $atts, 'dm-player');
 
     $options_playback = get_option('dm_ce_options_manual_embed_playback');
@@ -27,6 +28,16 @@ function dm_player_shortcode($atts, $content) {
 
     $video_id = $atts['privatevideoid'] ?: $atts['videoid'];
     $playlist_id = $atts['playlistid'];
+
+    // @see: https://www.advancedcustomfields.com/resources/code-examples/
+    if (function_exists('get_field')) {
+        if (empty($video_id) && empty($playlist_id) && !empty($atts['acf_field'])) {
+            // get field from advancedcustomfields
+            $video_id = get_field($atts['acf_field']);
+            // cleaning url
+            $video_id = preg_replace('#^https?://www\.dailymotion\.com/(?:embed/)?video/([^/\? ]+).*$#', '\\1', $video_id);
+        }
+    }
 
     // Player settings
     if (isset($options_player['syndication'])) $params .= 'syndicationKey=' . $options_player['syndication'];
