@@ -33,7 +33,7 @@ export function fetchData(urlParams) {
  *
  *
  * references:
- * 1. [api-fetch](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-api-fetch/)
+ * 1. [Api-fetch](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-api-fetch/)
  *
  * @param {string} url
  * @param {string} method

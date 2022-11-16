@@ -51,9 +51,9 @@ if (defined('DM_BETA') && DM_BETA === true) {
 
 new Dm\Libs\Sessions;
 new Dm\Dashboard\Admin;
-new Dm\Api\DM_Endpoints;
-require DM__PATH . 'api/Custom_Get_Options.php';
-require DM__PATH . 'api/Migration_Database.php';
+new Dm\Api\Dm_Endpoints;
+require DM__PATH . 'Api/Custom_Get_Options.php';
+require DM__PATH . 'Api/Migration_Database.php';
 require DM__PATH . 'custom-block/dm-block.php';
 require DM__PATH . 'front-end/load-script.php';
 require DM__PATH . 'onboarding/activation.php';

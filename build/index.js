@@ -1020,7 +1020,7 @@ class VideosComponent extends _wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Co
     const videos = await (0,_libs_apiCall__WEBPACK_IMPORTED_MODULE_4__.fetchApi)('/dm/v2/request-api', 'POST', params);
     this.setLoadingData(false);
     return videos; // new Promise(async resolve => {
-    //     // DM.api(url,'get', params, (videos) => {
+    //     // DM.Api(url,'get', params, (videos) => {
     //     //     this.setLoadingData(false)
     //     //     resolve(videos)
     //     // }, true)
@@ -1211,7 +1211,7 @@ function fetchData(urlParams) {
  *
  *
  * references:
- * 1. [api-fetch](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-api-fetch/)
+ * 1. [Api-fetch](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-api-fetch/)
  *
  * @param {string} url
  * @param {string} method
@@ -1382,7 +1382,7 @@ function _overrideDmVars2() {
 }
 
 async function _initDm2() {
-  // Get api-key from wp-options using custom end point
+  // Get Api-key from wp-options using custom end point
   const options = await (0,_apiCall__WEBPACK_IMPORTED_MODULE_1__.fetchApi)('/dm/v1/get-api-key');
   DM.init({
     apiKey: options.api_key,

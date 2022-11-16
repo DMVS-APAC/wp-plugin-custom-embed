@@ -19,7 +19,7 @@ class Welcome extends DashboardAbstract {
             __('Setup Guide'),
             __('Setup Guide'),
             'publish_pages',
-            'dm-migration-new-api',
+            'dm-migration-new-Api',
             array($this, 'load_template_page')
         );
 

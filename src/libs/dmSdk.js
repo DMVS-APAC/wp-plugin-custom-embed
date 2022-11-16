@@ -47,7 +47,7 @@ export default class DmSdk {
     }
 
     async #initDm() {
-        // Get api-key from wp-options using custom end point
+        // Get Api-key from wp-options using custom end point
         const options = await fetchApi('/dm/v1/get-api-key')
 
         DM.init({

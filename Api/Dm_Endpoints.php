@@ -31,7 +31,7 @@ class DM_Endpoints extends WP_REST_Controller {
         ]);
 
 
-        register_rest_route($namespace, '/request-api', [
+        register_rest_route($namespace, '/request-Api', [
             'methods' => WP_REST_Server::EDITABLE,
             'callback' => [$this, 'requestApi'],
             'permission_callback' => [$this, 'permissionsCheck'],

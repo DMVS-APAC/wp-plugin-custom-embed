@@ -17,7 +17,7 @@ class Custom_Get_Options extends WP_REST_Controller {
      * Endpoint list:
      *
      * 1. `get-custom-options` - read only
-     * 2. `get-api-key` - read only
+     * 2. `get-Api-key` - read only
      * 3. `userinfo` - read and update
      * 4. `custom-post-meta` - read only
      * 5. `update-auto-embed` - update
@@ -40,7 +40,7 @@ class Custom_Get_Options extends WP_REST_Controller {
         /*
          *  Get the API Key
          */
-        register_rest_route($namespace, '/get-api-key/', [
+        register_rest_route($namespace, '/get-Api-key/', [
             [
                 'methods'               => WP_REST_Server::READABLE,
                 'callback'              => [ $this, 'get_api_key' ],

@@ -122,7 +122,7 @@ export default class VideosComponent extends Component {
         return videos
 
         // new Promise(async resolve => {
-        //     // DM.api(url,'get', params, (videos) => {
+        //     // DM.Api(url,'get', params, (videos) => {
         //     //     this.setLoadingData(false)
         //     //     resolve(videos)
         //     // }, true)
