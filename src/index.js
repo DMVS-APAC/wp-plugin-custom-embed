@@ -1,13 +1,12 @@
 import { registerBlockType } from '@wordpress/blocks'
 import { __ } from "@wordpress/i18n"
-import { dispatch, select } from '@wordpress/data'
 
-// Video block
+// Block Components
 import VideoBlock from "./components/VideoBlockComponent"
 
 /**
- * This is an initial rebuild state of the Video block.
- * We're doing this because if we do it in a block level
+ * This is an initial rebuild state of the Video block. We're doing this because
+ * if we do it in a block level
  * it always sends a request to build the block. This is
  * made the player do many times rendering outside components
  * such as title, infocard, and carousel playlist.
@@ -18,6 +17,7 @@ let initialLoad = true
 document.addEventListener('dm-ready', async () => {
     if (initialLoad) {
         initialLoad = false
+        //@ts-ignore
         window.dmce.rebuild()
         document.removeEventListener('dm-ready', () => {})
     }

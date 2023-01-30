@@ -22,7 +22,7 @@
                     <option value="">--</option>
                     <?php for($i=0; $i < count($playerIds['list']); $i++): ?>
                         <option value="<?php echo $playerIds['list'][$i]['id']; ?>"
-                            <?php echo ( $playerIds['list'][$i]['id'] === $options['player_id'] ) ? 'selected' : '' ?>>
+                            <?php echo ( isset($options['player_id']) && $playerIds['list'][$i]['id'] === $options['player_id'] ) ? 'selected' : '' ?>>
                             <?php echo $playerIds['list'][$i]['id'] . ' - ' . $playerIds['list'][$i]['label']; ?>
                         </option>
                     <?php endfor; ?>

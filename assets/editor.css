@@ -11,6 +11,9 @@
     grid-template-rows: repeat(5, 80px);
     min-height: 406px;
 }
+.dm--grid-expand-2 {
+    grid-column: span 2;
+}
 
 
 
@@ -22,20 +25,20 @@
     position: relative;
 }
 
-.content__item.private:before, .content__item.draft:before {
+.content__item.private figure:before, .content__item.draft figure:before {
     content: "private";
     color: #fff;
     background: rgba(0,0,0,.6);
     position: absolute;
-    right: 7px;
-    bottom: 22px;
+    right: 4px;
+    bottom: 4px;
     display: block;
     z-index: 1;
     padding: 0 4px;
     font-size: 0.8em;
 }
 
-.content__item.draft:before {
+.content__item.draft figure:before {
     content: "draft";
 }
 
@@ -79,6 +82,8 @@
             width: 100%;
             height: 100%;
             text-align: center;
+            overflow: hidden;
+            color: #fff;
         }
         .content__thumbnail {
             max-height: 100%;
@@ -87,6 +92,27 @@
             width: 100%;
             height: 100%;
         }
+
+
+.selected-video {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    grid-template-rows: auto;
+    column-gap: 10px;
+}
+.selected-video h3 {
+        grid-column: 1/span 2;
+}
+.selected-video .content__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: unset;
+    line-height: 1.5em;
+    width: 90%;
+}
 
 #insert-dailymotion {
     height: 3px;

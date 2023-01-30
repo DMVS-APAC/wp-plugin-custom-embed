@@ -12,3 +12,5 @@ vendor
 !vendor/composer
 !vendor/autoload.php
 !vendor/yahnis-elsts
+
+cypress.env.json

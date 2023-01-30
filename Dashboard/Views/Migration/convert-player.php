@@ -1,4 +1,4 @@
-<form action="<?php echo get_admin_url() . 'admin.php?page=dm-migration&tab=convert-player&action=save_data'; ?>"
+<form action="<?php echo get_admin_url() . 'admin.php?page=dm-migration&action=save_data'; ?>"
     method="post">
 
     <?php wp_nonce_field("dm_save_data", "dm_save_data", true);?>
@@ -30,6 +30,6 @@
     </table>
 
     <p class="submit">
-        <input type="submit" name="submit" id="submit" class="button button-primary" value="Save">
+        <button type="submit" name="submit" id="submit" class="button button-primary">Save</button>
     </p>
 </form>

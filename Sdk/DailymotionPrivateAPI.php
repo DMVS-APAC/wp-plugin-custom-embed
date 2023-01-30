@@ -76,7 +76,7 @@ class DailymotionPrivateAPI {
      * Fetch Data
      *
      * This will automatically detect if there is credential exist or not. If the credentials exist
-     * and the session is expired, it will regenerate the token.
+     * and the session is expired, it will **regenerate** the token.
      *
      * @param $url string
      * @param $method string

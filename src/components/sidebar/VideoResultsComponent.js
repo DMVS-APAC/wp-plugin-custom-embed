@@ -1,11 +1,11 @@
 import { __ } from "@wordpress/i18n"
 import { Component } from "@wordpress/element"
-import { fetchApi } from "../libs/apiCall"
+import { fetchApi } from "../../libs/apiCall"
 import { dispatch, select } from "@wordpress/data"
-import Pagination from "../libs/pagination"
-import { STORE_KEY as DM_SDK_STORE_KEY } from "../store/dmSdkStore"
-import { STORE_KEY as DM_VIDEO_STORE_KEY } from "../store/dmVideoStore"
-import { CreateCustomEvent } from "../libs/customEvent"
+import Pagination from "../../libs/pagination"
+import { STORE_KEY as DM_SDK_STORE_KEY } from "../../store/dmSdkStore"
+import { STORE_KEY as DM_VIDEO_STORE_KEY } from "../../store/dmVideoStore"
+import { CreateCustomEvent } from "../../libs/customEvent"
 import apiFetch from "@wordpress/api-fetch";
 
 
@@ -21,8 +21,10 @@ import apiFetch from "@wordpress/api-fetch";
  * 4. `channelId`
  * 5. `contentChannelId`
  *
+ * video
+ *
  */
-export default class VideosComponent extends Component {
+export default class VideoResultsComponent extends Component {
 
     /**
      * A variable to store a state from the state management
@@ -120,20 +122,6 @@ export default class VideosComponent extends Component {
         this.setLoadingData(false)
 
         return videos
-
-        // new Promise(async resolve => {
-        //     // DM.Api(url,'get', params, (videos) => {
-        //     //     this.setLoadingData(false)
-        //     //     resolve(videos)
-        //     // }, true)
-        //
-        //     // console.log(params)
-        //
-        //     // resolve(videos)
-        //     resolve({})
-        // }).catch(error => {
-        //     console.log('this is error: ', error)
-        // })
     }
 
     setVideos(videos) {
@@ -196,7 +184,7 @@ export default class VideosComponent extends Component {
 
         // Listen to props changes (keywords and globalVideo)
         if ( this.props.keywords !== prevProps.keywords ||
-             this.props.globalVideo !== prevProps.globalVideo ) {
+            this.props.globalVideo !== prevProps.globalVideo ) {
 
             const videos = await this.fetchVideo(1, this.props.keywords)
 
@@ -216,11 +204,11 @@ export default class VideosComponent extends Component {
     renderVideoList() {
         const videos = []
 
-        if (this.state.videos.error !== undefined) {
+        if (this.props.video.error !== undefined) {
             return <li className="dm__show-message">{ __("API errors, please check your settings…", "textdomain") }</li>
         }
 
-        if (Object.entries(this.state.videos).length > 0 && this.state.videos.list.length > 0) {
+        if (Object.entries(this.props.video).length > 0 && this.state.videos.list.length > 0) {
             const list = this.state.videos.list
 
             for (let i = 0; i < list.length; i++) {
@@ -253,7 +241,7 @@ export default class VideosComponent extends Component {
                     { this.state.loadingData ? <li>{__('loading video…', 'textdomain')}</li> : this.renderVideoList() }
                 </ul>
 
-                <Pagination currentPage={this.state.currentPage} callback={this.loadPage} contentData={this.state.videos} />
+                {/*<Pagination currentPage={this.state.currentPage} callback={this.loadPage} contentData={this.state.videos} />*/}
             </>
         )
     }

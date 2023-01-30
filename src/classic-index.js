@@ -1,5 +1,6 @@
+import React from 'react'
 import { render, useState, createElement } from '@wordpress/element'
-import ContentFinder from "./components/ContentFinderComponent"
+import ContentFinder from "./components/sidebar/ContentFinderComponent"
 import DmSdk from "./libs/dmSdk"
 import { Button, Modal } from '@wordpress/components'
 import '@wordpress/components/build-style/style.css'

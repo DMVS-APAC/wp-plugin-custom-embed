@@ -1,11 +1,11 @@
 import { __ } from "@wordpress/i18n"
 import { Component } from "@wordpress/element"
-import { fetchApi } from "../libs/apiCall"
+import { fetchApi } from "../../libs/apiCall"
 import { dispatch, select } from "@wordpress/data"
-import Pagination from "../libs/pagination"
-import { STORE_KEY as DM_SDK_STORE_KEY } from "../store/dmSdkStore"
-import { STORE_KEY as DM_VIDEO_STORE_KEY } from "../store/dmVideoStore"
-import { CreateCustomEvent } from "../libs/customEvent"
+import Pagination from "../../libs/pagination"
+import { STORE_KEY as DM_SDK_STORE_KEY } from "../../store/dmSdkStore"
+import { STORE_KEY as DM_VIDEO_STORE_KEY } from "../../store/dmVideoStore"
+import { CreateCustomEvent } from "../../libs/customEvent"
 
 /**
  * Playlist Component

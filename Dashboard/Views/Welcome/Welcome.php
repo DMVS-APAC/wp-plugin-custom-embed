@@ -26,15 +26,6 @@ class Welcome extends DashboardAbstract {
     }
 
     public function load_template_page() {
-        $action = self::sanitize_this('action', 'GET'); // phpcs:ignore WordPress.Security.NonceVerification
-
-        switch($action):
-            case "save_data":
-                // The sanitize process will be processed in the store_credentials function
-                self::store_data($_POST); // phpcs:ignore WordPress.Security.NonceVerification;
-                break;
-        endswitch;
-
         require DM__PATH . 'Dashboard/Views/Welcome/page.php';
     }
 

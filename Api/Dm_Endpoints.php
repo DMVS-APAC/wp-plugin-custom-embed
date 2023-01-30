@@ -1,6 +1,8 @@
 <?php
 /**
  * Class Dm_Endpoints
+ *
+ * This is a version 2 of dm api
  */
 
 namespace Dm\Api;
@@ -38,7 +40,12 @@ class DM_Endpoints extends WP_REST_Controller {
         ]);
     }
 
-
+    /**
+     * A module to handle api request to get site option
+     *
+     * @param WP_Rest_Request $request
+     * @return WP_Rest_Response
+     */
     public function getOption(WP_REST_Request $request): WP_REST_Response {
         $prefix = 'dm_ce_';
         $option = $request->get_param('option_name');

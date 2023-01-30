@@ -50,11 +50,10 @@ export function fetchApi(url, method = 'GET', data) {
         options.data = data
     }
 
-    // return new Promise(resolve => {
-        return apiFetch(options).then( result => {
-            return result
-        }).catch( error => {
-            console.log(error)
-        })
-    // })
+
+    return apiFetch(options).then( result => {
+        return result
+    }).catch( error => {
+        // silent on production
+    })
 }

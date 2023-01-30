@@ -1,7 +1,7 @@
 import { PanelBody } from "@wordpress/components"
 import { select } from "@wordpress/data"
 import { Component } from "@wordpress/element"
-import { STORE_KEY as STORE_VIDEO_STORE_KEY } from "../store/dmVideoStore"
+import { STORE_KEY as STORE_VIDEO_STORE_KEY } from "../../store/dmVideoStore"
 
 
 /**

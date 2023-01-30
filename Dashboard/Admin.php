@@ -14,6 +14,7 @@ namespace Dm\Dashboard;
 use Dm\Dashboard\Views\AutomatedEmbed\AutomatedEmbed;
 use Dm\Dashboard\Views\ManualEmbed\ManualEmbed;
 use Dm\Dashboard\Views\NewCredentials\NewCredentials;
+use Dm\Dashboard\Views\Migration\Migration;
 use Dm\Dashboard\Views\Welcome\Welcome;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
@@ -41,16 +42,7 @@ class Admin {
         new ManualEmbed();
         new AutomatedEmbed();
         new NewCredentials();
-
-        add_submenu_page(
-            'dm-manual-embed-settings',
-            __('Migration'),
-            __('Migration'),
-            'publish_pages',
-            'dm-migration',
-            array($this, 'load_migration_page')
-        );
-
+        new Migration();
         // Hidden page to show announcement to users
         new Welcome();
     }
@@ -61,36 +53,6 @@ class Admin {
 
     public function add_class_to_body($classes) {
         return $classes . ' dm__dashboard-page';
-    }
-
-    /**
-     * It's a view part of the migration page.
-     */
-    public function load_migration_page() {
-        $tab = isset($_GET['tab']) ? self::sanitize_this('tab', 'GET') : ''; //
-        $prefix = '';
-        $action = self::sanitize_this('action', 'GET'); // phpcs:ignore WordPress.Security.NonceVerification
-        
-        switch($action):
-            case "save_data":
-                $save_data = self::sanitize_this('dm_save_data');
-                if ( wp_verify_nonce($save_data, 'dm_save_data') )
-                self::store_general_settings($_POST, $prefix . $tab);
-                
-                break;
-            endswitch;
-            
-        $options = get_option('dm_ce_options_' . $prefix . $tab);
-        require DM__PATH . 'Dashboard/Views/migration/page.php';
-    }
-
-    private function sanitize_this($param, $type = 'POST') {
-        // Nonce Verification happened on store_general_options() and store_credentials()
-        if ($type === 'POST') {
-            return isset($_POST[$param]) ? sanitize_text_field( wp_unslash( $_POST[$param] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification
-        } else {
-            return isset($_GET[$param]) ? sanitize_text_field( wp_unslash( $_GET[$param] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification
-        }
     }
 
 }

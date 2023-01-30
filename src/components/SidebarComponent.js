@@ -9,8 +9,8 @@ import { dailymotionIcon } from "../assets/dailymotionIcon"
 import DmSdk from "../libs/dmSdk"
 
 // Components
-import ContentFinder from "./ContentFinderComponent"
-// import SelectedVideo from "./SelectedVideoComponent"
+import SelectedVideo from './sidebar/SelectedVideoComponent'
+import ContentFinder from "./sidebar/ContentFinderComponent"
 
 /**
  * SidebarComponent
@@ -54,10 +54,10 @@ export default class SidebarComponent {
                         </PluginSidebarMoreMenuItem>
                         <PluginSidebar
                             name="dm-sidebar-settings"
-                            title={__('Dailymotion', 'textdomain')}
+                            title={__('Dailymotion Sidebar Settings', 'textdomain')}
                             icon={dailymotionIcon()}
                         >
-                            {/*<SelectedVideo />*/}
+                            <SelectedVideo />
                             <ContentFinder />
                         </PluginSidebar>
                     </Fragment>

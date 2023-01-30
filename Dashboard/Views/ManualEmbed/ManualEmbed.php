@@ -49,8 +49,6 @@ class ManualEmbed extends DashboardAbstract {
         $currentUser = wp_get_current_user();
 
         $options = get_option('dm_ce_options_' . $prefix . $tab);
-//        $credentials = get_option('dm_ce_credentials');
-//        $dmUser = get_option('dm_ce_user_' . $currentUser->data->user_login);
         if ($tab === 'playback') $playerIds = self::getPlayerId();
         $migrationStep = get_option('dm_ce_migration_step');
 
@@ -73,62 +71,16 @@ class ManualEmbed extends DashboardAbstract {
                 $dm_ce_data += ['player_id' =>  self::sanitize_this('player_id')];
 
             // Content options
-            if (!empty($params['sort_by']) && $params['sort_by'] !== null)
-                $dm_ce_data += ['sort_by' => self::sanitize_this('sort_by')];
-
-            if (!empty($params['convert_old_player']) && $params['convert_old_player'] !== null)
-                $dm_ce_data += ['convert_old_player' => self::sanitize_this('convert_old_player')];
-
             if (!empty($params['channel_name']) && $params['channel_name'] !== null)
                 $dm_ce_data += ['owners' => self::sanitize_this('channel_name')];
 
-            if (!empty($params['category']) && $params['category'] !== null)
-                $dm_ce_data += ['category' => self::sanitize_this('category')];
-
-            if (!empty($params['exclude_ids']) && $params['exclude_ids'] !== null)
-                $dm_ce_data += ['exclude_ids' => self::sanitize_this('exclude_ids')];
-
-            if (!empty($params['playlist']) && $params['playlist'] !== null)
-                $dm_ce_data += ['playlist' => self::sanitize_this('playlist')];
-
-            if (!empty($params['playlist_id']) && $params['playlist_id'] !== null)
-                $dm_ce_data += ['playlist_id' => self::sanitize_this('playlist_id')];
-
-            if (!empty($params['disable_queue']) && $params['disable_queue'] !== null)
-                $dm_ce_data += ['disable_queue' => self::sanitize_this('disable_queue')];
-
-            if (!empty($params['disable_auto_next']) && $params['disable_auto_next'] !== null)
-                $dm_ce_data += ['disable_auto_next' => self::sanitize_this('disable_auto_next')];
-
-            if (!empty($params['language']) && $params['language'] !== null)
-                $dm_ce_data += ['language' => self::sanitize_this('language')];
-
-            if (!empty($params['range_day']) && $params['range_day'] !== null)
-                $dm_ce_data += ['range_day' => self::sanitize_this('range_day')];
-
-
             // Player options
-            if (!empty($params['auto_player_pos']) && $params['auto_player_pos'] !== null)
-                $dm_ce_data += ['auto_player_pos' => self::sanitize_this('auto_player_pos')];
-
             if (!empty($params['syndication']) && $params['syndication'] !== null)
                 $dm_ce_data += ['syndication' => self::sanitize_this('syndication')];
 
             // This param in the database still using adsParams but in the frontend it's using customParams
             if (!empty($params['ads_params']) && $params['ads_params'] !== null)
                 $dm_ce_data += ['ads_params' => self::sanitize_this('ads_params')];
-
-            if (!empty($params['pre_video_title']) && $params['pre_video_title'] !== null)
-                $dm_ce_data += ['pre_video_title' => self::sanitize_this('pre_video_title')];
-
-            if (!empty($params['show_video_title']) && $params['show_video_title'] !== null)
-                $dm_ce_data += ['show_video_title' => self::sanitize_this('show_video_title')];
-
-            if (!empty($params['show_info_card']) && $params['show_info_card'] !== null)
-                $dm_ce_data += ['show_info_card' => self::sanitize_this('show_info_card')];
-
-            if (!empty($params['show_carousel_playlist']) && $params['show_carousel_playlist'] !== null)
-                $dm_ce_data += ['show_carousel_playlist' => self::sanitize_this('show_carousel_playlist')];
 
             if (!empty($params['mute']) && $params['mute'] !== null)
                 $dm_ce_data += ['mute' => self::sanitize_this('mute')];

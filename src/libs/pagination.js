@@ -15,7 +15,7 @@ export default function pagination(props) {
     /**
      * About this empty conditions
      *
-     * 1. Of course if there is no data exist it won't show nothing
+     * 1. Of course if there is no data exist it won't show anything
      * 2. If data exist and the total is 0
      * 3. Different with 2 above, this condition if the result found videos
      *    but only for page 1

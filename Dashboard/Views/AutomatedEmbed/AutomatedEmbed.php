@@ -63,9 +63,6 @@ class AutomatedEmbed extends DashboardAbstract {
             if (!empty($params['sort_by']) && $params['sort_by'] !== null)
                 $dm_ce_data += ['sort_by' => self::sanitize_this('sort_by')];
 
-            if (!empty($params['convert_old_player']) && $params['convert_old_player'] !== null)
-                $dm_ce_data += ['convert_old_player' => self::sanitize_this('convert_old_player')];
-
             if (!empty($params['channel_name']) && $params['channel_name'] !== null)
                 $dm_ce_data += ['owners' => self::sanitize_this('channel_name')];
 
