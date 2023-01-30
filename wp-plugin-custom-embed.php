@@ -16,7 +16,7 @@ if (! defined('ABSPATH') ) {
     exit; // Exit if accessed directly.
 }
 
-define('DM_CE__VERSION', '2.0.0');
+define('DM_CE__VERSION', '1.5.0');
 define('DM__FILE__', __FILE__);
 define('DM__PLUGIN_BASE', plugin_basename(DM__FILE__));
 define('DM__PATH', plugin_dir_path(DM__FILE__));
