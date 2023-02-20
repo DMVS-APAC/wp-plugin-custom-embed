@@ -248,7 +248,7 @@ if ( !class_exists('Puc_v4p11_Vcs_GitHubApi', false) ):
 			foreach ($variables as $name => $value) {
 				$url = str_replace('/:' . $name, '/' . urlencode($value), $url);
 			}
-			$url = 'https://api.github.com' . $url;
+			$url = 'https://Api.github.com' . $url;
 
 			if ( !empty($queryParams) ) {
 				$url = add_query_arg($queryParams, $url);
@@ -282,7 +282,7 @@ if ( !class_exists('Puc_v4p11_Vcs_GitHubApi', false) ):
 		 */
 		public function buildArchiveDownloadUrl($ref = 'master') {
 			$url = sprintf(
-				'https://api.github.com/repos/%1$s/%2$s/zipball/%3$s',
+				'https://Api.github.com/repos/%1$s/%2$s/zipball/%3$s',
 				urlencode($this->userName),
 				urlencode($this->repositoryName),
 				urlencode($ref)
@@ -349,7 +349,7 @@ if ( !class_exists('Puc_v4p11_Vcs_GitHubApi', false) ):
 			$this->releaseAssetsEnabled = true;
 			$this->assetFilterRegex = $fileNameRegex;
 			$this->assetApiBaseUrl = sprintf(
-				'//api.github.com/repos/%1$s/%2$s/releases/assets/',
+				'//Api.github.com/repos/%1$s/%2$s/releases/assets/',
 				$this->userName,
 				$this->repositoryName
 			);

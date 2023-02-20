@@ -38,7 +38,7 @@ export default class DmSdk {
 
     async setupDm() {
         // Waiting for DM to be available first
-        await waitFor(() => typeof(DM) !== 'undefined', 100, 30000, "Timeout waiting for DM loaded, please refresh and make sure your internet is active")
+        await waitFor(() => typeof(DM) !== 'undefined', 100, 120000, "Timeout waiting for DM loaded, please refresh and make sure your internet is active")
 
         this.#overrideDmVars()
         await this.#initDm()
@@ -47,7 +47,7 @@ export default class DmSdk {
     }
 
     async #initDm() {
-        // Get api-key from wp-options using custom end point
+        // Get Api-key from wp-options using custom end point
         const options = await fetchApi('/dm/v1/get-api-key')
 
         DM.init({

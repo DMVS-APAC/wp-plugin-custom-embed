@@ -1,6 +1,6 @@
 {
   "name": "wp-dm-custom-embed",
-  "version": "1.5.0",
+  "version": "2.0.0-1",
   "description": "This is a plugin for WordPress to embed video from Dailymotion.",
   "main": "index.js",
   "scripts": {
@@ -14,13 +14,14 @@
     "lint:md:js": "wp-scripts lint-md-js",
     "lint:pkg-json": "wp-scripts lint-pkg-json",
     "packages-update": "wp-scripts packages-update",
-    "start": "wp-scripts start ./src/index.js ./src/classic-index.js",
+    "start": "wp-scripts start src/index.js ./src/classic-index.js ./Styles/index.scss",
     "test:e2e": "wp-scripts test-e2e",
     "test:unit": "wp-scripts test-unit-js",
     "release": "standard-version",
     "update-version": "node ./scripts/update-version.js",
     "version": "echo $npm_package_version",
-    "create-tag": "sh ./scripts/release.sh $npm_package_version"
+    "create-tag": "sh ./scripts/release.sh $npm_package_version",
+    "no-cypress": "CYPRESS_INSTALL_BINARY=0 npm install"
   },
   "repository": {
     "type": "git",
@@ -58,11 +59,13 @@
     "@wordpress/plugins": "^2.25.0",
     "@wordpress/scripts": "^24.0.0",
     "ansi-regex": "^5.0.1",
+    "cypress": "^12.3.0",
     "json-schema": "^0.4.0",
     "mitt": "^2.1.0",
     "node-fetch": "^2.6.7",
     "nth-check": "^2.0.1",
     "react": "^16.14.0",
+    "react-hook-form": "^7.39.5",
     "replace-in-file": "^6.3.5",
     "standard-version": "^9.5.0",
     "tmpl": "^1.0.5",

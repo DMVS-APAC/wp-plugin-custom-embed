@@ -5,23 +5,54 @@
  * Description: Embed video from Dailymotion
  * Author: DMVS APAC Team
  * Author URI: https://github.com/DMVS-APAC
- * Version: 1.5.0
+ * Version: 2.0.0-1
  * Plugin URI: https://github.com/DMVS-APAC/wp-plugin-custom-embed
  * Download
  *
- * @version 1.5.0
+ * @version 2.0.0-1
  */
 
 if (! defined('ABSPATH') ) {
     exit; // Exit if accessed directly.
 }
 
-define('DM_CE__VERSION', '1.5.0');
+define('DM_CE__VERSION', '2.0.0-1');
 define('DM__FILE__', __FILE__);
 define('DM__PLUGIN_BASE', plugin_basename(DM__FILE__));
 define('DM__PATH', plugin_dir_path(DM__FILE__));
 define('DM__PUBTOOL', 'customembed-wp');
 define('DM__PLAYER_URL', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js');
+define('DM__ENCRYPT_KEY', getenv('ENCRYPT_KEY') ? getenv('ENCRYPT_KEY') : 'dailymotion');
+
+
+/**
+ * Current options name:
+ *
+ * 1. dm_ce_user_admin
+ * 2. dm_ce_options_auto_embed_playback
+ * 3. dm_ce_options_manual_embed_playback
+ * 4. dm_ce_options_auto_embed_content
+ * 5. dm_ce_options_manual_embed_content
+ * 6. dm_ce_options_auto_embed_player
+ * 7. dm_ce_options_manual_embed_player
+ * 8. dm_ce_options_automated_embed_playback
+ * 9. dm_ce_options_auto_embed
+ * 10. dm_ce_options_convert-player
+ * 11. dm_channel_list
+ * 12. dm_ce_new_credentials
+ * 13. dm_ce_secret
+ * 14. dm_ce_channel_list
+ * 15. dm_version
+ *
+ */
+
+if ( !defined('DM_AUTH_KEY') ) {
+    define('DM_AUTH_KEY', AUTH_KEY);
+}
+
+if ( !defined('DM_NONCE_KEY') ) {
+    define('DM_NONCE_KEY', NONCE_KEY);
+}
 
 require DM__PATH . 'vendor/autoload.php';
 
@@ -40,9 +71,11 @@ if (defined('DM_BETA') && DM_BETA === true) {
     $update_checker->getVcsApi()->enableReleaseAssets();
 }
 
-require DM__PATH . 'dashboard/admin.php';
-require DM__PATH . 'api/Custom_Get_Options.php';
-require DM__PATH . 'api/Migration_Database.php';
+new Dm\Libs\Sessions;
+new Dm\Dashboard\Admin;
+new Dm\Api\Dm_Endpoints;
+require DM__PATH . 'Api/Custom_Get_Options.php';
+require DM__PATH . 'Api/Migration_Database.php';
 require DM__PATH . 'custom-block/dm-block.php';
 require DM__PATH . 'front-end/load-script.php';
 require DM__PATH . 'onboarding/activation.php';
@@ -83,8 +116,7 @@ function admin_styles()
  * and front end side. If we're not do this, the WP will see
  * this as an error if the `debug` mode is active.
  */
-function global_script()
-{
+function global_script() {
     wp_enqueue_script(
         'dm-sdk',
         'https://api.dmcdn.net/all.js',
@@ -92,6 +124,8 @@ function global_script()
         DM_CE__VERSION,
         true
     );
+
+    wp_enqueue_style('dm-style', plugin_dir_url(DM__FILE__) . 'assets/front-end.css', [], DM_CE__VERSION, 'all');
 }
 add_action('admin_enqueue_scripts', 'global_script');
 add_action('wp_enqueue_scripts', 'global_script');

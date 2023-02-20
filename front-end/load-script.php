@@ -242,7 +242,7 @@ class Load_Scripts {
             /**
              * get settings from DB
              */
-            $options_general = get_option('dm_ce_options_convert-player');
+            $options_general = get_option('dm_ce_options_convert_player');
             if(!isset( $options_general['convert_old_player'] )) {
                 return $content;
             }
