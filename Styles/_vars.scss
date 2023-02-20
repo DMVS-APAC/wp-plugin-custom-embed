@@ -1,0 +1,27 @@
+/**
+The variables wrapper
+
+# Default theme color from WordPress
+
+:root {
+  --wp-admin-theme-color: #007cba;
+  --wp-admin-theme-color--rgb: 0,124,186;
+  --wp-admin-theme-color-darker-10: #006ba1;
+  --wp-admin-theme-color-darker-10--rgb: 0,107,161;
+  --wp-admin-theme-color-darker-20: #005a87;
+  --wp-admin-theme-color-darker-20--rgb: 0,90,135;
+  --wp-admin-border-width-focus: 2px;
+}
+ */
+
+.dm__dashboard-page {
+
+  // Box style
+  --dm--box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
+  --dm--box-padding: 16px 24px;
+  --dm--text-in-theme-color: #fff;
+  --dm--text-default-color: #3c434a; // this is a default text color from WordPress
+
+  // Form Gutenberg style
+  --dm--input-distance-bottom: 4px;
+}

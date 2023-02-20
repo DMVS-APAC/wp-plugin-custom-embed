@@ -1,13 +1,12 @@
 import { registerBlockType } from '@wordpress/blocks'
 import { __ } from "@wordpress/i18n"
-import { dispatch, select } from '@wordpress/data'
 
-// Video block
+// Block Components
 import VideoBlock from "./components/VideoBlockComponent"
 
 /**
- * This is an initial rebuild state of the Video block.
- * We're doing this because if we do it in a block level
+ * This is an initial rebuild state of the Video block. We're doing this because
+ * if we do it in a block level
  * it always sends a request to build the block. This is
  * made the player do many times rendering outside components
  * such as title, infocard, and carousel playlist.
@@ -18,6 +17,7 @@ let initialLoad = true
 document.addEventListener('dm-ready', async () => {
     if (initialLoad) {
         initialLoad = false
+        //@ts-ignore
         window.dmce.rebuild()
         document.removeEventListener('dm-ready', () => {})
     }
@@ -47,36 +47,6 @@ registerBlockType( 'dm-settings/click-embed', {
     },
     edit: VideoBlock,
     save: props => {
-
-        /**
-         * Remove existing video data from the save block
-         *
-         * This is the old post metadata. We don't need it anymore.
-         * With the new way to save the block, we don't need to save
-         * the video data to the post metadata.
-         *
-         * We don't do migration the data. Because it's complicated.
-         * We just support the old version of the block, but when user
-         * try to update their post, it will also update the block.
-         *
-         * TODO: create scenario to test old version of the block to update with new version
-         *
-         * The fields we need to test:
-         * - `_dm_player_position`
-         * - `_dm_video_data` json string {"id":"x81ja79","title":"Mengenal Gempa Bumi: Penyebab dan Macam-macamnya","thumbnail_240_url":"https://s2.dmcdn.net/v/S_7jb1WhmnTmJ1CNG/x240"}
-         *
-         * What need to test is the new post, existing post without post meta, and existing post with post meta.
-         */
-        const meta = select('core/editor').getEditedPostAttribute('meta')
-
-        if (meta._dm_video_data !== "") {
-            dispatch('core/editor').editPost({
-                meta: {
-                    _dm_player_position: null,
-                    _dm_video_data: null
-                }
-            })
-        }
 
         const { videoData } = props.attributes
 

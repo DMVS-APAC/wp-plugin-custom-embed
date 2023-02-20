@@ -12,9 +12,9 @@ abstract class DashboardAbstract {
 
     abstract public function register_menu();
     abstract public function load_template_page();
-    abstract public function store_data($params);
+    abstract public function store_data(array $params, string $tab);
 
-    protected function sanitize_this($param, $type = 'POST') {
+    protected function sanitize_this(string $param, string $type = 'POST') {
         // Nonce Verification happened on store_general_options() and store_credentials()
         if ($type === 'POST') {
             return isset($_POST[$param]) ? sanitize_text_field( wp_unslash( $_POST[$param] ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification

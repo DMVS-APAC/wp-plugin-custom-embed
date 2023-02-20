@@ -2,6 +2,8 @@
 
 namespace Dm\Libs;
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
+
 Class Sessions {
 
     public function __construct() {
