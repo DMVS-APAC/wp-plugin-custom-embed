@@ -4,6 +4,7 @@ node_modules
 docs
 build/*.js.map
 .fleet
+cypress.env.json
 
 # vendor
 vendor
@@ -12,5 +13,3 @@ vendor
 !vendor/composer
 !vendor/autoload.php
 !vendor/yahnis-elsts
-
-cypress.env.json
