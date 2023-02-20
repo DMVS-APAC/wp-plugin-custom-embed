@@ -1,0 +1,25 @@
+
+.box--center {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.dm--margin-top-3 {
+  margin-top: 36px;
+}
+.dm--margin-bottom-2 {
+  margin-bottom: 20px;
+}
+.dm--margin-left-1 {
+  margin-left: 10px;
+}
+
+.dm--outstanding-link {
+  font-size: 1.6em;
+  font-weight: 700;
+  line-height: 1.2;
+  display: inline-block;
+  background: -webkit-linear-gradient(#fee140, #fa709a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

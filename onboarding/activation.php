@@ -8,10 +8,11 @@ register_activation_hook(DM__FILE__, 'dm_activation');
 function dm_activation() {
     $notices = get_option('dm_deferred_admin_notices', array());
 
-    $credentials = get_option('dm_ce_credentials');
+    $credentials = get_option('dm_ce_new_credentials');
 
     if ( empty($credentials->api_key) ) {
-        $notices[]= 'Dailymotion: You can go to general settings <a href="' . get_dashboard_url() .'/admin.php?page=dm-general-settings">here</a> and store your credentials <a href="' . get_dashboard_url() . '/admin.php?page=dm-credentials">here</a>';
+        header('Location: ' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=dm-migration-new-Api');
+//        $notices[]= 'Dailymotion: Installation success. Now you can store your credentials <a href="' . get_dashboard_url() . '/admin.php?page=dm-new-credentials">here</a> and go to manual embed settings <a href="' . get_dashboard_url() .'/admin.php?page=dm-manual-embed-settings">here</a>' ;
     } else {
         $notices[]= "Dailymotion: plugin activated";
     }
@@ -25,9 +26,16 @@ function dm_admin_init() {
     if ($version != $current_version) {
         // Do whatever upgrades needed here.
         update_option('dm_version', $current_version);
-        $notices= get_option('dm_deferred_admin_notices', array());
-        $notices[]= "Dailymotion: Upgraded version $version to $current_version.";
-        update_option('dm_deferred_admin_notices', $notices);
+
+        if ($version != '') {
+            $notices = get_option('dm_deferred_admin_notices', array());
+            $notices[] = "Dailymotion: Upgraded version prev ver $version to current $current_version.";
+            update_option('dm_deferred_admin_notices', $notices);
+        }
+
+        if ($current_version === '2.0.0' && $version !='') {
+            header('Location: ' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=dm-migration-new-Api');
+        }
     }
 }
 
