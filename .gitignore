@@ -3,6 +3,8 @@ node_modules
 .phpdoc
 docs
 build/*.js.map
+.fleet
+cypress.env.json
 
 # vendor
 vendor
