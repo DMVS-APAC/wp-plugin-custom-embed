@@ -26,7 +26,7 @@ If you do not have access to the API key creation page, ask the owner of your or
                 <td>
                     <input name="api_key" type="text" id="api-key" class="regular-text"
                            value="<?php echo (!empty($options)) ? $options['api_key'] : '' ?>">
-                    <p>You can create new apiKey <a href="https://www.dailymotion.com/partner/channel/advanced" target="_blank">here</a> at Dailymotion partner HQ</p>
+                    <p>You can create new apiKey <a href="https://www.dailymotion.com/partner/api-keys/" target="_blank">here</a> at Dailymotion partner HQ</p>
                 </td>
             </tr>
             <tr>
