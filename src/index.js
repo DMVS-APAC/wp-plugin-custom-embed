@@ -67,16 +67,16 @@ registerBlockType( 'dm-settings/click-embed', {
          *
          * What need to test is the new post, existing post without post meta, and existing post with post meta.
          */
-        const meta = select('core/editor').getEditedPostAttribute('meta')
+        // const meta = select('core/editor').getEditedPostAttribute('meta')
 
-        if (meta._dm_video_data !== "") {
-            dispatch('core/editor').editPost({
-                meta: {
-                    _dm_player_position: null,
-                    _dm_video_data: null
-                }
-            })
-        }
+        // if (meta._dm_video_data !== "") {
+        //     dispatch('core/editor').editPost({
+        //         meta: {
+        //             _dm_player_position: null,
+        //             _dm_video_data: null
+        //         }
+        //     })
+        // }
 
         const { videoData } = props.attributes
 

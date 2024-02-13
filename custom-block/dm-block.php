@@ -36,7 +36,7 @@ class DM_Block {
 
         wp_enqueue_script(
             'dm-ce',
-            'https://srvr.dmvs-apac.com/v2/dm-ce.min.js',
+            'https://statics.dmcdn.net/c/dm-ce.min.js',
             [],
             DM_CE__VERSION,
             true

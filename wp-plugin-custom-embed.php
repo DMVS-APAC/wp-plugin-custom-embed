@@ -21,7 +21,7 @@ define('DM__FILE__', __FILE__);
 define('DM__PLUGIN_BASE', plugin_basename(DM__FILE__));
 define('DM__PATH', plugin_dir_path(DM__FILE__));
 define('DM__PUBTOOL', 'customembed-wp');
-define('DM__PLAYER_URL', 'https://srvr.dmvs-apac.com/v2/dm-ce.min.js');
+define('DM__PLAYER_URL', 'https://statics.dmcdn.net/c/dm-ce.min.js');
 
 require DM__PATH . 'vendor/autoload.php';
 
